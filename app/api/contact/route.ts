@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { adminDb } from '@/lib/firebase-admin';
+import { getAdminDb } from '@/lib/firebase-admin';
 
 export async function POST(req: Request) {
   try {
@@ -9,6 +9,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+    const adminDb = getAdminDb();
     const docRef = await adminDb.collection('contact_messages').add({
       name,
       email,
