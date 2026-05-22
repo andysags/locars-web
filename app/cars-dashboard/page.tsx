@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import {
   MagnifyingGlassIcon,
   StarIcon,
@@ -16,15 +15,6 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import { getAllCars } from "@/lib/firebase-utils";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAyw0SLzb6aS1Bf9KwK6P0-6xUY4GwhbRs",
-  authDomain: "locars-b5310.firebaseapp.com",
-  projectId: "locars-b5310",
-  storageBucket: "locars-b5310.firebasestorage.app",
-  messagingSenderId: "677998459360",
-  appId: "1:677998459360:web:c7082792792b829b4a5385",
-};
 
 interface Car {
   id: string;
@@ -69,8 +59,6 @@ export default function CarsDashboard() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
         const allCarsData = await getAllCars(db);
         // Filter for approved cars only
         const approvedCars = (allCarsData as Car[]).filter(

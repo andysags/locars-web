@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import { getPopularCars } from "@/lib/firebase-utils";
 import {
   ArrowRightIcon,
@@ -24,18 +23,7 @@ export default function PopularCars() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const firebaseConfig = {
-          apiKey: "AIzaSyAyw0SLzb6aS1Bf9KwK6P0-6xUY4GwhbRs",
-          authDomain: "locars-b5310.firebaseapp.com",
-          projectId: "locars-b5310",
-          storageBucket: "locars-b5310.firebasestorage.app",
-          messagingSenderId: "677998459360",
-          appId: "1:677998459360:web:c7082792792b829b4a5385",
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const firestore = getFirestore(app);
-        const popularCars = await getPopularCars(firestore, 4);
+        const popularCars = await getPopularCars(db, 4);
         setCars(popularCars);
       } catch (err) {
         console.error("Error fetching popular cars:", err);

@@ -4,26 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { loginUser } from "@/lib/firebase-utils";
 import {
   EnvelopeIcon,
   LockClosedIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAyw0SLzb6aS1Bf9KwK6P0-6xUY4GwhbRs",
-  authDomain: "locars-b5310.firebaseapp.com",
-  projectId: "locars-b5310",
-  storageBucket: "locars-b5310.firebasestorage.app",
-  messagingSenderId: "677998459360",
-  appId: "1:677998459360:web:c7082792792b829b4a5385",
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
 export default function LoginPage() {
   const router = useRouter();
