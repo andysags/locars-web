@@ -246,12 +246,45 @@ export function getAdminAuth() {
 | `next.config.js` | Next.js configuration |
 | `tsconfig.json` | TypeScript config with `@/` path alias |
 
+## Project Status & Localization
+
+### Current Deployment Status
+- ✅ **Application Complete**: All features implemented and tested
+- ✅ **Build Status**: Compiles successfully with zero TypeScript errors  
+- ✅ **Firebase**: Configured at https://locars-b5310.web.app (static hosting)
+- ⚠️ **Deployment Note**: Firebase static hosting doesn't support server-side rendering. See [DEPLOYMENT.md](DEPLOYMENT.md) for recommended deployment options (Vercel recommended)
+- 📊 **Status Details**: See [DEPLOYMENT_STATUS.md](DEPLOYMENT_STATUS.md) for full build output and feature checklist
+
+### Localization & Currency
+- **Language**: French translations throughout the application
+- **UI Examples**: "Devenir Loueur" (Become Host), navigation, forms, etc.
+- **Currency**: **XOF** (CFA Francs) for all financial values
+  - Used in: commission calculations, revenue analytics, pricing displays
+  - When displaying prices, always use XOF format: `1000 XOF`
+  - Database stores values as numbers; format on display only
+
 ## Important Notes
 
 ### Security
 - Firebase credentials exposed in `app/back-office/page.tsx` (public config) - acceptable for Firebase public projects
 - Production: Ensure Firestore security rules are properly configured
 - API routes should validate inputs and authenticate admin operations
+
+## Naming Conventions
+
+### Firestore Fields
+- Collections: PascalCase (`users`, `cars`, `host_requests`)
+- Document fields: **snake_case** (e.g., `is_approved`, `host_type`, `date_of_birth`)
+  - Exception: Some fields may use camelCase in newer code
+  - When querying, use snake_case to match Firestore structure
+  - Example: `where("is_approved", "==", true)` NOT `where("isApproved", "==", true)`
+
+### File/Component Naming
+- Components: PascalCase (e.g., `PopularCars.tsx`, `UserManagement.tsx`)
+- Routes/Pages: kebab-case folders with `page.tsx` or `route.ts`
+- Functions/Variables: camelCase
+- Types/Interfaces: PascalCase
+- API endpoints: kebab-case (e.g., `/api/back-office/users`, `/api/auth/login`)
 
 ### Naming Conventions
 - Components: PascalCase (e.g., `PopularCars.tsx`)
@@ -482,21 +515,62 @@ Will follow similar patterns with status tracking and timestamps.
 
 ## Environment Setup
 
-### Firebase Environment Variables
-Located in `.env.local` (Firebase Admin SDK):
+### Prerequisites
+- Node.js 18+ (check with `node --version`)
+- Firebase project created and configured
+
+### Firebase Configuration
+
+**Client-side Firebase Config** (`lib/firebase.ts`):
+- Public API key (safe to expose)
+- Used by browser and client components
+- Already configured in the codebase
+
+**Server-side Firebase Admin SDK** (`lib/firebase-admin.ts`):
+- Requires `.env.local` file with admin credentials (NEVER commit this)
+- Only used in API routes (`/app/api/*`)
+- Credentials available from Firebase Console → Project Settings → Service Accounts
+
+### .env.local Setup
+
+Create `.env.local` in project root with Firebase Admin SDK credentials:
 ```bash
 FIREBASE_PROJECT_ID=locars-b5310
 FIREBASE_CLIENT_EMAIL=firebase-adminsdk-...@locars-b5310.iam.gserviceaccount.com
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
 ```
 
-These are used only in `lib/firebase-admin.ts` (server-side operations). Client-side Firebase config is in `lib/firebase.ts`.
+**⚠️ IMPORTANT**: 
+- Never commit `.env.local` to Git (should be in `.gitignore`)
+- Private key: Copy as-is from Firebase Console, preserve `\n` newline characters
+- Without these, API routes in `/back-office` and admin approval endpoints will fail with "Missing admin credentials"
 
 ### Local Development
-1. Ensure `.env.local` has Firebase Admin credentials
-2. Run `npm install` to install all dependencies (586 packages with some vulnerabilities - address per `npm audit`)
-3. Run `npm run dev` to start dev server
-4. Navigate to `http://localhost:3000`
+
+1. **First time setup**:
+   ```bash
+   npm install
+   cp .env.example .env.local  # If .env.example exists, otherwise create manually
+   ```
+
+2. **Start development server**:
+   ```bash
+   npm run dev
+   ```
+   - Opens on `http://localhost:3000`
+   - Hot-reload enabled for `.tsx`, `.ts` files
+   - API routes available at `/api/*`
+
+3. **Test authentication**:
+   - Navigate to `/auth/login` to test Firebase auth
+   - Use a test user account or create one via Firebase Console
+   - Admin routes at `/back-office/*` require valid `authToken` cookie
+
+### Path Alias (`@/`)
+The `@/` alias maps to project root (configured in `tsconfig.json`):
+```tsx
+import { getDashboardStats } from "@/lib/firebase-utils";  // Maps to /lib/firebase-utils.ts
+```
 
 ## Quick Wins / Improvement Opportunities
 
@@ -518,3 +592,95 @@ These are used only in `lib/firebase-admin.ts` (server-side operations). Client-
 - Examine existing API routes for endpoint patterns
 - Look at back-office pages for component and styling patterns
 - See "Important Gotchas" section above for common pitfalls to avoid
+
+## Troubleshooting Local Development
+
+### "Missing admin credentials" Error on API Routes
+
+**Problem**: API routes in `/back-office` return 500 errors with "Missing admin credentials"
+
+**Solution**:
+1. Check `.env.local` exists in project root
+2. Verify all three variables are set:
+   - `FIREBASE_PROJECT_ID` (string, no quotes)
+   - `FIREBASE_CLIENT_EMAIL` (full service account email)
+   - `FIREBASE_PRIVATE_KEY` (starts with `-----BEGIN PRIVATE KEY-----`, preserves `\n` characters)
+3. Restart dev server: `npm run dev`
+4. Check console for detailed error: `console.error()` logs in `/lib/firebase-admin.ts`
+
+### "Failed to fetch users" / Generic API Errors
+
+**Problem**: API returns `{ error: "Failed to..." }` without details
+
+**Solution**:
+1. Check Firebase Admin SDK initialization in `/lib/firebase-admin.ts`
+2. Verify Firestore security rules allow admin SDK access
+3. Add temporary `console.error(error)` to API route to see actual error
+4. Ensure user has `is_approved: true` field (uses snake_case)
+
+### Hot-reload Not Working
+
+**Problem**: Changes to files don't trigger auto-refresh
+
+**Solution**:
+1. Kill dev server (Ctrl+C)
+2. Clear Next.js cache: `rm -rf .next/`
+3. Restart: `npm run dev`
+4. Check that file is in watched directories: `/app`, `/lib`, `/public`
+
+### TypeScript Errors in Client Components
+
+**Problem**: "Cannot use server-only functions in client component"
+
+**Solution**:
+- Add `"use client"` at the top of the file to mark it as a client component
+- Move server-side logic to API routes or server components
+- Check that imports from `firebase-admin` are only in API routes, not client code
+
+### Authentication Not Persisting After Page Reload
+
+**Problem**: User logged in but gets redirected to login after refresh
+
+**Solution**:
+1. Check browser DevTools → Application → Cookies for `authToken`
+2. Verify middleware.ts has `matcher: ["/back-office/:path*"]`
+3. Check that login endpoint sets cookie with 7-day expiry
+4. Clear browser cookies and test login flow again
+
+### Firestore Query Returns Empty Results
+
+**Problem**: Queries return `[]` even though data exists in Firebase
+
+**Common causes**:
+1. **Field name mismatch**: Using `isApproved` instead of `is_approved` (Firestore is case-sensitive)
+2. **Wrong collection name**: Verify collection name matches exactly (e.g., `users`, not `Users`)
+3. **Data type mismatch**: Comparing string `"true"` to boolean `true`
+4. **Collection doesn't exist yet**: First document must exist before querying
+
+**Debugging**:
+```tsx
+// Log what's actually in Firestore
+const snapshot = await getDocs(collection(db, "users"));
+snapshot.docs.forEach(doc => {
+  console.log('User data:', doc.data()); // Check field names and values
+});
+```
+
+### 404 on Back-Office Routes
+
+**Problem**: `/back-office`, `/back-office/users`, etc. return 404
+
+**Solution**:
+1. Verify route files exist: `/app/back-office/page.tsx`, `/app/back-office/users/page.tsx`
+2. Check middleware isn't blocking the initial HTML load
+3. Clear `.next/` cache and rebuild: `npm run build`
+4. Ensure user has valid `authToken` cookie (middleware redirects to login without it)
+
+## Code Style & Linting
+
+The project uses ESLint with Next.js recommended config:
+```bash
+npm run lint  # Check for linting issues
+```
+
+No auto-fix script configured. Fix issues manually based on eslint output or use your editor's ESLint extension for inline suggestions.
