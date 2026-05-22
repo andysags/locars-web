@@ -1,0 +1,41 @@
+# This file specifies files that should NOT be uploaded to Cloud Build
+
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# npm
+node_modules/
+npm-debug.log
+package-lock.json
+
+# testing
+.next/
+coverage/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+
+# local env files
+.env.local
+.env.*.local
+
+# Firebase
+.firebaserc
+firebase-debug.log
+.firebase/
+
+# Vercel
+.vercel/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

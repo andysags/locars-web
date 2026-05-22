@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand */
+  --locars-primary: #246bfd;
+  --locars-primary-light: #d6e4ff;
+  --locars-secondary: #c4ddff;
+  --locars-tertiary: #ebf6ff;
+
+  /* Neutral */
+  --locars-white: #ffffff;
+  --locars-black: #000000;
+  --locars-bg: #f8f9fb;
+  --locars-grey: #9e9e9e;
+  --locars-grey-light: #bdbdbd;
+  --locars-light-grey: #e8e8e8;
+  --locars-border: #eeeeee;
+  --locars-divider: #f0f0f0;
+  --locars-field-grey: #f5f5f7;
+
+  /* Dark Mode */
+  --locars-dark-background: #111113;
+  --locars-dark-grey: #1c1c1e;
+  --locars-dark-surface: #2c2c2e;
+  --locars-dark-divider: #38383a;
+  --locars-dark-field-grey: #252528;
+
+  /* Semantic */
+  --locars-error: #ff5a5f;
+  --locars-error-light: #ffebec;
+  --locars-success: #34c759;
+  --locars-success-light: #e8f9ee;
+  --locars-warning: #ffb800;
+  --locars-warning-light: #fff8e1;
+  --locars-info: #246bfd;
+  --locars-info-light: #ebf2ff;
+
+  /* Text Light */
+  --locars-text-primary: #1a1a2e;
+  --locars-text-secondary: #6b7280;
+  --locars-text-tertiary: #9ca3af;
+
+  /* Text Dark */
+  --locars-text-primary-dark: #f9fafb;
+  --locars-text-secondary-dark: #d4d4d8;
+  --locars-text-tertiary-dark: #a1a1aa;
+
+  /* Aliases */
+  --locars-ink: var(--locars-text-primary);
+  --locars-muted: var(--locars-text-secondary);
+  --locars-accent: var(--locars-primary);
+  --locars-accent-light: var(--locars-primary-light);
+  --locars-accent-hover: #1e5be4;
+  --locars-surface: var(--locars-white);
+}
+
+@theme inline {
+  --color-primary: var(--locars-primary);
+  --color-primary-light: var(--locars-primary-light);
+  --color-secondary: var(--locars-secondary);
+  --color-tertiary: var(--locars-tertiary);
+  --color-white: var(--locars-white);
+  --color-black: var(--locars-black);
+  --color-background: var(--locars-bg);
+  --color-foreground: var(--locars-text-primary);
+  --color-bg: var(--locars-bg);
+  --color-ink: var(--locars-text-primary);
+  --color-muted: var(--locars-text-secondary);
+  --color-border: var(--locars-border);
+  --color-divider: var(--locars-divider);
+  --color-field-grey: var(--locars-field-grey);
+  --color-dark-background: var(--locars-dark-background);
+  --color-dark-grey: var(--locars-dark-grey);
+  --color-dark-surface: var(--locars-dark-surface);
+  --color-dark-divider: var(--locars-dark-divider);
+  --color-dark-field-grey: var(--locars-dark-field-grey);
+  --color-error: var(--locars-error);
+  --color-error-light: var(--locars-error-light);
+  --color-success: var(--locars-success);
+  --color-success-light: var(--locars-success-light);
+  --color-warning: var(--locars-warning);
+  --color-warning-light: var(--locars-warning-light);
+  --color-info: var(--locars-info);
+  --color-info-light: var(--locars-info-light);
+  --color-text-primary: var(--locars-text-primary);
+  --color-text-secondary: var(--locars-text-secondary);
+  --color-text-tertiary: var(--locars-text-tertiary);
+  --color-text-primary-dark: var(--locars-text-primary-dark);
+  --color-text-secondary-dark: var(--locars-text-secondary-dark);
+  --color-text-tertiary-dark: var(--locars-text-tertiary-dark);
+  --color-accent: var(--locars-primary);
+  --color-accent-light: var(--locars-primary-light);
+  --color-accent-hover: var(--locars-accent-hover);
+  --color-surface: var(--locars-white);
+  --font-sans: var(--font-plus-jakarta);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans), sans-serif;
+}
