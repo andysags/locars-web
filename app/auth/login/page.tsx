@@ -73,11 +73,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center justify-center p-6 text-white">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl"></div>
       </div>
 
       <div className="relative w-full max-w-md">
@@ -95,14 +95,14 @@ export default function LoginPage() {
               className="object-contain"
             />
           </Link>
-          <h1 className="text-3xl font-black text-ink mb-2">Connexion</h1>
-          <p className="text-muted">
+          <h1 className="text-3xl font-black text-white mb-2">Connexion</h1>
+          <p className="text-slate-400">
             Accédez au tableau de bord administrateur
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="bg-white rounded-3xl p-8 shadow-sm border border-border">
+        <div className="rounded-3xl border border-white/10 bg-white p-8 shadow-2xl shadow-black/20">
           {/* Error Alert */}
           {error && (
             <div className="mb-6 flex items-start gap-3 rounded-xl bg-red-50 border border-red-200 p-4">
@@ -192,11 +192,11 @@ export default function LoginPage() {
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <p className="text-sm text-muted">
+          <p className="text-sm text-slate-400">
             Retour à l'accueil{" "}
             <Link
               href="/"
-              className="font-bold text-accent hover:text-accent/80 transition"
+              className="font-bold text-white hover:text-blue-300 transition"
             >
               Locars
             </Link>

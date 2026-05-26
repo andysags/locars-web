@@ -132,21 +132,21 @@ export default function CarsDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-white border-b border-border p-6 shadow-sm">
-        <h1 className="text-4xl font-bold text-ink mb-4">
+      <div className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/90 p-6 shadow-2xl shadow-black/20 backdrop-blur-xl">
+        <h1 className="mb-4 text-4xl font-bold text-white">
           Trouver votre véhicule
         </h1>
         <div className="max-w-xl">
           <div className="relative">
-            <MagnifyingGlassIcon className="absolute left-4 top-3.5 h-5 w-5 text-muted" />
+            <MagnifyingGlassIcon className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
             <input
               type="text"
               placeholder="Rechercher une marque, modèle ou localité..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 border border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent bg-blue-50"
+              className="w-full rounded-2xl border border-white/10 bg-slate-950/70 pl-11 pr-4 py-3 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
             />
           </div>
         </div>
@@ -154,12 +154,12 @@ export default function CarsDashboard() {
 
       <div className="flex h-[calc(100vh-160px)]">
         {/* Left Sidebar - Filters */}
-        <div className="w-72 bg-white border-r border-border p-6 overflow-y-auto">
-          <h2 className="text-lg font-bold text-ink mb-6">Filtrer par</h2>
+        <div className="w-72 border-r border-white/10 bg-slate-950/80 p-6 overflow-y-auto">
+          <h2 className="mb-6 text-lg font-bold text-white">Filtrer par</h2>
 
           {/* Rental Type */}
           <div className="mb-8">
-            <h3 className="font-semibold text-ink mb-3 text-sm uppercase tracking-wider">
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-300">
               Type de location
             </h3>
             <div className="space-y-2">
@@ -171,7 +171,7 @@ export default function CarsDashboard() {
                     onChange={() => setRentalType(type)}
                     className="w-4 h-4 accent-accent"
                   />
-                  <span className="ml-3 text-muted capitalize">
+                    <span className="ml-3 capitalize text-slate-400">
                     {type === "all"
                       ? "Tous"
                       : type === "day"
@@ -187,7 +187,7 @@ export default function CarsDashboard() {
 
           {/* Transmission */}
           <div className="mb-8">
-            <h3 className="font-semibold text-ink mb-3 text-sm uppercase tracking-wider">
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-300">
               Transmission
             </h3>
             <div className="space-y-2">
@@ -199,7 +199,7 @@ export default function CarsDashboard() {
                     onChange={() => setTransmission(trans)}
                     className="w-4 h-4 accent-accent"
                   />
-                  <span className="ml-3 text-muted capitalize">
+                    <span className="ml-3 capitalize text-slate-400">
                     {trans === "all"
                       ? "Tous"
                       : trans === "auto"
@@ -213,7 +213,7 @@ export default function CarsDashboard() {
 
           {/* Fuel Type */}
           <div className="mb-8">
-            <h3 className="font-semibold text-ink mb-3 text-sm uppercase tracking-wider">
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-300">
               Carburant
             </h3>
             <div className="space-y-2">

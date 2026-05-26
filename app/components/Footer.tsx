@@ -10,107 +10,86 @@ export default function Footer({ className = "" }: { className?: string }) {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mb-12">
           {/* Company Info */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 lg:pt-2">
             <div className="mb-6">
-              <Image src="/locars-logo.png" alt="Locars Logo" width={120} height={40} className="object-contain" />
+              <Image
+                src="/locars-logo.png"
+                alt="Locars"
+                width={260}
+                height={84}
+                priority
+                sizes="260px"
+                className="h-20 w-auto max-w-none object-contain"
+              />
             </div>
+            <p className="max-w-xl text-sm leading-relaxed text-slate-400">
+              Location claire, simple et sécurisée pour locataires et propriétaires.
+            </p>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <MapPinIcon className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-gray-300">
+                <MapPinIcon className="h-5 w-5 text-blue-300 mt-0.5 flex-shrink-0" />
+                <p className="text-sm text-slate-300">
                   Ilot 1000 E, Djidjè - Cotonou,
                   <br />
                   République du Bénin
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <PhoneIcon className="h-5 w-5 text-accent flex-shrink-0" />
-                <p className="text-sm text-gray-300">+229 XX XX XX XX</p>
+                <PhoneIcon className="h-5 w-5 text-blue-300 flex-shrink-0" />
+                <p className="text-sm text-slate-300">+229 XX XX XX XX</p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-accent">✉</span>
-                <p className="text-sm text-gray-300">contact@locars.app</p>
+                <span className="text-blue-300">✉</span>
+                <p className="text-sm text-slate-300">contact@locars.app</p>
               </div>
             </div>
           </div>
 
-          {/* Légal & Support */}
-          <div>
-            <h4 className="font-bold text-white mb-4">Légal & Support</h4>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-sm text-gray-300 hover:text-accent transition"
-                >
-                  Foire Aux Questions (FAQ)
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacy"
-                  className="text-sm text-gray-300 hover:text-accent transition"
-                >
-                  Politique de confidentialité
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/cgu"
-                  className="text-sm text-gray-300 hover:text-accent transition"
-                >
-                  Conditions Générales d'Utilisation
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/delete-account"
-                  className="text-sm text-gray-300 hover:text-accent transition"
-                >
-                  Demande de suppression de compte
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-sm text-gray-300 hover:text-accent transition"
-                >
-                  Contactez-nous
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <div className="space-y-6">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">Support</h4>
+                <ul className="space-y-3 text-sm text-slate-300">
+                  <li><Link href="/faq" className="transition hover:text-white">FAQ</Link></li>
+                  <li><Link href="/contact" className="transition hover:text-white">Contact</Link></li>
+                  <li><Link href="/delete-account" className="transition hover:text-white">Suppression de compte</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">Légal</h4>
+                <ul className="space-y-3 text-sm text-slate-300">
+                  <li><Link href="/privacy" className="transition hover:text-white">Politique de confidentialité</Link></li>
+                  <li><Link href="/cgu" className="transition hover:text-white">CGU</Link></li>
+                  <li><Link href="/about" className="transition hover:text-white">À propos</Link></li>
+                </ul>
+              </div>
+            </div>
 
-          {/* Social Media */}
-          <div>
-            <h4 className="font-bold text-white mb-4">Suivez-nous</h4>
-            <div className="flex gap-4">
-              <Link
-                href="#"
-                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-accent transition flex items-center justify-center"
-              >
-                <Image src="/facebook.svg" alt="Facebook Locars" width={20} height={20} />
-              </Link>
-              <Link
-                href="#"
-                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-accent transition flex items-center justify-center"
-              >
-                <Image src="/instagram.svg" alt="Instagram Locars" width={20} height={20} />
-              </Link>
-              <Link
-                href="#"
-                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-accent transition flex items-center justify-center"
-              >
-                <Image src="/x.svg" alt="X Locars" width={20} height={20} />
-              </Link>
+            <div>
+              <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">Suivez-nous</h4>
+              <div className="flex gap-4">
+                <Link href="#" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 text-[#1877F2]">
+                    <path
+                      fill="currentColor"
+                      d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07c0 6.02 4.39 10.99 10.12 11.9v-8.42H7.08v-3.48h3.04V9.41c0-3.02 1.8-4.69 4.56-4.69 1.32 0 2.7.24 2.7.24v2.97h-1.52c-1.5 0-1.97.94-1.97 1.9v2.28h3.35l-.54 3.48h-2.81v8.42C19.61 23.06 24 18.09 24 12.07Z"
+                    />
+                  </svg>
+                </Link>
+                <Link href="#" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10">
+                  <Image src="/instagram.svg" alt="Instagram Locars" width={20} height={20} />
+                </Link>
+                <Link href="#" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10">
+                  <Image src="/x.svg" alt="X Locars" width={20} height={20} />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-slate-800 pt-8 sm:flex-row">
-          <p className="text-sm text-slate-400">
-            © 2026 LOCARS - Tous droits réservés. INNOVTECH SAS
-          </p>
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 LOCARS - Tous droits réservés. INNOVTECH SAS</p>
+          <p>Une mobilité plus claire.</p>
         </div>
       </div>
     </footer>

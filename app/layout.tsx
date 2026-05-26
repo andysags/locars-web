@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import SiteChrome from "@/app/components/SiteChrome";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -24,7 +25,9 @@ export default function RootLayout({
       className={`${plusJakarta.variable} min-h-screen antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col">{children}</body>
+      <body className="min-h-screen flex flex-col">
+        <SiteChrome>{children}</SiteChrome>
+      </body>
     </html>
   );
 }

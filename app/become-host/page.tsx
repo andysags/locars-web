@@ -283,25 +283,7 @@ export default function BecomeHostPage() {
   const displayStep = step <= 4 ? step : 4;
 
   return (
-    <div className="min-h-screen bg-white text-ink font-sans flex flex-col">
-      {/* Header */}
-      <header className="border-b border-border bg-white/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="mx-auto flex w-full max-w-3xl items-center justify-between px-6 py-4">
-          <Link href="/" className="transition-opacity hover:opacity-80">
-            <Image
-              src="/locars-logo.png"
-              alt="Locars Logo"
-              width={36}
-              height={36}
-              className="object-contain"
-            />
-          </Link>
-          <div className="text-sm font-semibold text-muted">
-            Étape {displayStep} sur 4
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white font-sans flex flex-col">
       <main className="flex-1 flex flex-col items-center justify-center p-6 py-12">
         <div className="w-full max-w-xl">
           {/* Step 1: Host Type Selection */}

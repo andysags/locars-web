@@ -1,9 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import Footer from "@/app/components/Footer";
 import { app } from "@/lib/firebase";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -63,41 +60,57 @@ export default function DeleteAccountPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <div className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center hover:opacity-80 transition">
-              <Image src="/locars-logo.png" alt="Locars Logo" width={100} height={100} className="object-contain" />
-            </Link>
-          <Link href="/" className="text-sm font-medium text-slate-600 hover:text-slate-900">
-            Retour à l'accueil
-          </Link>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+      <main className="mx-auto w-full max-w-6xl px-6 md:px-12 py-16 md:py-24">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] items-stretch">
+          <section className="rounded-[2rem] border border-white/10 bg-white/5 p-8 sm:p-10 shadow-2xl shadow-black/20 backdrop-blur-sm">
+            <p className="mb-3 text-xs uppercase tracking-[0.35em] text-blue-300/70">Compte</p>
+            <h1 className="text-3xl sm:text-5xl font-black mb-5 bg-gradient-to-b from-white to-slate-300 bg-clip-text text-transparent">
+              Suppression de compte
+            </h1>
+            <p className="text-slate-300 leading-relaxed mb-8">
+              Si vous souhaitez supprimer votre compte et toutes les données associées, utilisez ce formulaire.
+              Nous vérifions votre identité pour éviter toute suppression frauduleuse.
+            </p>
 
-      <main className="flex-grow mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <div className="bg-white p-8 sm:p-12 shadow rounded-2xl">
-          <h1 className="text-3xl font-bold mb-6 text-slate-900">Demande de suppression de compte</h1>
-          <p className="text-slate-600 mb-8">
-            Si vous souhaitez supprimer votre compte et toutes les données associées, veuillez remplir ce formulaire. 
-            Afin de vérifier votre identité sans mot de passe, merci de fournir les informations demandées et une pièce d'identité.
-          </p>
+            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+              <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+                <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">Vérification</p>
+                <p className="text-white font-semibold">Pièce d'identité obligatoire</p>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+                <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">Délai</p>
+                <p className="text-white font-semibold">Traitement manuel</p>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+                <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">Sécurité</p>
+                <p className="text-white font-semibold">Suppression confirmée</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-8 sm:p-10 shadow-2xl shadow-black/20 backdrop-blur-xl">
+            <p className="mb-3 text-xs uppercase tracking-[0.35em] text-blue-300/70">Formulaire</p>
+            <h2 className="text-2xl sm:text-3xl font-black mb-4 text-white">Demander la suppression</h2>
+            <p className="text-slate-400 mb-8">
+              Remplissez les informations ci-dessous pour lancer la procédure.
+            </p>
 
           {status === "success" && (
-            <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
+            <div className="mb-6 rounded-2xl border border-green-500/20 bg-green-500/10 px-4 py-3 text-green-200">
               Votre demande a été envoyée avec succès ! Nous vous informerons dès que la suppression sera effective.
             </div>
           )}
 
           {status === "error" && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+            <div className="mb-6 rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-200">
               {errorMessage || "Une erreur est survenue."}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
                 Nom complet
               </label>
               <input
@@ -106,11 +119,11 @@ export default function DeleteAccountPage() {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-accent focus:border-accent outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-slate-500 outline-none transition focus:border-blue-400/50 focus:ring-4 focus:ring-blue-400/10"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
                 Adresse e-mail liée au compte
               </label>
               <input
@@ -119,11 +132,11 @@ export default function DeleteAccountPage() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-accent focus:border-accent outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-slate-500 outline-none transition focus:border-blue-400/50 focus:ring-4 focus:ring-blue-400/10"
               />
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="phone" className="block text-sm font-medium text-slate-300 mb-2">
                 Numéro de téléphone
               </label>
               <input
@@ -132,11 +145,11 @@ export default function DeleteAccountPage() {
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-accent focus:border-accent outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-slate-500 outline-none transition focus:border-blue-400/50 focus:ring-4 focus:ring-blue-400/10"
               />
             </div>
             <div>
-              <label htmlFor="document" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="document" className="block text-sm font-medium text-slate-300 mb-2">
                 Copie d'une pièce d'identité (CNI, Passeport...)
               </label>
               <input
@@ -145,12 +158,12 @@ export default function DeleteAccountPage() {
                 accept="image/*,.pdf"
                 required
                 onChange={handleFileChange}
-                className="w-full px-4 py-2 border border-slate-300 rounded-md focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-slate-50 file:text-slate-700 hover:file:bg-slate-100"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:outline-none file:mr-4 file:rounded-xl file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-white/15"
               />
-              <p className="mt-1 text-xs text-slate-500">Pour prouver que vous êtes le titulaire du compte.</p>
+              <p className="mt-2 text-xs text-slate-400">Pour prouver que vous êtes le titulaire du compte.</p>
             </div>
             <div>
-              <label htmlFor="reason" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="reason" className="block text-sm font-medium text-slate-300 mb-2">
                 Raison du départ (optionnel)
               </label>
               <textarea
@@ -158,22 +171,21 @@ export default function DeleteAccountPage() {
                 rows={3}
                 value={formData.reason}
                 onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                className="w-full px-4 py-2 border border-slate-300 rounded-md focus:ring-accent focus:border-accent outline-none resize-none"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-white placeholder:text-slate-500 outline-none transition focus:border-blue-400/50 focus:ring-4 focus:ring-blue-400/10 resize-none"
                 placeholder="Dites-nous pourquoi vous nous quittez..."
               ></textarea>
             </div>
             <button
               type="submit"
               disabled={status === "loading"}
-              className="w-full bg-red-600 text-white font-medium py-3 px-4 rounded-md hover:bg-red-700 transition disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full rounded-2xl bg-gradient-to-r from-red-600 to-rose-500 px-4 py-3.5 font-semibold text-white shadow-lg shadow-red-500/20 transition hover:from-red-500 hover:to-rose-400 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {status === "loading" ? "Envoi en cours..." : "Demander la suppression de mon compte"}
             </button>
           </form>
+          </section>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
