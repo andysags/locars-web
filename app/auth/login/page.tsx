@@ -83,17 +83,8 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-12">
-          <Link
-            href="/"
-            className="mb-8 hover:opacity-80 transition inline-block"
-          >
-            <Image
-              src="/locars-logo.png"
-              alt="Locars Logo"
-              width={100}
-              height={100}
-              className="object-contain"
-            />
+          <Link href="/" className="mb-8 hover:opacity-80 transition inline-block">
+            <Image src="/locars-logo.png" alt="Locars Logo" width={160} height={160} className="h-28 w-auto object-contain mix-blend-screen" />
           </Link>
           <h1 className="text-3xl font-black text-white mb-2">Connexion</h1>
           <p className="text-slate-400">

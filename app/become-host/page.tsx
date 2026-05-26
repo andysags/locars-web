@@ -2,12 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { getAuth, Auth } from "firebase/auth";
-import { getFirestore, Firestore } from "firebase/firestore";
-import { getStorage, FirebaseStorage } from "firebase/storage";
-import { initializeApp } from "firebase/app";
+import type { Auth } from "firebase/auth";
+import type { Firestore } from "firebase/firestore";
+import type { FirebaseStorage } from "firebase/storage";
 import {
   registerUser,
   createHostRequest,
@@ -15,6 +12,7 @@ import {
   ParticulierRegistrationData,
   AgenceRegistrationData,
 } from "@/lib/firebase-utils";
+import { auth as firebaseAuth, db, storage as firebaseStorage } from "@/lib/firebase";
 import {
   ArrowRightIcon,
   ArrowLeftIcon,
@@ -23,30 +21,15 @@ import {
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAyw0SLzb6aS1Bf9KwK6P0-6xUY4GwhbRs",
-  authDomain: "locars-b5310.firebaseapp.com",
-  projectId: "locars-b5310",
-  storageBucket: "locars-b5310.firebasestorage.app",
-  messagingSenderId: "677998459360",
-  appId: "1:677998459360:web:c7082792792b829b4a5385",
-};
-
 export default function BecomeHostPage() {
-  const router = useRouter();
   const [auth, setAuth] = useState<Auth | null>(null);
   const [firestore, setFirestore] = useState<Firestore | null>(null);
   const [storage, setStorage] = useState<FirebaseStorage | null>(null);
 
   useEffect(() => {
-    try {
-      const app = initializeApp(firebaseConfig);
-      setAuth(getAuth(app));
-      setFirestore(getFirestore(app));
-      setStorage(getStorage(app));
-    } catch (error) {
-      console.error("Firebase initialization error:", error);
-    }
+    setAuth(firebaseAuth);
+    setFirestore(db);
+    setStorage(firebaseStorage);
   }, []);
   const [step, setStep] = useState(1);
   const [hostType, setHostType] = useState<"particulier" | "agence" | null>(
@@ -285,15 +268,34 @@ export default function BecomeHostPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white font-sans flex flex-col">
       <main className="flex-1 flex flex-col items-center justify-center p-6 py-12">
-        <div className="w-full max-w-xl">
+        <div className="w-full max-w-2xl">
+          {step <= 4 && (
+            <div className="mb-8 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+              <div className="mb-3 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                <span>Inscription loueur</span>
+                <span>Etape {displayStep}/4</span>
+              </div>
+              <div className="grid grid-cols-4 gap-2">
+                {[1, 2, 3, 4].map((index) => (
+                  <div
+                    key={index}
+                    className={`h-2 rounded-full ${
+                      index <= displayStep ? "bg-blue-500" : "bg-white/10"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Step 1: Host Type Selection */}
           {step === 1 && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="text-center mb-10">
-                <h1 className="text-3xl font-extrabold text-ink mb-4">
+                <h1 className="text-3xl font-extrabold text-white mb-4">
                   Devenir Loueur
                 </h1>
-                <p className="text-lg text-muted">
+                <p className="text-lg text-slate-400">
                   Quel type de profil correspond le mieux à votre situation ?
                 </p>
               </div>
@@ -303,23 +305,23 @@ export default function BecomeHostPage() {
                   onClick={() => setHostType("particulier")}
                   className={`p-6 rounded-3xl border-2 text-left transition-all ${
                     hostType === "particulier"
-                      ? "border-accent bg-accent/5 shadow-lg shadow-accent/10"
-                      : "border-border bg-white hover:border-accent/40 hover:shadow-md"
+                      ? "border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20"
+                      : "border-white/10 bg-white/5 hover:border-blue-400/60 hover:bg-white/10"
                   }`}
                 >
                   <div
                     className={`h-12 w-12 rounded-2xl flex items-center justify-center mb-4 text-xl ${
                       hostType === "particulier"
-                        ? "bg-accent text-white"
-                        : "bg-blue-50 text-accent"
+                        ? "bg-blue-500 text-white"
+                        : "bg-slate-800 text-blue-300"
                     }`}
                   >
                     👤
                   </div>
-                  <h3 className="text-lg font-bold text-ink mb-2">
+                  <h3 className="text-lg font-bold text-white mb-2">
                     Particulier
                   </h3>
-                  <p className="text-sm text-muted">
+                  <p className="text-sm text-slate-400">
                     Je souhaite louer mon véhicule personnel quelques jours par
                     mois.
                   </p>
@@ -329,23 +331,23 @@ export default function BecomeHostPage() {
                   onClick={() => setHostType("agence")}
                   className={`p-6 rounded-3xl border-2 text-left transition-all ${
                     hostType === "agence"
-                      ? "border-accent bg-accent/5 shadow-lg shadow-accent/10"
-                      : "border-border bg-white hover:border-accent/40 hover:shadow-md"
+                      ? "border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20"
+                      : "border-white/10 bg-white/5 hover:border-blue-400/60 hover:bg-white/10"
                   }`}
                 >
                   <div
                     className={`h-12 w-12 rounded-2xl flex items-center justify-center mb-4 text-xl ${
                       hostType === "agence"
-                        ? "bg-accent text-white"
-                        : "bg-blue-50 text-accent"
+                        ? "bg-blue-500 text-white"
+                        : "bg-slate-800 text-blue-300"
                     }`}
                   >
                     🏢
                   </div>
-                  <h3 className="text-lg font-bold text-ink mb-2">
+                  <h3 className="text-lg font-bold text-white mb-2">
                     Professionnel / Agence
                   </h3>
-                  <p className="text-sm text-muted">
+                  <p className="text-sm text-slate-400">
                     Je gère une flotte de véhicules et souhaite développer mon
                     activité.
                   </p>
@@ -356,7 +358,7 @@ export default function BecomeHostPage() {
                 <button
                   onClick={nextStep}
                   disabled={!hostType}
-                  className="flex items-center gap-2 rounded-xl bg-accent px-6 py-3 font-bold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Continuer
                   <ArrowRightIcon className="h-5 w-5" />
@@ -370,16 +372,16 @@ export default function BecomeHostPage() {
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <button
                 onClick={prevStep}
-                className="flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink mb-8 transition-colors"
+                className="flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white mb-8 transition-colors"
               >
                 <ArrowLeftIcon className="h-4 w-4" /> Retour
               </button>
 
               <div className="mb-8">
-                <h2 className="text-2xl font-extrabold text-ink mb-2">
+                <h2 className="text-2xl font-extrabold text-white mb-2">
                   Vos identifiants
                 </h2>
-                <p className="text-muted">
+                <p className="text-slate-400">
                   Créez votre compte pour accéder à la plateforme.
                 </p>
               </div>
@@ -396,10 +398,10 @@ export default function BecomeHostPage() {
                   e.preventDefault();
                   if (validateStep1()) nextStep();
                 }}
-                className="space-y-5 bg-white p-8 rounded-3xl border border-border shadow-sm"
+                className="space-y-5 bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm"
               >
                 <div>
-                  <label className="block text-sm font-bold text-ink mb-2">
+                  <label className="block text-sm font-bold text-white mb-2">
                     Adresse email
                   </label>
                   <input
@@ -408,12 +410,12 @@ export default function BecomeHostPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="votre.email@example.com"
-                    className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                    className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-ink mb-2">
+                  <label className="block text-sm font-bold text-white mb-2">
                     Numéro de téléphone
                   </label>
                   <input
@@ -422,12 +424,12 @@ export default function BecomeHostPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+33 6 12 34 56 78"
-                    className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                    className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-ink mb-2">
+                  <label className="block text-sm font-bold text-white mb-2">
                     Mot de passe
                   </label>
                   <input
@@ -436,15 +438,15 @@ export default function BecomeHostPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                    className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
-                  <p className="text-xs text-muted mt-1">
+                  <p className="text-xs text-slate-400 mt-1">
                     Au moins 6 caractères
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-ink mb-2">
+                  <label className="block text-sm font-bold text-white mb-2">
                     Confirmer le mot de passe
                   </label>
                   <input
@@ -453,7 +455,7 @@ export default function BecomeHostPage() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                    className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
 
@@ -461,13 +463,13 @@ export default function BecomeHostPage() {
                   <button
                     type="button"
                     onClick={prevStep}
-                    className="flex items-center gap-2 rounded-xl bg-border px-6 py-3 font-bold text-ink transition hover:bg-border/70"
+                    className="flex items-center gap-2 rounded-xl bg-white/10 px-6 py-3 font-bold text-white transition hover:bg-white/15"
                   >
                     Retour
                   </button>
                   <button
                     type="submit"
-                    className="flex items-center gap-2 rounded-xl bg-accent px-6 py-3 font-bold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent/90"
+                    className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-500"
                   >
                     Étape suivante
                     <ArrowRightIcon className="h-5 w-5" />
@@ -482,18 +484,18 @@ export default function BecomeHostPage() {
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <button
                 onClick={prevStep}
-                className="flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink mb-8 transition-colors"
+                className="flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white mb-8 transition-colors"
               >
                 <ArrowLeftIcon className="h-4 w-4" /> Retour
               </button>
 
               <div className="mb-8">
-                <h2 className="text-2xl font-extrabold text-ink mb-2">
+                <h2 className="text-2xl font-extrabold text-white mb-2">
                   {hostType === "particulier"
                     ? "Vos informations personnelles"
                     : "Informations de votre agence"}
                 </h2>
-                <p className="text-muted">Parlez-nous un peu de vous.</p>
+                <p className="text-slate-400">Parlez-nous un peu de vous.</p>
               </div>
 
               {error && (
@@ -508,13 +510,13 @@ export default function BecomeHostPage() {
                   e.preventDefault();
                   if (validateStep2()) nextStep();
                 }}
-                className="space-y-5 bg-white p-8 rounded-3xl border border-border shadow-sm"
+                className="space-y-5 bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm"
               >
                 {hostType === "particulier" && (
                   <>
-                    <div className="grid grid-cols-2 gap-5">
+                    <div className="grid sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-bold text-ink mb-2">
+                        <label className="block text-sm font-bold text-white mb-2">
                           Prénom
                         </label>
                         <input
@@ -523,11 +525,11 @@ export default function BecomeHostPage() {
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
                           placeholder="Jean"
-                          className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                          className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-bold text-ink mb-2">
+                        <label className="block text-sm font-bold text-white mb-2">
                           Nom
                         </label>
                         <input
@@ -536,13 +538,13 @@ export default function BecomeHostPage() {
                           value={lastName}
                           onChange={(e) => setLastName(e.target.value)}
                           placeholder="Dupont"
-                          className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                          className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-2">
+                      <label className="block text-sm font-bold text-white mb-2">
                         Date de naissance
                       </label>
                       <input
@@ -550,12 +552,12 @@ export default function BecomeHostPage() {
                         type="date"
                         value={dateOfBirth}
                         onChange={(e) => setDateOfBirth(e.target.value)}
-                        className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-2">
+                      <label className="block text-sm font-bold text-white mb-2">
                         Numéro de permis
                       </label>
                       <input
@@ -564,18 +566,18 @@ export default function BecomeHostPage() {
                         value={licenseNumber}
                         onChange={(e) => setLicenseNumber(e.target.value)}
                         placeholder="1234567890"
-                        className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-2">
+                      <label className="block text-sm font-bold text-white mb-2">
                         Pays d'émission
                       </label>
                       <select
                         value={licenseCountry}
                         onChange={(e) => setLicenseCountry(e.target.value)}
-                        className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                       >
                         <option value="FR">France</option>
                         <option value="BE">Belgique</option>
@@ -590,7 +592,7 @@ export default function BecomeHostPage() {
                 {hostType === "agence" && (
                   <>
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-2">
+                      <label className="block text-sm font-bold text-white mb-2">
                         Nom de l'agence
                       </label>
                       <input
@@ -599,13 +601,13 @@ export default function BecomeHostPage() {
                         value={agencyName}
                         onChange={(e) => setAgencyName(e.target.value)}
                         placeholder="Locars SAS"
-                        className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-5">
+                    <div className="grid sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-bold text-ink mb-2">
+                        <label className="block text-sm font-bold text-white mb-2">
                           Prénom du représentant
                         </label>
                         <input
@@ -614,11 +616,11 @@ export default function BecomeHostPage() {
                           value={repFirstName}
                           onChange={(e) => setRepFirstName(e.target.value)}
                           placeholder="Jean"
-                          className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                          className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-bold text-ink mb-2">
+                        <label className="block text-sm font-bold text-white mb-2">
                           Nom du représentant
                         </label>
                         <input
@@ -627,13 +629,13 @@ export default function BecomeHostPage() {
                           value={repLastName}
                           onChange={(e) => setRepLastName(e.target.value)}
                           placeholder="Dupont"
-                          className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                          className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-2">
+                      <label className="block text-sm font-bold text-white mb-2">
                         Adresse de l'agence
                       </label>
                       <input
@@ -642,12 +644,12 @@ export default function BecomeHostPage() {
                         value={agencyAddress}
                         onChange={(e) => setAgencyAddress(e.target.value)}
                         placeholder="123 Rue de Paris, 75001 Paris"
-                        className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-2">
+                      <label className="block text-sm font-bold text-white mb-2">
                         Email professionnel
                       </label>
                       <input
@@ -656,12 +658,12 @@ export default function BecomeHostPage() {
                         value={professionalEmail}
                         onChange={(e) => setProfessionalEmail(e.target.value)}
                         placeholder="contact@agence.com"
-                        className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-2">
+                      <label className="block text-sm font-bold text-white mb-2">
                         Téléphone professionnel
                       </label>
                       <input
@@ -670,12 +672,12 @@ export default function BecomeHostPage() {
                         value={professionalPhone}
                         onChange={(e) => setProfessionalPhone(e.target.value)}
                         placeholder="+33 1 23 45 67 89"
-                        className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-2">
+                      <label className="block text-sm font-bold text-white mb-2">
                         Numéro IFU (optionnel)
                       </label>
                       <input
@@ -683,7 +685,7 @@ export default function BecomeHostPage() {
                         value={ifuNumber}
                         onChange={(e) => setIfuNumber(e.target.value)}
                         placeholder="1234567890"
-                        className="w-full rounded-xl border border-border bg-white px-4 py-3 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="w-full rounded-xl border border-white/15 bg-slate-900/70 px-4 py-3 text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                       />
                     </div>
                   </>
@@ -693,13 +695,13 @@ export default function BecomeHostPage() {
                   <button
                     type="button"
                     onClick={prevStep}
-                    className="flex items-center gap-2 rounded-xl bg-border px-6 py-3 font-bold text-ink transition hover:bg-border/70"
+                    className="flex items-center gap-2 rounded-xl bg-white/10 px-6 py-3 font-bold text-white transition hover:bg-white/15"
                   >
                     Retour
                   </button>
                   <button
                     type="submit"
-                    className="flex items-center gap-2 rounded-xl bg-accent px-6 py-3 font-bold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent/90"
+                    className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-500"
                   >
                     Étape suivante
                     <ArrowRightIcon className="h-5 w-5" />
@@ -714,16 +716,16 @@ export default function BecomeHostPage() {
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <button
                 onClick={prevStep}
-                className="flex items-center gap-2 text-sm font-semibold text-muted hover:text-ink mb-8 transition-colors"
+                className="flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white mb-8 transition-colors"
               >
                 <ArrowLeftIcon className="h-4 w-4" /> Retour
               </button>
 
               <div className="mb-8">
-                <h2 className="text-2xl font-extrabold text-ink mb-2">
+                <h2 className="text-2xl font-extrabold text-white mb-2">
                   Téléchargez vos documents
                 </h2>
-                <p className="text-muted">
+                <p className="text-slate-400">
                   Pour valider votre inscription, veuillez fournir les documents
                   requis.
                 </p>
@@ -738,7 +740,7 @@ export default function BecomeHostPage() {
 
               <form
                 onSubmit={handleSubmit}
-                className="space-y-5 bg-white p-8 rounded-3xl border border-border shadow-sm"
+                className="space-y-5 bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm"
               >
                 {hostType === "particulier" && (
                   <>
@@ -746,15 +748,15 @@ export default function BecomeHostPage() {
                       <label className="block text-sm font-bold text-ink mb-3">
                         Pièce d'identité (CNI, Passeport, etc.) *
                       </label>
-                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-border p-6 cursor-pointer hover:border-accent hover:bg-accent/5 transition">
-                        <DocumentArrowUpIcon className="h-6 w-6 text-muted" />
+                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-white/20 bg-slate-900/40 p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-500/10 transition">
+                        <DocumentArrowUpIcon className="h-6 w-6 text-slate-400" />
                         <div>
-                          <p className="font-bold text-sm text-ink">
+                          <p className="font-bold text-sm text-white">
                             {identityDoc
                               ? identityDoc.name
                               : "Cliquez pour télécharger"}
                           </p>
-                          <p className="text-xs text-muted">
+                          <p className="text-xs text-slate-400">
                             PDF, JPG, PNG - Max 10MB
                           </p>
                         </div>
@@ -771,18 +773,18 @@ export default function BecomeHostPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-3">
+                      <label className="block text-sm font-bold text-white mb-3">
                         Permis de conduire *
                       </label>
-                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-border p-6 cursor-pointer hover:border-accent hover:bg-accent/5 transition">
-                        <DocumentArrowUpIcon className="h-6 w-6 text-muted" />
+                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-white/20 bg-slate-900/40 p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-500/10 transition">
+                        <DocumentArrowUpIcon className="h-6 w-6 text-slate-400" />
                         <div>
-                          <p className="font-bold text-sm text-ink">
+                          <p className="font-bold text-sm text-white">
                             {drivingLicenseDoc
                               ? drivingLicenseDoc.name
                               : "Cliquez pour télécharger"}
                           </p>
-                          <p className="text-xs text-muted">
+                          <p className="text-xs text-slate-400">
                             PDF, JPG, PNG - Max 10MB
                           </p>
                         </div>
@@ -803,19 +805,19 @@ export default function BecomeHostPage() {
                 {hostType === "agence" && (
                   <>
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-3">
+                      <label className="block text-sm font-bold text-white mb-3">
                         Pièce d'identité du représentant (CNI, Passeport, etc.)
                         *
                       </label>
-                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-border p-6 cursor-pointer hover:border-accent hover:bg-accent/5 transition">
-                        <DocumentArrowUpIcon className="h-6 w-6 text-muted" />
+                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-white/20 bg-slate-900/40 p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-500/10 transition">
+                        <DocumentArrowUpIcon className="h-6 w-6 text-slate-400" />
                         <div>
-                          <p className="font-bold text-sm text-ink">
+                          <p className="font-bold text-sm text-white">
                             {identityDoc
                               ? identityDoc.name
                               : "Cliquez pour télécharger"}
                           </p>
-                          <p className="text-xs text-muted">
+                          <p className="text-xs text-slate-400">
                             PDF, JPG, PNG - Max 10MB
                           </p>
                         </div>
@@ -832,18 +834,18 @@ export default function BecomeHostPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-3">
+                      <label className="block text-sm font-bold text-white mb-3">
                         Extrait du registre du commerce (RCCM) *
                       </label>
-                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-border p-6 cursor-pointer hover:border-accent hover:bg-accent/5 transition">
-                        <DocumentArrowUpIcon className="h-6 w-6 text-muted" />
+                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-white/20 bg-slate-900/40 p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-500/10 transition">
+                        <DocumentArrowUpIcon className="h-6 w-6 text-slate-400" />
                         <div>
-                          <p className="font-bold text-sm text-ink">
+                          <p className="font-bold text-sm text-white">
                             {commercialRegDoc
                               ? commercialRegDoc.name
                               : "Cliquez pour télécharger"}
                           </p>
-                          <p className="text-xs text-muted">
+                          <p className="text-xs text-slate-400">
                             PDF, JPG, PNG - Max 10MB
                           </p>
                         </div>
@@ -860,18 +862,18 @@ export default function BecomeHostPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-ink mb-3">
+                      <label className="block text-sm font-bold text-white mb-3">
                         Attestation IFU *
                       </label>
-                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-border p-6 cursor-pointer hover:border-accent hover:bg-accent/5 transition">
-                        <DocumentArrowUpIcon className="h-6 w-6 text-muted" />
+                      <label className="flex items-center justify-center gap-3 rounded-xl border-2 border-dashed border-white/20 bg-slate-900/40 p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-500/10 transition">
+                        <DocumentArrowUpIcon className="h-6 w-6 text-slate-400" />
                         <div>
-                          <p className="font-bold text-sm text-ink">
+                          <p className="font-bold text-sm text-white">
                             {ifuAttestationDoc
                               ? ifuAttestationDoc.name
                               : "Cliquez pour télécharger"}
                           </p>
-                          <p className="text-xs text-muted">
+                          <p className="text-xs text-slate-400">
                             PDF, JPG, PNG - Max 10MB
                           </p>
                         </div>
@@ -893,7 +895,7 @@ export default function BecomeHostPage() {
                   <button
                     type="button"
                     onClick={prevStep}
-                    className="flex items-center gap-2 rounded-xl bg-border px-6 py-3 font-bold text-ink transition hover:bg-border/70 disabled:opacity-50"
+                    className="flex items-center gap-2 rounded-xl bg-white/10 px-6 py-3 font-bold text-white transition hover:bg-white/15 disabled:opacity-50"
                     disabled={isSubmitting}
                   >
                     Retour
@@ -901,7 +903,7 @@ export default function BecomeHostPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex items-center gap-2 rounded-xl bg-accent px-6 py-3 font-bold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? "Soumission en cours..." : "Soumettre"}
                   </button>
@@ -922,22 +924,22 @@ export default function BecomeHostPage() {
                 <h1 className="text-3xl font-extrabold text-ink mb-4">
                   Demande soumise avec succès !
                 </h1>
-                <p className="text-lg text-muted max-w-md mx-auto">
+                <p className="text-lg text-slate-300 max-w-md mx-auto">
                   Merci de vous être inscrit comme loueur. Nous examinerons
                   votre demande et vous répondrons par email dans les 48 heures.
                 </p>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-3xl p-8 mb-8">
-                <p className="text-sm text-muted mb-2">
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 mb-8">
+                <p className="text-sm text-slate-400 mb-2">
                   Un email de confirmation a été envoyé à :
                 </p>
-                <p className="font-bold text-ink">{email}</p>
+                <p className="font-bold text-white">{email}</p>
               </div>
 
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 rounded-xl bg-accent px-8 py-4 font-bold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent/90"
+                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-500"
               >
                 Retour à l'accueil
               </Link>

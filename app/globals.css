@@ -92,11 +92,18 @@
   --color-accent-light: var(--locars-primary-light);
   --color-accent-hover: var(--locars-accent-hover);
   --color-surface: var(--locars-white);
-  --font-sans: var(--font-plus-jakarta);
+  --font-sans: var(--font-poppins);
 }
 
 body {
   background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans), sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-sora), var(--font-sans), sans-serif;
 }

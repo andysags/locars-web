@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Poppins, Sora } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/app/components/SiteChrome";
 
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const sora = Sora({
+  variable: "--font-sora",
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${plusJakarta.variable} min-h-screen antialiased`}
+      className={`${poppins.variable} ${sora.variable} min-h-screen antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">

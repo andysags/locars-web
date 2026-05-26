@@ -5,7 +5,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 
 const faqs = [
   {
-    category: "Inscription et Vérification",
+    category: "Inscription et vérification",
     items: [
       {
         question: "Pourquoi dois-je envoyer mes documents d’identité ?",
@@ -24,7 +24,7 @@ const faqs = [
     ],
   },
   {
-    category: "Véhicules et Annonces",
+    category: "Véhicules et annonces",
     items: [
       {
         question: "Mon véhicule doit-il passer une inspection ?",
@@ -39,7 +39,7 @@ const faqs = [
     ],
   },
   {
-    category: "Réservation et Paiement",
+    category: "Réservation et paiement",
     items: [
       {
         question: "Comment fonctionne la réservation ?",
@@ -74,7 +74,7 @@ const faqs = [
     ],
   },
   {
-    category: "Prolongation et Restitution",
+    category: "Prolongation et restitution",
     items: [
       {
         question: "Comment prolonger une location en cours ?",
@@ -89,7 +89,7 @@ const faqs = [
     ],
   },
   {
-    category: "Pour le Propriétaire",
+    category: "Pour le propriétaire",
     items: [
       {
         question:
@@ -100,7 +100,7 @@ const faqs = [
     ],
   },
   {
-    category: "Litiges et Problèmes",
+    category: "Litiges et problèmes",
     items: [
       {
         question: "Que faire en cas de dommage sur le véhicule ?",

@@ -53,36 +53,44 @@ export default function HomePage() {
               {/* Headline */}
               <h1 className="text-5xl md:text-7xl font-black leading-snug">
                 <span className="bg-gradient-to-b from-white via-white to-white bg-clip-text text-transparent">
-                  La mobilité réinventée
+                  Trouvez, réservez
                 </span>
                 <br />
                 <span className="relative inline-block bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
                   <span className="absolute -bottom-3 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-amber-500 rounded-full blur-lg opacity-70"></span>
-                  par la communauté
+                  et louez une voiture facilement
                 </span>
               </h1>
 
               {/* Description */}
               <p className="text-lg text-gray-400 leading-relaxed max-w-xl font-light tracking-wide">
-                Louez des voitures à vos voisins ou rentabilisez la vôtre. Expérience transparente, sécurisée et 100% communautaire.
+                Locars est une plateforme intermédiaire qui met en relation clients et loueurs pour une réservation simple et transparente.
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
                 <a
                   href="#"
-                  className="inline-flex items-center gap-3 px-6 py-3 bg-black/80 hover:bg-black/90 rounded-lg shadow-lg"
-                  aria-label="Télécharger sur Google Play"
+                  className="group inline-flex h-14 min-w-[210px] items-center gap-3 rounded-xl bg-black px-4 transition-all hover:-translate-y-0.5 hover:opacity-95"
+                  aria-label="Télécharger sur App Store"
                 >
-                  <img src="/google-play-badge.svg" alt="Google Play" className="h-8" />
+                  <Image src="/apple.svg" alt="Apple" width={24} height={24} className="h-6 w-6 text-white" />
+                  <span className="flex flex-col leading-none text-white">
+                    <span className="text-[11px] uppercase tracking-wide text-white/80">Télécharger sur</span>
+                    <span className="text-base font-semibold">App Store</span>
+                  </span>
                 </a>
 
                 <a
                   href="#"
-                  className="inline-flex items-center gap-3 px-6 py-3 bg-black/80 hover:bg-black/90 rounded-lg shadow-lg"
-                  aria-label="Télécharger sur App Store"
+                  className="group inline-flex h-14 min-w-[210px] items-center gap-3 rounded-xl bg-black px-4 transition-all hover:-translate-y-0.5 hover:opacity-95"
+                  aria-label="Télécharger sur Google Play"
                 >
-                  <img src="/app-store-badge.svg" alt="App Store" className="h-8" />
+                  <Image src="/google.svg" alt="Google Play" width={24} height={24} className="h-6 w-6" />
+                  <span className="flex flex-col leading-none text-white">
+                    <span className="text-[11px] uppercase tracking-wide text-white/80">Télécharger sur</span>
+                    <span className="text-base font-semibold">Google Play</span>
+                  </span>
                 </a>
               </div>
             </div>
@@ -111,30 +119,29 @@ export default function HomePage() {
         <section id="why-us" className="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent">
-              Une plateforme, deux rôles
+              Pourquoi nous choisir ?
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto font-light">
-              Que vous louiez ou que vous partagiez, l'expérience est pensée pour vous.
+              Nous facilitons la mise en relation entre clients et loueurs, avec un cadre clair pour réserver en toute confiance.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
             {/* Renters */}
-            <div className="group relative">
+            <div className="group relative h-full">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-              <div className="relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:border-blue-500/30 transition-all duration-300">
+              <div className="relative h-full bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:border-blue-500/30 transition-all duration-300">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                     <TruckIcon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold">Pour les locataires</h3>
+                  <h3 className="text-2xl font-bold">Nos engagements</h3>
                 </div>
 
                 <ul className="space-y-6">
                   {[
-                    { Icon: CurrencyDollarIcon, title: 'Prix transparents', desc: 'Aucun frais caché, aucune surprise.' },
-                    { Icon: CheckCircleIcon, title: 'Choix illimité', desc: 'Des citadines aux SUV premium.' },
-                    { Icon: ClockIcon, title: 'Flexibilité totale', desc: '1h, 1 jour, 1 semaine — à vous de choisir.' },
+                    { Icon: CheckCircleIcon, title: 'Mise en relation fiable', desc: 'Locars facilite la rencontre entre clients et loueurs vérifiés sur la plateforme.' },
+                    { Icon: CurrencyDollarIcon, title: 'Tarifs définis par les loueurs', desc: 'Les prix sont fixés par chaque loueur selon son véhicule et ses conditions.' },
                   ].map((item, idx) => (
                     <div key={idx} className="flex gap-4 group/item">
                       <item.Icon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-1" />
@@ -149,21 +156,20 @@ export default function HomePage() {
             </div>
 
             {/* Owners */}
-            <div className="group relative">
+            <div className="group relative h-full">
               <div className="absolute inset-0 bg-gradient-to-br from-amber-600/20 to-orange-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-              <div className="relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:border-amber-500/30 transition-all duration-300">
+              <div className="relative h-full bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:border-amber-500/30 transition-all duration-300">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
                     <HomeIcon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold">Pour les propriétaires</h3>
+                  <h3 className="text-2xl font-bold">Service continu</h3>
                 </div>
 
                 <ul className="space-y-6">
                   {[
-                    { Icon: CurrencyDollarIcon, title: 'Revenus passifs', desc: 'Jusqu\'à 800€/mois, sans effort.' },
-                    { Icon: ShieldCheckIcon, title: 'Assurance comprise', desc: 'Protégé par Allianz tous risques.' },
-                    { Icon: ChartBarIcon, title: 'Contrôle total', desc: 'Vos tarifs, vos conditions, vos règles.' },
+                    { Icon: ClockIcon, title: 'Réservation simple et flexible', desc: 'Choisissez votre période et soumettez votre demande directement au loueur.' },
+                    { Icon: ShieldCheckIcon, title: 'Support plateforme', desc: 'Notre équipe vous accompagne sur l\'usage de la plateforme et le suivi des demandes.' },
                   ].map((item, idx) => (
                     <div key={idx} className="flex gap-4">
                       <item.Icon className="w-5 h-5 text-amber-400 flex-shrink-0 mt-1" />
@@ -183,9 +189,9 @@ export default function HomePage() {
         <section id="how-it-works" className="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent">
-              Comment ça marche
+              Louez en 3 étapes simples
             </h2>
-            <p className="text-gray-400 text-lg font-light">3 étapes simples pour commencer</p>
+            <p className="text-gray-400 text-lg font-light">Un parcours de réservation clair, de la recherche à la confirmation.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -193,13 +199,13 @@ export default function HomePage() {
             <div className="space-y-8">
               <h3 className="flex items-center gap-3 text-2xl font-bold">
                 <TruckIcon className="w-8 h-8 text-blue-400" />
-                Louer une voiture
+                Pour les clients
               </h3>
               <div className="space-y-8">
                 {[
-                  { num: 1, title: 'Téléchargez', desc: 'Inscrivez-vous en 2 minutes' },
-                  { num: 2, title: 'Cherchez', desc: 'Trouvez votre voiture parfaite' },
-                  { num: 3, title: 'Roulez', desc: 'Déverrouillez via l\'app et partez' },
+                  { num: 1, title: 'Choisir une localisation', desc: 'Choisissez votre localisation et trouvez la meilleure voiture parmi les véhicules disponibles' },
+                  { num: 2, title: 'Date de réservation', desc: 'Sélectionnez votre date et votre heure de récupération pour réserver instantanément' },
+                  { num: 3, title: 'Réserver votre voiture', desc: 'Confirmez votre réservation puis convenez avec le loueur des modalités de récupération.' },
                 ].map((step, idx) => (
                   <div key={idx} className="relative flex gap-6 group">
                     <div className="flex flex-col items-center">
@@ -225,13 +231,13 @@ export default function HomePage() {
             <div className="space-y-8">
               <h3 className="flex items-center gap-3 text-2xl font-bold">
                 <HomeIcon className="w-8 h-8 text-amber-400" />
-                Partager sa voiture
+                Pour les loueurs
               </h3>
               <div className="space-y-8">
                 {[
                   { num: 1, title: 'Publiez', desc: 'Créez votre annonce en 5 minutes' },
                   { num: 2, title: 'Validez', desc: 'Acceptez les demandes de location' },
-                  { num: 3, title: 'Gagnez', desc: 'Recevez vos revenus chaque semaine' },
+                  { num: 3, title: 'Gagnez', desc: 'Recevez vos revenus en temps réel' },
                 ].map((step, idx) => (
                   <div key={idx} className="relative flex gap-6 group">
                     <div className="flex flex-col items-center">

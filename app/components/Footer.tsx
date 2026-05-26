@@ -15,11 +15,11 @@ export default function Footer({ className = "" }: { className?: string }) {
               <Image
                 src="/locars-logo.png"
                 alt="Locars"
-                width={260}
-                height={84}
+                width={320}
+                height={104}
                 priority
-                sizes="260px"
-                className="h-20 w-auto max-w-none object-contain"
+                sizes="320px"
+                className="h-28 w-auto max-w-none object-contain mix-blend-screen"
               />
             </div>
             <p className="max-w-xl text-sm leading-relaxed text-slate-400">
@@ -68,7 +68,7 @@ export default function Footer({ className = "" }: { className?: string }) {
             <div>
               <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">Suivez-nous</h4>
               <div className="flex gap-4">
-                <Link href="#" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10">
+                <Link href="https://www.facebook.com/share/14euiP1vUi5/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10">
                   <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 text-[#1877F2]">
                     <path
                       fill="currentColor"
@@ -76,11 +76,8 @@ export default function Footer({ className = "" }: { className?: string }) {
                     />
                   </svg>
                 </Link>
-                <Link href="#" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10">
+                <Link href="https://www.instagram.com/locars.app?igsh=dWlsY3gzdWtoeDFs" target="_blank" rel="noopener noreferrer" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10">
                   <Image src="/instagram.svg" alt="Instagram Locars" width={20} height={20} />
-                </Link>
-                <Link href="#" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10">
-                  <Image src="/x.svg" alt="X Locars" width={20} height={20} />
                 </Link>
               </div>
             </div>

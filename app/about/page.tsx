@@ -9,12 +9,6 @@ export default function AboutPage() {
               La mobilité réinventée
             </h1>
           </div>
-          <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-5 text-sm text-slate-300 backdrop-blur-sm">
-            <p className="leading-relaxed">
-              LOCARS relie des personnes qui ont besoin d’un véhicule avec celles qui souhaitent rentabiliser le leur.
-              L’objectif est simple: rendre la location plus humaine, plus fluide et plus transparente.
-            </p>
-          </div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">

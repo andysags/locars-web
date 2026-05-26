@@ -31,9 +31,9 @@ export default function AdminLayout({
           <Image
             src="/locars-logo.png"
             alt="Locars Logo"
-            width={100}
-            height={100}
-            className="object-contain"
+            width={140}
+            height={56}
+            className="h-14 w-auto object-contain mix-blend-screen"
           />
         </div>
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">

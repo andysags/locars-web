@@ -6,7 +6,7 @@ export default function Header() {
     <header className="sticky top-0 w-full z-50 bg-slate-950/95 backdrop-blur-xl shadow-sm border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <Image src="/locars-logo.png" alt="Locars" width={140} height={44} className="object-contain" />
+          <Image src="/locars-logo.png" alt="Locars" width={280} height={74} className="h-14 w-auto object-contain mix-blend-screen" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-4">
