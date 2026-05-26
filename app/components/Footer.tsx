@@ -15,7 +15,7 @@ export default function Footer({ className = "" }: { className?: string }) {
               <Image
                 src="/locars-logo.png"
                 alt="Locars"
-                width={320}
+                width={220}
                 height={104}
                 priority
                 sizes="320px"
