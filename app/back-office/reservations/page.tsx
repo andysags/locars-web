@@ -82,15 +82,15 @@ export default function ReservationsPage() {
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
       case "confirmed":
-        return "bg-green-100 text-green-800";
+        return "bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-400/20";
       case "pending":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-amber-500/15 text-amber-200 ring-1 ring-amber-400/20";
       case "completed":
-        return "bg-blue-100 text-blue-800";
+        return "bg-sky-500/15 text-sky-200 ring-1 ring-sky-400/20";
       case "cancelled":
-        return "bg-red-100 text-red-800";
+        return "bg-red-500/15 text-red-200 ring-1 ring-red-400/20";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-white/10 text-slate-200 ring-1 ring-white/10";
     }
   };
 
@@ -115,32 +115,32 @@ export default function ReservationsPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-white">
       {/* Header */}
       <div>
         <div className="flex items-center gap-3 mb-2">
-          <CalendarDaysIcon className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-bold text-ink">Réservations</h1>
+          <CalendarDaysIcon className="h-8 w-8 text-sky-300" />
+          <h1 className="text-3xl font-bold text-white">Réservations</h1>
         </div>
-        <p className="text-muted">Consultez et gérez toutes les réservations</p>
+        <p className="text-slate-300">Consultez et gérez toutes les réservations</p>
       </div>
 
       {/* Error Alert */}
       {error && (
-        <div className="bg-red-50 border border-red-200 p-6 rounded-3xl flex items-center gap-3">
-          <ExclamationTriangleIcon className="h-6 w-6 text-red-600 flex-shrink-0" />
-          <p className="text-red-700">{error}</p>
+        <div className="flex items-center gap-3 rounded-[1.75rem] border border-red-400/20 bg-red-500/10 p-6 backdrop-blur-xl">
+          <ExclamationTriangleIcon className="h-6 w-6 flex-shrink-0 text-red-300" />
+          <p className="text-red-100">{error}</p>
         </div>
       )}
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 bg-white rounded-2xl p-2 border border-border w-fit flex-wrap">
+      <div className="flex w-fit flex-wrap gap-2 rounded-[1.5rem] border border-white/10 bg-white/5 p-2 backdrop-blur-xl">
         <button
           onClick={() => setFilter("all")}
           className={`px-4 py-2 rounded-xl font-medium transition ${
             filter === "all"
-              ? "bg-blue-50 text-accent"
-              : "text-muted hover:bg-gray-50"
+              ? "bg-white text-slate-950 shadow-sm"
+              : "text-slate-300 hover:bg-white/5 hover:text-white"
           }`}
         >
           Toutes ({reservations.length})
@@ -149,8 +149,8 @@ export default function ReservationsPage() {
           onClick={() => setFilter("pending")}
           className={`px-4 py-2 rounded-xl font-medium transition ${
             filter === "pending"
-              ? "bg-blue-50 text-accent"
-              : "text-muted hover:bg-gray-50"
+              ? "bg-white text-slate-950 shadow-sm"
+              : "text-slate-300 hover:bg-white/5 hover:text-white"
           }`}
         >
           En attente (
@@ -164,8 +164,8 @@ export default function ReservationsPage() {
           onClick={() => setFilter("confirmed")}
           className={`px-4 py-2 rounded-xl font-medium transition ${
             filter === "confirmed"
-              ? "bg-blue-50 text-accent"
-              : "text-muted hover:bg-gray-50"
+              ? "bg-white text-slate-950 shadow-sm"
+              : "text-slate-300 hover:bg-white/5 hover:text-white"
           }`}
         >
           Confirmées (
@@ -179,8 +179,8 @@ export default function ReservationsPage() {
           onClick={() => setFilter("completed")}
           className={`px-4 py-2 rounded-xl font-medium transition ${
             filter === "completed"
-              ? "bg-blue-50 text-accent"
-              : "text-muted hover:bg-gray-50"
+              ? "bg-white text-slate-950 shadow-sm"
+              : "text-slate-300 hover:bg-white/5 hover:text-white"
           }`}
         >
           Complétées (
@@ -198,7 +198,7 @@ export default function ReservationsPage() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white rounded-3xl p-6 border border-border animate-pulse h-24"
+              className="h-24 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl animate-pulse"
             ></div>
           ))}
         </div>
@@ -206,14 +206,14 @@ export default function ReservationsPage() {
 
       {/* Empty State */}
       {!loading && filteredReservations.length === 0 && (
-        <div className="bg-white rounded-3xl p-12 border border-border text-center">
-          <CalendarDaysIcon className="h-12 w-12 text-blue-200 mx-auto mb-4" />
-          <p className="text-lg font-semibold text-ink mb-2">
+        <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-12 text-center backdrop-blur-xl">
+          <CalendarDaysIcon className="mx-auto mb-4 h-12 w-12 text-sky-300" />
+          <p className="mb-2 text-lg font-semibold text-white">
             {filter === "all"
               ? "Aucune réservation"
               : `Aucune réservation ${filter === "pending" ? "en attente" : filter === "confirmed" ? "confirmée" : "complétée"}`}
           </p>
-          <p className="text-muted">
+          <p className="text-slate-300">
             {filter === "all"
               ? "Les réservations apparaîtront ici"
               : "Essayez un autre filtre"}
@@ -230,12 +230,12 @@ export default function ReservationsPage() {
               href={`/back-office/reservations/${reservation.id}`}
               className="block"
             >
-              <div className="bg-white rounded-3xl border border-border p-6 hover:shadow-md transition-all hover:border-accent cursor-pointer">
+              <div className="cursor-pointer rounded-[1.75rem] border border-white/10 bg-white/5 p-6 transition-all hover:-translate-y-1 hover:border-white/20 hover:bg-white/8 backdrop-blur-xl">
                 <div className="flex items-start justify-between gap-4 flex-col sm:flex-row">
                   {/* Info */}
                   <div className="flex-1 space-y-2">
                     <div className="flex items-center gap-3">
-                      <h3 className="font-semibold text-ink text-lg">
+                      <h3 className="text-lg font-semibold text-white">
                         {reservation.carBrand} {reservation.carModel}
                       </h3>
                       <span
@@ -247,16 +247,16 @@ export default function ReservationsPage() {
 
                     {/* Details Grid */}
                     <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 text-sm">
-                      <div className="flex items-center gap-2 text-muted">
+                      <div className="flex items-center gap-2 text-slate-300">
                         <UserIcon className="h-4 w-4" />
                         {reservation.renterName}
                       </div>
-                      <div className="flex items-center gap-2 text-muted">
+                      <div className="flex items-center gap-2 text-slate-300">
                         <CalendarDaysIcon className="h-4 w-4" />
                         {formatDate(reservation.startDate)} →{" "}
                         {formatDate(reservation.endDate)}
                       </div>
-                      <div className="flex items-center gap-2 text-muted">
+                      <div className="flex items-center gap-2 text-slate-300">
                         <MapPinIcon className="h-4 w-4" />
                         {reservation.hostName}
                       </div>
@@ -266,8 +266,8 @@ export default function ReservationsPage() {
                   {/* Price & Action */}
                   <div className="flex items-center justify-between gap-4 w-full sm:w-auto sm:flex-col sm:items-end">
                     <div className="text-right">
-                      <p className="text-xs text-muted mb-1">Total</p>
-                      <p className="text-2xl font-bold text-accent">
+                      <p className="mb-1 text-xs text-slate-300">Total</p>
+                      <p className="text-2xl font-bold text-white">
                         €{reservation.totalPrice}
                       </p>
                     </div>
@@ -282,20 +282,20 @@ export default function ReservationsPage() {
 
       {/* Stats */}
       {!loading && reservations.length > 0 && (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 pt-6 border-t border-border">
-          <div className="bg-blue-50 rounded-3xl p-6 border border-blue-200">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">
+        <div className="grid gap-4 pt-6 sm:grid-cols-2 lg:grid-cols-4 border-t border-white/10">
+          <div className="rounded-[1.75rem] border border-sky-400/15 bg-sky-500/10 p-6 backdrop-blur-xl">
+            <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
               Total des réservations
             </p>
-            <p className="text-3xl font-bold text-accent">
+            <p className="text-3xl font-bold text-white">
               {reservations.length}
             </p>
           </div>
-          <div className="bg-yellow-50 rounded-3xl p-6 border border-yellow-200">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">
+          <div className="rounded-[1.75rem] border border-amber-400/15 bg-amber-500/10 p-6 backdrop-blur-xl">
+            <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
               En attente
             </p>
-            <p className="text-3xl font-bold text-yellow-600">
+            <p className="text-3xl font-bold text-white">
               {
                 reservations.filter(
                   (r) => r.status?.toLowerCase() === "pending",
@@ -303,11 +303,11 @@ export default function ReservationsPage() {
               }
             </p>
           </div>
-          <div className="bg-green-50 rounded-3xl p-6 border border-green-200">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">
+          <div className="rounded-[1.75rem] border border-emerald-400/15 bg-emerald-500/10 p-6 backdrop-blur-xl">
+            <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
               Confirmées
             </p>
-            <p className="text-3xl font-bold text-green-600">
+            <p className="text-3xl font-bold text-white">
               {
                 reservations.filter(
                   (r) => r.status?.toLowerCase() === "confirmed",
@@ -315,11 +315,11 @@ export default function ReservationsPage() {
               }
             </p>
           </div>
-          <div className="bg-blue-100 rounded-3xl p-6 border border-blue-300">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">
+          <div className="rounded-[1.75rem] border border-violet-400/15 bg-violet-500/10 p-6 backdrop-blur-xl">
+            <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
               Revenu Total
             </p>
-            <p className="text-3xl font-bold text-blue-600">
+            <p className="text-3xl font-bold text-white">
               €{reservations.reduce((acc, r) => acc + (r.totalPrice || 0), 0)}
             </p>
           </div>

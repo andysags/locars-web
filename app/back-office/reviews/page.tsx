@@ -6,8 +6,6 @@ import { getFirestore } from "firebase/firestore";
 import {
   StarIcon,
   TrashIcon,
-  CheckCircleIcon,
-  XCircleIcon,
   ExclamationTriangleIcon,
   BellAlertIcon,
 } from "@heroicons/react/24/outline";
@@ -138,29 +136,29 @@ export default function ReviewsPage() {
             }`}
           />
         ))}
-        <span className="ml-1 font-semibold text-ink">{rating}/5</span>
+        <span className="ml-1 font-semibold text-white">{rating}/5</span>
       </div>
     );
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-white">
       {/* Header */}
       <div>
         <div className="flex items-center gap-3 mb-2">
-          <StarIcon className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-bold text-ink">Revues & Évaluations</h1>
+          <StarIcon className="h-8 w-8 text-sky-300" />
+          <h1 className="text-3xl font-bold text-white">Revues & Évaluations</h1>
         </div>
-        <p className="text-muted">
+        <p className="text-slate-300">
           Gérez les revues laissées par les clients après leur location
         </p>
       </div>
 
       {/* Error Alert */}
       {error && (
-        <div className="bg-red-50 border border-red-200 p-6 rounded-3xl flex items-center gap-3">
-          <ExclamationTriangleIcon className="h-6 w-6 text-red-600 flex-shrink-0" />
-          <p className="text-red-700">{error}</p>
+        <div className="flex items-center gap-3 rounded-[1.75rem] border border-red-400/20 bg-red-500/10 p-6 backdrop-blur-xl">
+          <ExclamationTriangleIcon className="h-6 w-6 flex-shrink-0 text-red-300" />
+          <p className="text-red-100">{error}</p>
         </div>
       )}
 
@@ -170,7 +168,7 @@ export default function ReviewsPage() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white rounded-3xl p-6 border border-border animate-pulse h-32"
+              className="h-32 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl animate-pulse"
             ></div>
           ))}
         </div>
@@ -178,21 +176,21 @@ export default function ReviewsPage() {
 
       {/* Empty State */}
       {!loading && reviews.length === 0 && (
-        <div className="bg-white rounded-3xl p-12 border border-border text-center">
-          <StarIcon className="h-12 w-12 text-blue-200 mx-auto mb-4" />
-          <p className="text-lg font-semibold text-ink mb-2">
+        <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-12 text-center backdrop-blur-xl">
+          <StarIcon className="mx-auto mb-4 h-12 w-12 text-sky-300" />
+          <p className="mb-2 text-lg font-semibold text-white">
             Aucune revue disponible
           </p>
-          <p className="text-muted">Les revues apparaîtront ici</p>
+          <p className="text-slate-300">Les revues apparaîtront ici</p>
         </div>
       )}
 
       {/* Reviews List */}
       {!loading && reviews.length > 0 && (
         <div className="space-y-4">
-          <div className="bg-white rounded-3xl border border-border overflow-hidden">
+          <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
             {/* Table Header */}
-            <div className="hidden lg:grid grid-cols-6 gap-4 p-6 border-b border-border bg-gray-50 font-semibold text-ink text-sm">
+            <div className="hidden lg:grid grid-cols-6 gap-4 border-b border-white/10 bg-white/5 p-6 text-sm font-semibold text-slate-300">
               <div>Message</div>
               <div className="text-center">Note</div>
               <div>De (Client)</div>
@@ -202,21 +200,21 @@ export default function ReviewsPage() {
             </div>
 
             {/* Table Rows */}
-            <div className="divide-y divide-border">
+            <div className="divide-y divide-white/10">
               {reviews.map((review) => (
                 <div
                   key={review.id}
-                  className="p-6 hover:bg-blue-50 transition-colors space-y-3 lg:space-y-0"
+                  className="space-y-3 p-6 transition-colors hover:bg-white/5 lg:space-y-0"
                 >
                   {/* Mobile/Responsive View */}
                   <div className="lg:hidden space-y-4">
                     {/* Message */}
                     <div>
-                      <p className="text-xs text-muted uppercase tracking-wide font-semibold mb-2">
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-300">
                         Message
                       </p>
-                      <div className="bg-blue-50 p-3 rounded-2xl border border-blue-200">
-                        <p className="text-ink text-sm leading-relaxed">
+                      <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
+                        <p className="text-sm leading-relaxed text-white">
                           {review.comment}
                         </p>
                       </div>
@@ -225,16 +223,16 @@ export default function ReviewsPage() {
                     {/* Metadata */}
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <p className="text-xs text-muted uppercase tracking-wide font-semibold mb-1">
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-300">
                           Note
                         </p>
                         <div>{renderStars(review.rating)}</div>
                       </div>
                       <div>
-                        <p className="text-xs text-muted uppercase tracking-wide font-semibold mb-1">
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-300">
                           Date
                         </p>
-                        <p className="text-sm text-ink font-medium">
+                        <p className="text-sm font-medium text-white">
                           {formatDate(review.createdAt)}
                         </p>
                       </div>
@@ -243,25 +241,25 @@ export default function ReviewsPage() {
                     {/* From/For */}
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <p className="text-xs text-muted uppercase tracking-wide font-semibold mb-1">
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-300">
                           De (Client)
                         </p>
-                        <p className="text-sm text-ink font-medium">
+                        <p className="text-sm font-medium text-white">
                           {review.renterName}
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-muted uppercase tracking-wide font-semibold mb-1">
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-300">
                           Pour (Véhicule)
                         </p>
-                        <p className="text-sm text-ink font-medium">
+                        <p className="text-sm font-medium text-white">
                           {review.carBrand} {review.carModel}
                         </p>
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex gap-2 pt-3 border-t border-border">
+                    <div className="flex gap-2 pt-3 border-t border-white/10">
                       <button
                         onClick={() => handleSendWarning(review.id, review)}
                         disabled={
@@ -270,7 +268,7 @@ export default function ReviewsPage() {
                         title={
                           review.hasWarning ? "Avertissement déjà envoyé" : ""
                         }
-                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-yellow-50 text-yellow-600 hover:bg-yellow-100 transition disabled:opacity-50 font-medium text-sm"
+                        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-yellow-500/15 px-3 py-2 text-sm font-medium text-yellow-200 ring-1 ring-yellow-400/20 transition hover:bg-yellow-500/20 disabled:opacity-50"
                       >
                         <BellAlertIcon className="h-4 w-4" />
                         {review.hasWarning ? "Averti" : "Avertir"}
@@ -278,7 +276,7 @@ export default function ReviewsPage() {
                       <button
                         onClick={() => handleDelete(review.id)}
                         disabled={actionLoading === review.id}
-                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition disabled:opacity-50 font-medium text-sm"
+                        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-red-500/15 px-3 py-2 text-sm font-medium text-red-200 ring-1 ring-red-400/20 transition hover:bg-red-500/20 disabled:opacity-50"
                       >
                         <TrashIcon className="h-4 w-4" />
                         Supprimer
@@ -290,8 +288,8 @@ export default function ReviewsPage() {
                   <div className="hidden lg:grid grid-cols-6 gap-4 items-start">
                     {/* Message */}
                     <div>
-                      <div className="bg-blue-50 p-3 rounded-2xl border border-blue-200 max-h-20 overflow-hidden">
-                        <p className="text-ink text-xs leading-relaxed line-clamp-3">
+                      <div className="max-h-20 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-3">
+                        <p className="text-xs leading-relaxed text-white line-clamp-3">
                           {review.comment}
                         </p>
                       </div>
@@ -311,18 +309,18 @@ export default function ReviewsPage() {
                           />
                         ))}
                       </div>
-                      <p className="text-sm font-bold text-ink mt-1">
+                      <p className="mt-1 text-sm font-bold text-white">
                         {review.rating}/5
                       </p>
                     </div>
 
                     {/* From (Renter) */}
                     <div>
-                      <p className="text-sm font-medium text-ink">
+                      <p className="text-sm font-medium text-white">
                         {review.renterName}
                       </p>
                       {review.renterEmail && (
-                        <p className="text-xs text-muted truncate">
+                        <p className="truncate text-xs text-slate-300">
                           {review.renterEmail}
                         </p>
                       )}
@@ -330,21 +328,21 @@ export default function ReviewsPage() {
 
                     {/* For (Vehicle/Host) */}
                     <div>
-                      <p className="text-sm font-medium text-ink">
+                      <p className="text-sm font-medium text-white">
                         {review.carBrand} {review.carModel}
                       </p>
                       {review.hostName && (
-                        <p className="text-xs text-muted">{review.hostName}</p>
+                        <p className="text-xs text-slate-300">{review.hostName}</p>
                       )}
                     </div>
 
                     {/* Date */}
                     <div>
-                      <p className="text-sm text-ink font-medium">
+                      <p className="text-sm font-medium text-white">
                         {formatDate(review.createdAt)}
                       </p>
                       {review.hasWarning && (
-                        <p className="text-xs text-yellow-600 font-semibold mt-1">
+                        <p className="mt-1 text-xs font-semibold text-yellow-300">
                           ⚠ Averti
                         </p>
                       )}
@@ -360,14 +358,14 @@ export default function ReviewsPage() {
                         title={
                           review.hasWarning ? "Avertissement déjà envoyé" : ""
                         }
-                        className="p-2 rounded-lg bg-yellow-50 text-yellow-600 hover:bg-yellow-100 transition disabled:opacity-50"
+                        className="rounded-lg bg-yellow-500/15 p-2 text-yellow-200 ring-1 ring-yellow-400/20 transition hover:bg-yellow-500/20 disabled:opacity-50"
                       >
                         <BellAlertIcon className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(review.id)}
                         disabled={actionLoading === review.id}
-                        className="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition disabled:opacity-50"
+                        className="rounded-lg bg-red-500/15 p-2 text-red-200 ring-1 ring-red-400/20 transition hover:bg-red-500/20 disabled:opacity-50"
                       >
                         <TrashIcon className="h-4 w-4" />
                       </button>
@@ -382,37 +380,37 @@ export default function ReviewsPage() {
 
       {/* Stats */}
       {!loading && reviews.length > 0 && (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 pt-6 border-t border-border">
-          <div className="bg-blue-50 rounded-3xl p-6 border border-blue-200">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">
+        <div className="grid gap-4 pt-6 sm:grid-cols-2 lg:grid-cols-4 border-t border-white/10">
+          <div className="rounded-[1.75rem] border border-sky-400/15 bg-sky-500/10 p-6 backdrop-blur-xl">
+            <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
               Total des revues
             </p>
-            <p className="text-3xl font-bold text-accent">{reviews.length}</p>
+            <p className="text-3xl font-bold text-white">{reviews.length}</p>
           </div>
-          <div className="bg-yellow-50 rounded-3xl p-6 border border-yellow-200">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">
+          <div className="rounded-[1.75rem] border border-amber-400/15 bg-amber-500/10 p-6 backdrop-blur-xl">
+            <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
               Moyenne
             </p>
-            <p className="text-3xl font-bold text-yellow-600">
+            <p className="text-3xl font-bold text-white">
               {(
                 reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
               ).toFixed(1)}
               /5
             </p>
           </div>
-          <div className="bg-green-50 rounded-3xl p-6 border border-green-200">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">
+          <div className="rounded-[1.75rem] border border-emerald-400/15 bg-emerald-500/10 p-6 backdrop-blur-xl">
+            <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
               5 étoiles
             </p>
-            <p className="text-3xl font-bold text-green-600">
+            <p className="text-3xl font-bold text-white">
               {reviews.filter((r) => r.rating === 5).length}
             </p>
           </div>
-          <div className="bg-orange-50 rounded-3xl p-6 border border-orange-200">
-            <p className="text-xs text-muted uppercase tracking-wide mb-1">
+          <div className="rounded-[1.75rem] border border-orange-400/15 bg-orange-500/10 p-6 backdrop-blur-xl">
+            <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
               1-4 étoiles
             </p>
-            <p className="text-3xl font-bold text-orange-600">
+            <p className="text-3xl font-bold text-white">
               {reviews.filter((r) => r.rating < 5).length}
             </p>
           </div>

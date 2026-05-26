@@ -50,151 +50,151 @@ export default function SettingsPage() {
   }, []);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 text-white">
       {/* Header */}
       <div>
         <div className="flex items-center gap-3 mb-2">
           <CogIcon className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-bold text-ink">Paramètres</h1>
+          <h1 className="text-3xl font-bold text-white">Paramètres</h1>
         </div>
-        <p className="text-muted">
+        <p className="text-slate-300">
           Gestion des paramètres et configuration de l'application
         </p>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 p-6 rounded-3xl">
+        <div className="rounded-[1.75rem] border border-red-400/20 bg-red-500/10 p-6 backdrop-blur-xl">
           <div className="flex items-center gap-2 mb-2">
-            <ExclamationTriangleIcon className="h-5 w-5 text-red-600" />
-            <p className="text-red-700 font-medium">{error}</p>
+            <ExclamationTriangleIcon className="h-5 w-5 text-red-300" />
+            <p className="font-medium text-red-100">{error}</p>
           </div>
         </div>
       )}
 
       {/* System Status */}
-      <div className="bg-white rounded-3xl p-8 border border-border shadow-sm">
-        <h2 className="text-xl font-bold text-ink mb-6 flex items-center gap-2">
-          <CheckCircleIcon className="h-6 w-6 text-green-600" />
+      <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+        <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-white">
+          <CheckCircleIcon className="h-6 w-6 text-emerald-300" />
           État du Système
         </h2>
 
         {loading ? (
           <div className="space-y-4">
-            <div className="h-16 bg-gray-100 rounded-2xl animate-pulse"></div>
-            <div className="h-16 bg-gray-100 rounded-2xl animate-pulse"></div>
-            <div className="h-16 bg-gray-100 rounded-2xl animate-pulse"></div>
-            <div className="h-16 bg-gray-100 rounded-2xl animate-pulse"></div>
+            <div className="h-16 rounded-2xl bg-white/10 animate-pulse"></div>
+            <div className="h-16 rounded-2xl bg-white/10 animate-pulse"></div>
+            <div className="h-16 rounded-2xl bg-white/10 animate-pulse"></div>
+            <div className="h-16 rounded-2xl bg-white/10 animate-pulse"></div>
           </div>
         ) : stats ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {/* Pending Accounts */}
-            <div className="bg-blue-50 rounded-2xl p-4 border border-blue-200">
-              <p className="text-xs text-muted uppercase tracking-wide mb-1">
+            <div className="rounded-2xl border border-sky-400/15 bg-sky-500/10 p-4">
+              <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
                 Comptes en attente
               </p>
-              <p className="text-3xl font-bold text-accent">
+              <p className="text-3xl font-bold text-white">
                 {stats.pendingAccounts}
               </p>
-              <p className="text-xs text-muted mt-2">Demandes d'hôtes</p>
+              <p className="mt-2 text-xs text-slate-300">Demandes d'hôtes</p>
             </div>
 
             {/* Pending Vehicles */}
-            <div className="bg-orange-50 rounded-2xl p-4 border border-orange-200">
-              <p className="text-xs text-muted uppercase tracking-wide mb-1">
+            <div className="rounded-2xl border border-amber-400/15 bg-amber-500/10 p-4">
+              <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
                 Véhicules en attente
               </p>
-              <p className="text-3xl font-bold text-orange-600">
+              <p className="text-3xl font-bold text-white">
                 {stats.pendingVehicles}
               </p>
-              <p className="text-xs text-muted mt-2">À approuver</p>
+              <p className="mt-2 text-xs text-slate-300">À approuver</p>
             </div>
 
             {/* Active Renters */}
-            <div className="bg-green-50 rounded-2xl p-4 border border-green-200">
-              <p className="text-xs text-muted uppercase tracking-wide mb-1">
+            <div className="rounded-2xl border border-emerald-400/15 bg-emerald-500/10 p-4">
+              <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
                 Loueurs actifs
               </p>
-              <p className="text-3xl font-bold text-green-600">
+              <p className="text-3xl font-bold text-white">
                 {stats.activeRenters}
               </p>
-              <p className="text-xs text-muted mt-2">Utilisateurs approuvés</p>
+              <p className="mt-2 text-xs text-slate-300">Utilisateurs approuvés</p>
             </div>
 
             {/* Site Requests */}
-            <div className="bg-amber-50 rounded-2xl p-4 border border-amber-200">
-              <p className="text-xs text-muted uppercase tracking-wide mb-1">
+            <div className="rounded-2xl border border-violet-400/15 bg-violet-500/10 p-4">
+              <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
                 Demandes site
               </p>
-              <p className="text-3xl font-bold text-amber-600">
+              <p className="text-3xl font-bold text-white">
                 {stats.siteRequests}
               </p>
-              <p className="text-xs text-muted mt-2">Demandes de contact</p>
+              <p className="mt-2 text-xs text-slate-300">Demandes de contact</p>
             </div>
           </div>
         ) : null}
       </div>
 
       {/* Application Info */}
-      <div className="bg-white rounded-3xl p-8 border border-border shadow-sm">
-        <h2 className="text-xl font-bold text-ink mb-6">
+      <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+        <h2 className="mb-6 text-xl font-bold text-white">
           Informations de l'Application
         </h2>
 
         <div className="space-y-4">
-          <div className="flex justify-between items-center py-3 border-b border-border">
-            <p className="text-muted font-medium">Nom de l'application</p>
-            <p className="text-ink font-medium">Locars</p>
+          <div className="flex items-center justify-between border-b border-white/10 py-3">
+            <p className="font-medium text-slate-300">Nom de l'application</p>
+            <p className="font-medium text-white">Locars</p>
           </div>
 
-          <div className="flex justify-between items-center py-3 border-b border-border">
-            <p className="text-muted font-medium">Version</p>
-            <p className="text-ink font-medium">1.0.0</p>
+          <div className="flex items-center justify-between border-b border-white/10 py-3">
+            <p className="font-medium text-slate-300">Version</p>
+            <p className="font-medium text-white">1.0.0</p>
           </div>
 
-          <div className="flex justify-between items-center py-3 border-b border-border">
-            <p className="text-muted font-medium">Base de données</p>
-            <p className="text-ink font-medium">Firestore (locars-b5310)</p>
+          <div className="flex items-center justify-between border-b border-white/10 py-3">
+            <p className="font-medium text-slate-300">Base de données</p>
+            <p className="font-medium text-white">Firestore (locars-b5310)</p>
           </div>
 
-          <div className="flex justify-between items-center py-3 border-b border-border">
-            <p className="text-muted font-medium">Environnement</p>
-            <p className="text-ink font-medium">Production</p>
+          <div className="flex items-center justify-between border-b border-white/10 py-3">
+            <p className="font-medium text-slate-300">Environnement</p>
+            <p className="font-medium text-white">Production</p>
           </div>
 
           <div className="flex justify-between items-center py-3">
-            <p className="text-muted font-medium">État du serveur</p>
+            <p className="font-medium text-slate-300">État du serveur</p>
             <div className="flex items-center gap-2">
-              <div className="h-2 w-2 bg-green-600 rounded-full"></div>
-              <p className="text-green-600 font-medium">En ligne</p>
+              <div className="h-2 w-2 rounded-full bg-emerald-400"></div>
+              <p className="font-medium text-emerald-200">En ligne</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Firebase Configuration */}
-      <div className="bg-white rounded-3xl p-8 border border-border shadow-sm">
-        <h2 className="text-xl font-bold text-ink mb-6">
+      <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+        <h2 className="mb-6 text-xl font-bold text-white">
           Configuration Firebase
         </h2>
 
-        <div className="space-y-3 bg-gray-50 p-4 rounded-2xl border border-border font-mono text-xs text-muted overflow-x-auto">
+        <div className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-4 font-mono text-xs text-slate-300 overflow-x-auto">
           <p>
-            <span className="text-ink">projectId:</span> locars-b5310
+            <span className="text-white">projectId:</span> locars-b5310
           </p>
           <p>
-            <span className="text-ink">authDomain:</span>{" "}
+            <span className="text-white">authDomain:</span>{" "}
             locars-b5310.firebaseapp.com
           </p>
           <p>
-            <span className="text-ink">storageBucket:</span>{" "}
+            <span className="text-white">storageBucket:</span>{" "}
             locars-b5310.firebasestorage.app
           </p>
           <p>
-            <span className="text-ink">databaseURL:</span> Configurée
+            <span className="text-white">databaseURL:</span> Configurée
           </p>
         </div>
 
-        <p className="text-xs text-muted mt-4">
+        <p className="mt-4 text-xs text-slate-300">
           ✓ Toutes les connexions Firebase sont actives
         </p>
       </div>

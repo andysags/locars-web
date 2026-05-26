@@ -38,65 +38,65 @@ export default function DeleteRequestsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Demandes de Suppression de Compte</h1>
+    <div className="space-y-6 text-white">
+      <h1 className="text-2xl font-bold text-white">Demandes de Suppression de Compte</h1>
       {loading ? (
-        <p>Chargement...</p>
+        <p className="text-slate-300">Chargement...</p>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <table className="min-w-full divide-y divide-white/10">
+            <thead className="bg-white/5">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Auteur</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact & Pièce</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Raison</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-300">Auteur</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-300">Contact & Pièce</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-300">Raison</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-300">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-300">Statut</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-300">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="divide-y divide-white/10">
               {requests.map(req => (
                 <tr key={req.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="font-medium text-gray-900">{req.name}</div>
-                    <div className="text-gray-500 text-sm">{req.email}</div>
+                    <div className="font-medium text-white">{req.name}</div>
+                    <div className="text-sm text-slate-300">{req.email}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-gray-900 mb-1">{req.phone}</div>
+                    <div className="mb-1 text-white">{req.phone}</div>
                     {req.documentUrl ? (
-                      <a href={req.documentUrl} target="_blank" rel="noopener noreferrer" className="text-accent text-sm hover:underline">
+                      <a href={req.documentUrl} target="_blank" rel="noopener noreferrer" className="text-sky-200 text-sm hover:underline">
                         Voir la pièce d'identité
                       </a>
                     ) : (
-                      <span className="text-gray-400 text-sm">Aucun doc</span>
+                      <span className="text-sm text-slate-400">Aucun doc</span>
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-sm text-gray-900 line-clamp-3">{req.reason || "Aucune raison fournie"}</p>
+                    <p className="line-clamp-3 text-sm text-slate-200">{req.reason || "Aucune raison fournie"}</p>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
                     {new Date(req.createdAt).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${req.status === 'PROCESSED' ? 'bg-green-100 text-green-800' : req.status === 'REPLIED' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                    <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${req.status === 'PROCESSED' ? 'bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-400/20' : req.status === 'REPLIED' ? 'bg-sky-500/15 text-sky-200 ring-1 ring-sky-400/20' : 'bg-amber-500/15 text-amber-200 ring-1 ring-amber-400/20'}`}>
                       {req.status === 'PROCESSED' ? 'Supprimé' : req.status === 'REPLIED' ? 'Répondu' : 'En attente'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                     {req.status === 'PENDING' && (
                       <>
-                        <button onClick={() => handleReply(req.id, "REPLIED")} className="text-indigo-600 hover:text-indigo-900">
+                        <button onClick={() => handleReply(req.id, "REPLIED")} className="text-sky-200 hover:text-white">
                           Répondu
                         </button>
-                        <span className="text-gray-300">|</span>
-                        <button onClick={() => handleReply(req.id, "PROCESSED")} className="text-red-600 hover:text-red-900">
+                        <span className="text-slate-500">|</span>
+                        <button onClick={() => handleReply(req.id, "PROCESSED")} className="text-red-200 hover:text-white">
                           Supprimer
                         </button>
                       </>
                     )}
                     {req.status === 'REPLIED' && (
-                      <button onClick={() => handleReply(req.id, "PROCESSED")} className="text-red-600 hover:text-red-900">
+                      <button onClick={() => handleReply(req.id, "PROCESSED")} className="text-red-200 hover:text-white">
                         Supprimer
                       </button>
                     )}
@@ -105,7 +105,7 @@ export default function DeleteRequestsPage() {
               ))}
               {requests.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-6 py-4 text-center text-gray-500">Aucune demande de suppression.</td>
+                  <td colSpan={6} className="px-6 py-4 text-center text-slate-300">Aucune demande de suppression.</td>
                 </tr>
               )}
             </tbody>

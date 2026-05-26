@@ -18,7 +18,14 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div
+      className="flex min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white"
+      style={{
+        ["--locars-text-primary" as any]: "#f8fafc",
+        ["--locars-text-secondary" as any]: "#cbd5e1",
+        ["--locars-text-tertiary" as any]: "#94a3b8",
+      }}
+    >
       <aside className="w-64 border-r border-white/10 bg-slate-950/95 shadow-2xl shadow-black/20 flex flex-col backdrop-blur-xl">
         <div className="border-b border-white/10 p-6">
           <Image

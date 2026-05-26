@@ -132,16 +132,16 @@ export default function RegistrationRequestsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-white">
       {/* Header */}
       <div>
         <div className="flex items-center gap-3 mb-2">
           <DocumentTextIcon className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-bold text-ink">
+          <h1 className="text-3xl font-bold text-white">
             Demandes d'Inscription
           </h1>
         </div>
-        <p className="text-muted">
+        <p className="text-slate-300">
           Gérez les demandes d'inscription pour créer des comptes Particulier et
           Agence
         </p>
@@ -149,16 +149,16 @@ export default function RegistrationRequestsPage() {
 
       {/* Error Alert */}
       {error && (
-        <div className="bg-red-50 border border-red-200 p-6 rounded-3xl flex items-center gap-3">
-          <ExclamationTriangleIcon className="h-6 w-6 text-red-600 flex-shrink-0" />
-          <p className="text-red-700">{error}</p>
+        <div className="flex items-center gap-3 rounded-[1.75rem] border border-red-400/20 bg-red-500/10 p-6 backdrop-blur-xl">
+          <ExclamationTriangleIcon className="h-6 w-6 flex-shrink-0 text-red-300" />
+          <p className="text-red-100">{error}</p>
         </div>
       )}
 
       {/* Pending Requests Section */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-ink">
+          <h2 className="text-xl font-bold text-white">
             En attente d'approbation ({pendingRequests.length})
           </h2>
         </div>
@@ -168,37 +168,37 @@ export default function RegistrationRequestsPage() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="bg-white rounded-3xl p-6 border border-border animate-pulse h-20"
+                className="h-20 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl animate-pulse"
               ></div>
             ))}
           </div>
         ) : pendingRequests.length === 0 ? (
-          <div className="bg-white rounded-3xl p-12 border border-border text-center">
-            <CheckCircleIcon className="h-12 w-12 text-green-200 mx-auto mb-4" />
-            <p className="text-lg font-semibold text-ink mb-2">
+          <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-12 text-center backdrop-blur-xl">
+            <CheckCircleIcon className="mx-auto mb-4 h-12 w-12 text-emerald-300" />
+            <p className="mb-2 text-lg font-semibold text-white">
               Aucune demande en attente
             </p>
-            <p className="text-muted">Toutes les demandes ont été traitées !</p>
+            <p className="text-slate-300">Toutes les demandes ont été traitées !</p>
           </div>
         ) : (
           <div className="space-y-3">
             {pendingRequests.map((request) => (
               <div
                 key={request.id}
-                className="bg-white rounded-3xl border border-border p-6 hover:shadow-md transition-shadow"
+                className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-white/20 hover:bg-white/8"
               >
                 <div className="flex items-center justify-between gap-4">
                   {/* Info */}
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-ink">
+                        <h3 className="font-semibold text-white">
                         {getDisplayName(request)}
                       </h3>
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${
                           request.hostType === "agence"
-                            ? "bg-purple-100 text-purple-800"
-                            : "bg-blue-100 text-blue-800"
+                            ? "bg-violet-500/15 text-violet-200 ring-1 ring-violet-400/20"
+                            : "bg-sky-500/15 text-sky-200 ring-1 ring-sky-400/20"
                         }`}
                       >
                         {request.hostType === "agence"
@@ -206,12 +206,12 @@ export default function RegistrationRequestsPage() {
                           : "Particulier"}
                       </span>
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-muted">
+                    <div className="flex items-center gap-4 text-sm text-slate-300">
                       <div className="flex items-center gap-1">
                         <EnvelopeIcon className="h-4 w-4" />
                         <a
                           href={`mailto:${request.email}`}
-                          className="hover:text-accent"
+                          className="hover:text-white"
                         >
                           {request.email}
                         </a>
@@ -228,7 +228,7 @@ export default function RegistrationRequestsPage() {
                     <button
                       onClick={() => handleApprove(request.id)}
                       disabled={actionLoading === request.id}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition disabled:opacity-50 font-medium"
+                        className="flex items-center gap-2 rounded-xl bg-emerald-500/15 px-4 py-2 font-medium text-emerald-200 ring-1 ring-emerald-400/20 transition hover:bg-emerald-500/20 disabled:opacity-50"
                     >
                       <CheckCircleIcon className="h-5 w-5" />
                       <span className="hidden sm:inline text-sm">
@@ -238,7 +238,7 @@ export default function RegistrationRequestsPage() {
                     <button
                       onClick={() => handleReject(request.id)}
                       disabled={actionLoading === request.id}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition disabled:opacity-50 font-medium"
+                        className="flex items-center gap-2 rounded-xl bg-red-500/15 px-4 py-2 font-medium text-red-200 ring-1 ring-red-400/20 transition hover:bg-red-500/20 disabled:opacity-50"
                     >
                       <XCircleIcon className="h-5 w-5" />
                       <span className="hidden sm:inline text-sm">Rejeter</span>
@@ -253,29 +253,29 @@ export default function RegistrationRequestsPage() {
 
       {/* Approved Requests Section */}
       {approvedRequests.length > 0 && (
-        <div className="space-y-4 pt-6 border-t border-border">
-          <h2 className="text-xl font-bold text-ink">
+        <div className="space-y-4 border-t border-white/10 pt-6">
+          <h2 className="text-xl font-bold text-white">
             Approuvées ({approvedRequests.length})
           </h2>
           <div className="space-y-3">
             {approvedRequests.map((request) => (
               <div
                 key={request.id}
-                className="bg-green-50 rounded-3xl border border-green-200 p-6"
+                className="rounded-[1.75rem] border border-emerald-400/15 bg-emerald-500/10 p-6 backdrop-blur-xl"
               >
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1">
-                      <h3 className="font-semibold text-ink">
+                      <h3 className="font-semibold text-white">
                         {getDisplayName(request)}
                       </h3>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-200 ring-1 ring-emerald-400/20">
                         {request.hostType === "agence"
                           ? "Agence"
                           : "Particulier"}
                       </span>
                     </div>
-                    <p className="text-sm text-green-700">{request.email}</p>
+                    <p className="text-sm text-emerald-100">{request.email}</p>
                   </div>
                   <CheckCircleIcon className="h-6 w-6 text-green-600 flex-shrink-0" />
                 </div>
@@ -288,33 +288,33 @@ export default function RegistrationRequestsPage() {
       {/* Rejected Requests Section */}
       {rejectedRequests.length > 0 && (
         <div className="space-y-4 pt-6 border-t border-border">
-          <h2 className="text-xl font-bold text-ink">
+          <h2 className="text-xl font-bold text-white">
             Rejetées ({rejectedRequests.length})
           </h2>
           <div className="space-y-3">
             {rejectedRequests.map((request) => (
               <div
                 key={request.id}
-                className="bg-red-50 rounded-3xl border border-red-200 p-6"
+                className="rounded-[1.75rem] border border-red-400/15 bg-red-500/10 p-6 backdrop-blur-xl"
               >
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-ink">
+                      <h3 className="font-semibold text-white">
                         {getDisplayName(request)}
                       </h3>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      <span className="rounded-full bg-red-500/15 px-3 py-1 text-xs font-medium text-red-200 ring-1 ring-red-400/20">
                         {request.hostType === "agence"
                           ? "Agence"
                           : "Particulier"}
                       </span>
                     </div>
-                    <p className="text-sm text-red-600 mb-3">{request.email}</p>
-                    <div className="bg-white rounded-2xl p-3 border border-red-100">
-                      <p className="text-xs font-semibold text-red-600 uppercase tracking-wide mb-1">
+                    <p className="mb-3 text-sm text-red-100">{request.email}</p>
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-red-200">
                         Raison du rejet
                       </p>
-                      <p className="text-sm text-red-700">{request.reason}</p>
+                      <p className="text-sm text-red-100">{request.reason}</p>
                     </div>
                   </div>
                   <XCircleIcon className="h-6 w-6 text-red-600 flex-shrink-0" />

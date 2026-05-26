@@ -105,27 +105,27 @@ export default function AdminCarsPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-white">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-ink mb-2">
+        <h1 className="text-3xl font-bold text-white mb-2">
           Gestion des véhicules
         </h1>
-        <p className="text-muted">
+        <p className="text-slate-300">
           Validez et gérez les véhicules listés sur la plateforme
         </p>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 bg-white rounded-3xl p-1 border border-border">
+      <div className="flex w-fit flex-wrap gap-2 rounded-[1.5rem] border border-white/10 bg-white/5 p-1 backdrop-blur-xl">
         {(["all", "pending", "approved"] as const).map((status) => (
           <button
             key={status}
             onClick={() => setFilter(status)}
             className={`px-6 py-2 rounded-2xl font-medium transition ${
               filter === status
-                ? "bg-accent text-white"
-                : "text-muted hover:text-ink"
+                ? "bg-white text-slate-950 shadow-sm"
+                : "text-slate-300 hover:bg-white/5 hover:text-white"
             }`}
           >
             {status === "all" && "Tous"}
@@ -137,81 +137,81 @@ export default function AdminCarsPage() {
 
       {/* Content */}
       {loading ? (
-        <div className="bg-white p-8 rounded-3xl border border-border text-center">
-          <p className="text-muted">Chargement des véhicules...</p>
+        <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <p className="text-slate-300">Chargement des véhicules...</p>
         </div>
       ) : error ? (
-        <div className="bg-red-50 border border-red-200 p-6 rounded-3xl text-red-700">
+        <div className="rounded-[1.75rem] border border-red-400/20 bg-red-500/10 p-6 text-red-200 backdrop-blur-xl">
           {error}
         </div>
       ) : filteredCars.length === 0 ? (
-        <div className="bg-white p-8 rounded-3xl border border-border text-center">
-          <TruckIcon className="h-12 w-12 text-muted mx-auto mb-4 opacity-50" />
-          <p className="text-muted">Aucun véhicule trouvé avec ce filtre.</p>
+        <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <TruckIcon className="mx-auto mb-4 h-12 w-12 text-slate-400 opacity-50" />
+          <p className="text-slate-300">Aucun véhicule trouvé avec ce filtre.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-3xl shadow-sm border border-border overflow-hidden">
-          <table className="min-w-full divide-y divide-border">
-            <thead className="bg-blue-50 border-b border-border">
+        <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <table className="min-w-full divide-y divide-white/10">
+            <thead className="border-b border-white/10 bg-white/5">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-ink uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-300">
                   Marque & Modèle
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-ink uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-300">
                   Transmission
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-ink uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-300">
                   Carburant
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-ink uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-300">
                   Évaluation
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-ink uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-300">
                   Statut
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-ink uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-300">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-white/10">
               {filteredCars.map((car) => (
                 <tr
                   key={car.id}
-                  className="hover:bg-gray-50 transition-colors group cursor-pointer"
+                  className="group cursor-pointer transition-colors hover:bg-white/5"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Link
                       href={`/back-office/cars/${car.id}`}
-                      className="flex items-center gap-2 group-hover:text-accent transition"
+                      className="flex items-center gap-2 transition group-hover:text-white"
                     >
                       <div>
-                        <div className="font-medium text-ink">{car.brand}</div>
-                        <div className="text-sm text-muted">{car.model}</div>
+                        <div className="font-medium text-white">{car.brand}</div>
+                        <div className="text-sm text-slate-300">{car.model}</div>
                       </div>
                     </Link>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-muted">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
                     {car.transmission || "-"}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-muted">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
                     {car.fuelType || "-"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex items-center gap-1">
                       <SparklesIcon className="h-4 w-4 text-yellow-500" />
-                      <span className="font-medium text-ink">
+                      <span className="font-medium text-white">
                         {car.rating?.toFixed(1) || "-"}
                       </span>
-                      <span className="text-muted">({car.reviews || 0})</span>
+                      <span className="text-slate-300">({car.reviews || 0})</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
                         car.isApproved
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
+                          ? "bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-400/20"
+                          : "bg-amber-500/15 text-amber-200 ring-1 ring-amber-400/20"
                       }`}
                     >
                       {car.isApproved ? "Approuvé" : "En attente"}
@@ -221,7 +221,7 @@ export default function AdminCarsPage() {
                     <div className="flex gap-2">
                       <Link
                         href={`/back-office/cars/${car.id}`}
-                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-50 text-accent hover:bg-blue-100 transition"
+                        className="inline-flex items-center gap-2 rounded-xl bg-white/5 px-3 py-2 text-sky-200 ring-1 ring-white/10 transition hover:bg-white/10"
                       >
                         <ArrowRightIcon className="h-4 w-4" />
                         <span className="text-xs font-medium">Détails</span>
@@ -231,7 +231,7 @@ export default function AdminCarsPage() {
                           <button
                             onClick={() => handleApprove(car.id)}
                             disabled={actionLoading === car.id}
-                            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition disabled:opacity-50"
+                            className="inline-flex items-center gap-2 rounded-xl bg-emerald-500/15 px-3 py-2 text-emerald-200 ring-1 ring-emerald-400/20 transition hover:bg-emerald-500/20 disabled:opacity-50"
                           >
                             <CheckCircleIcon className="h-5 w-5" />
                             <span className="text-xs font-medium">
@@ -241,7 +241,7 @@ export default function AdminCarsPage() {
                           <button
                             onClick={() => handleReject(car.id)}
                             disabled={actionLoading === car.id}
-                            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition disabled:opacity-50"
+                            className="inline-flex items-center gap-2 rounded-xl bg-red-500/15 px-3 py-2 text-red-200 ring-1 ring-red-400/20 transition hover:bg-red-500/20 disabled:opacity-50"
                           >
                             <XCircleIcon className="h-5 w-5" />
                             <span className="text-xs font-medium">Rejeter</span>

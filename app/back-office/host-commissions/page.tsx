@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {
   CurrencyDollarIcon,
   ExclamationTriangleIcon,
   CheckCircleIcon,
-  XCircleIcon,
   EnvelopeIcon,
   CurrencyEuroIcon,
 } from "@heroicons/react/24/outline";
@@ -52,7 +50,6 @@ export default function HostCommissionsPage() {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const data = await getHostCommissions(db);
-        // Show all hosts, not just unpaid ones (since we use real Firestore data)
         setCommissions(data);
       } catch (err) {
         console.error("Error fetching commissions:", err);
@@ -70,8 +67,9 @@ export default function HostCommissionsPage() {
       !confirm(
         `Confirmer le paiement de ${amount.toLocaleString("fr-FR")} FCFA pour ce loueur ?`,
       )
-    )
+    ) {
       return;
+    }
 
     setActionLoading(hostId);
     try {
@@ -80,15 +78,15 @@ export default function HostCommissionsPage() {
       await recordCommissionPayment(db, hostId, amount, "bank_transfer");
 
       setCommissions(
-        commissions.map((c) =>
-          c.hostId === hostId
+        commissions.map((commission) =>
+          commission.hostId === hostId
             ? {
-                ...c,
+                ...commission,
                 totalLocarsCommission: 0,
                 totalHostEarnings: 0,
                 totalRevenue: 0,
               }
-            : c,
+            : commission,
         ),
       );
       alert("Paiement enregistré avec succès !");
@@ -102,19 +100,19 @@ export default function HostCommissionsPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 text-white">
         <div>
-          <h1 className="text-3xl font-bold text-ink mb-2">
+          <h1 className="mb-2 text-3xl font-bold text-white">
             Commissions des Loueurs
           </h1>
-          <p className="text-muted">Gérez les commissions impayées</p>
+          <p className="text-slate-300">Gérez les commissions impayées</p>
         </div>
         <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
+          {[1, 2, 3].map((index) => (
             <div
-              key={i}
-              className="bg-white p-6 rounded-3xl border border-border animate-pulse h-24"
-            ></div>
+              key={index}
+              className="h-24 animate-pulse rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl"
+            />
           ))}
         </div>
       </div>
@@ -124,199 +122,186 @@ export default function HostCommissionsPage() {
   if (error) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center gap-3 mb-2">
-          <CurrencyDollarIcon className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-bold text-ink">Commissions</h1>
+        <div className="mb-2 flex items-center gap-3">
+          <CurrencyDollarIcon className="h-8 w-8 text-sky-300" />
+          <h1 className="text-3xl font-bold text-white">Commissions</h1>
         </div>
-        <div className="bg-red-50 border border-red-200 p-6 rounded-3xl flex items-center gap-3">
-          <ExclamationTriangleIcon className="h-6 w-6 text-red-600" />
-          <p className="text-red-700">{error}</p>
+        <div className="flex items-center gap-3 rounded-[1.75rem] border border-red-400/20 bg-red-500/10 p-6 backdrop-blur-xl">
+          <ExclamationTriangleIcon className="h-6 w-6 text-red-300" />
+          <p className="text-red-100">{error}</p>
         </div>
       </div>
     );
   }
 
   const totalLocarsCommission = commissions.reduce(
-    (acc, c) => acc + c.totalLocarsCommission,
+    (acc, commission) => acc + commission.totalLocarsCommission,
     0,
   );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
+    <div className="space-y-6 text-white">
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <CurrencyDollarIcon className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-bold text-ink">
+        <div className="mb-2 flex items-center gap-3">
+          <CurrencyDollarIcon className="h-8 w-8 text-sky-300" />
+          <h1 className="text-3xl font-bold text-white">
             Commissions des Loueurs
           </h1>
         </div>
-        <p className="text-muted">
+        <p className="text-slate-300">
           Gérez et suivez les commissions (données en temps réel de Firestore)
         </p>
       </div>
 
-      {/* Summary Cards */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-3xl p-6 border border-green-200">
-          <p className="text-xs text-green-600 uppercase tracking-wide mb-1">
+        <div className="rounded-[1.75rem] border border-emerald-400/15 bg-emerald-500/10 p-6 backdrop-blur-xl">
+          <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
             Commission Locars
           </p>
-          <p className="text-3xl font-bold text-ink">
-            {totalLocarsCommission.toLocaleString("fr-FR")}{" "}
-            <span className="text-lg">FCFA</span>
+          <p className="text-3xl font-bold text-white">
+            {totalLocarsCommission.toLocaleString("fr-FR")} <span className="text-lg">FCFA</span>
           </p>
-          <p className="text-xs text-green-600 mt-2">
+          <p className="mt-2 text-xs text-slate-300">
             {commissions.length} loueurs
           </p>
         </div>
 
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-6 border border-blue-200">
-          <p className="text-xs text-blue-600 uppercase tracking-wide mb-1">
+        <div className="rounded-[1.75rem] border border-sky-400/15 bg-sky-500/10 p-6 backdrop-blur-xl">
+          <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
             Gains des Loueurs
           </p>
-          <p className="text-3xl font-bold text-ink">
+          <p className="text-3xl font-bold text-white">
             {commissions
-              .reduce((acc, c) => acc + c.totalHostEarnings, 0)
-              .toLocaleString("fr-FR")}{" "}
-            <span className="text-lg">FCFA</span>
+              .reduce((acc, commission) => acc + commission.totalHostEarnings, 0)
+              .toLocaleString("fr-FR")} <span className="text-lg">FCFA</span>
           </p>
-          <p className="text-xs text-blue-600 mt-2">Revenu distribué</p>
+          <p className="mt-2 text-xs text-slate-300">Revenu distribué</p>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl p-6 border border-purple-200">
-          <p className="text-xs text-purple-600 uppercase tracking-wide mb-1">
+        <div className="rounded-[1.75rem] border border-violet-400/15 bg-violet-500/10 p-6 backdrop-blur-xl">
+          <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
             Total Transactions
           </p>
-          <p className="text-3xl font-bold text-ink">
-            {commissions.reduce((acc, c) => acc + c.transactionCount, 0)}
+          <p className="text-3xl font-bold text-white">
+            {commissions.reduce((acc, commission) => acc + commission.transactionCount, 0)}
           </p>
-          <p className="text-xs text-purple-600 mt-2">
-            {commissions.reduce((acc, c) => acc + c.completedCount, 0)}{" "}
-            complétées
+          <p className="mt-2 text-xs text-slate-300">
+            {commissions.reduce((acc, commission) => acc + commission.completedCount, 0)} complétées
           </p>
         </div>
       </div>
 
-      {/* Empty State */}
       {commissions.length === 0 && (
-        <div className="bg-white rounded-3xl p-12 border border-border text-center">
-          <CheckCircleIcon className="h-12 w-12 text-green-400 mx-auto mb-4" />
-          <p className="text-lg font-semibold text-ink mb-2">
+        <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-12 text-center backdrop-blur-xl">
+          <CheckCircleIcon className="mx-auto mb-4 h-12 w-12 text-emerald-300" />
+          <p className="mb-2 text-lg font-semibold text-white">
             Toutes les commissions sont à jour !
           </p>
-          <p className="text-muted">Aucune commission impayée</p>
+          <p className="text-slate-300">Aucune commission impayée</p>
         </div>
       )}
 
-      {/* Commissions List */}
       {commissions.length > 0 && (
         <div className="space-y-4">
           {commissions.map((commission) => (
             <div
               key={commission.hostId}
-              className="bg-white rounded-3xl border border-border p-6 hover:shadow-md transition-shadow"
+              className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-white/20 hover:bg-white/8"
             >
-              {/* Header */}
-              <div className="flex items-start justify-between gap-4 mb-6 pb-6 border-b border-border">
+              <div className="mb-6 flex items-start justify-between gap-4 border-b border-white/10 pb-6">
                 <div className="flex-1">
-                  <h3 className="font-semibold text-ink text-lg mb-1">
+                  <h3 className="mb-1 text-lg font-semibold text-white">
                     {commission.hostName}
                   </h3>
-                  <p className="text-sm text-muted flex items-center gap-2">
+                  <p className="flex items-center gap-2 text-sm text-slate-300">
                     <EnvelopeIcon className="h-4 w-4" />
                     {commission.email}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-muted uppercase tracking-wide mb-1">
+                  <p className="mb-1 text-xs uppercase tracking-wide text-slate-300">
                     Commission Locars
                   </p>
-                  <p className="text-3xl font-bold text-green-600">
-                    {commission.totalLocarsCommission.toLocaleString("fr-FR")}{" "}
-                    <span className="text-lg">FCFA</span>
+                  <p className="text-3xl font-bold text-white">
+                    {commission.totalLocarsCommission.toLocaleString("fr-FR")} <span className="text-lg">FCFA</span>
                   </p>
                 </div>
               </div>
 
-              {/* Stats */}
-              <div className="grid gap-4 sm:grid-cols-4 mb-6">
-                <div className="bg-green-50 p-4 rounded-2xl border border-green-200">
-                  <p className="text-xs text-green-600 font-semibold mb-1">
+              <div className="mb-6 grid gap-4 sm:grid-cols-4">
+                <div className="rounded-2xl border border-emerald-400/15 bg-emerald-500/10 p-4">
+                  <p className="mb-1 text-xs font-semibold text-slate-300">
                     Commission Locars
                   </p>
-                  <p className="text-lg font-bold text-ink">
-                    {commission.totalLocarsCommission.toLocaleString("fr-FR")}{" "}
-                    FCFA
+                  <p className="text-lg font-bold text-white">
+                    {commission.totalLocarsCommission.toLocaleString("fr-FR")} FCFA
                   </p>
                 </div>
-                <div className="bg-blue-50 p-4 rounded-2xl border border-blue-200">
-                  <p className="text-xs text-blue-600 font-semibold mb-1">
+                <div className="rounded-2xl border border-sky-400/15 bg-sky-500/10 p-4">
+                  <p className="mb-1 text-xs font-semibold text-slate-300">
                     Gains du Loueur
                   </p>
-                  <p className="text-lg font-bold text-ink">
+                  <p className="text-lg font-bold text-white">
                     {commission.totalHostEarnings.toLocaleString("fr-FR")} FCFA
                   </p>
                 </div>
-                <div className="bg-yellow-50 p-4 rounded-2xl border border-yellow-200">
-                  <p className="text-xs text-yellow-600 font-semibold mb-1">
+                <div className="rounded-2xl border border-amber-400/15 bg-amber-500/10 p-4">
+                  <p className="mb-1 text-xs font-semibold text-slate-300">
                     Transactions
                   </p>
-                  <p className="text-lg font-bold text-ink">
+                  <p className="text-lg font-bold text-white">
                     {commission.completedCount}/{commission.transactionCount}
                   </p>
                 </div>
-                <div className="bg-purple-50 p-4 rounded-2xl border border-purple-200">
-                  <p className="text-xs text-purple-600 font-semibold mb-1">
+                <div className="rounded-2xl border border-violet-400/15 bg-violet-500/10 p-4">
+                  <p className="mb-1 text-xs font-semibold text-slate-300">
                     Revenu Total
                   </p>
-                  <p className="text-lg font-bold text-ink">
+                  <p className="text-lg font-bold text-white">
                     {commission.totalRevenue.toLocaleString("fr-FR")} FCFA
                   </p>
                 </div>
               </div>
 
-              {/* Transactions Table */}
               {commission.transactions.length > 0 && (
-                <div className="mb-6 pb-6 border-b border-border">
-                  <h4 className="font-semibold text-ink mb-3">
+                <div className="mb-6 border-b border-white/10 pb-6">
+                  <h4 className="mb-3 font-semibold text-white">
                     Transactions ({commission.transactions.length})
                   </h4>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="border-b border-border text-muted">
-                          <th className="text-left py-2">Commande</th>
-                          <th className="text-right py-2">Commission Locars</th>
-                          <th className="text-right py-2">Gains Loueur</th>
-                          <th className="text-right py-2">Statut</th>
+                        <tr className="border-b border-white/10 text-slate-300">
+                          <th className="py-2 text-left">Commande</th>
+                          <th className="py-2 text-right">Commission Locars</th>
+                          <th className="py-2 text-right">Gains Loueur</th>
+                          <th className="py-2 text-right">Statut</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {commission.transactions.slice(0, 3).map((trx, idx) => (
+                        {commission.transactions.slice(0, 3).map((transaction, index) => (
                           <tr
-                            key={idx}
-                            className="border-b border-border hover:bg-blue-50"
+                            key={index}
+                            className="border-b border-white/10 hover:bg-white/5"
                           >
-                            <td className="py-2 font-medium text-ink">
-                              {trx.orderId || trx.id}
+                            <td className="py-2 font-medium text-white">
+                              {transaction.orderId || transaction.id}
                             </td>
-                            <td className="py-2 text-right font-semibold text-green-600">
-                              {trx.locarsCommission.toLocaleString("fr-FR")}{" "}
-                              FCFA
+                            <td className="py-2 text-right font-semibold text-emerald-300">
+                              {transaction.locarsCommission.toLocaleString("fr-FR")} FCFA
                             </td>
-                            <td className="py-2 text-right font-semibold text-blue-600">
-                              {trx.hostEarnings.toLocaleString("fr-FR")} FCFA
+                            <td className="py-2 text-right font-semibold text-sky-300">
+                              {transaction.hostEarnings.toLocaleString("fr-FR")} FCFA
                             </td>
                             <td className="py-2 text-right">
                               <span
-                                className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                  trx.status?.toLowerCase() === "completed"
-                                    ? "bg-green-100 text-green-700"
-                                    : "bg-yellow-100 text-yellow-700"
+                                className={`rounded-full px-2 py-1 text-xs font-medium ${
+                                  transaction.status?.toLowerCase() === "completed"
+                                    ? "bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-400/20"
+                                    : "bg-amber-500/15 text-amber-200 ring-1 ring-amber-400/20"
                                 }`}
                               >
-                                {trx.status?.toLowerCase() === "completed"
+                                {transaction.status?.toLowerCase() === "completed"
                                   ? "Complétée"
                                   : "En cours"}
                               </span>
@@ -326,16 +311,14 @@ export default function HostCommissionsPage() {
                       </tbody>
                     </table>
                     {commission.transactions.length > 3 && (
-                      <p className="text-xs text-muted mt-2">
-                        +{commission.transactions.length - 3} autres
-                        transactions
+                      <p className="mt-2 text-xs text-slate-300">
+                        +{commission.transactions.length - 3} autres transactions
                       </p>
                     )}
                   </div>
                 </div>
               )}
 
-              {/* Action Button */}
               <div className="flex gap-2">
                 <button
                   onClick={() =>
@@ -345,17 +328,15 @@ export default function HostCommissionsPage() {
                     )
                   }
                   disabled={actionLoading === commission.hostId}
-                  className="flex-1 px-4 py-3 rounded-xl bg-green-50 text-green-600 hover:bg-green-100 transition disabled:opacity-50 font-medium flex items-center justify-center gap-2"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-500/15 px-4 py-3 font-medium text-emerald-200 ring-1 ring-emerald-400/20 transition hover:bg-emerald-500/20 disabled:opacity-50"
                 >
                   <CheckCircleIcon className="h-5 w-5" />
-                  <span className="hidden sm:inline">
-                    Enregistrer le paiement
-                  </span>
+                  <span className="hidden sm:inline">Enregistrer le paiement</span>
                   <span className="sm:hidden">Paiement</span>
                 </button>
                 <button
                   disabled={actionLoading === commission.hostId}
-                  className="flex-1 px-4 py-3 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition disabled:opacity-50 font-medium"
+                  className="flex-1 rounded-xl bg-sky-500/15 px-4 py-3 font-medium text-sky-200 ring-1 ring-sky-400/20 transition hover:bg-sky-500/20 disabled:opacity-50"
                 >
                   Contacter
                 </button>
@@ -365,19 +346,15 @@ export default function HostCommissionsPage() {
         </div>
       )}
 
-      {/* Info Box */}
-      <div className="bg-blue-50 rounded-3xl p-6 border border-blue-200">
+      <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
         <div className="flex items-start gap-3">
-          <CurrencyEuroIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+          <CurrencyEuroIcon className="mt-1 h-6 w-6 flex-shrink-0 text-sky-300" />
           <div>
-            <h3 className="font-semibold text-blue-900 mb-2">
+            <h3 className="mb-2 font-semibold text-white">
               Comment fonctionnent les commissions ?
             </h3>
-            <p className="text-sm text-blue-800 leading-relaxed">
-              Les commissions sont calculées à <strong>5%</strong> du prix de
-              chaque réservation complétée. Le loueur reçoit 95% de son revenu.
-              Vous pouvez suivre les paiements effectués et les commissions
-              impayées pour chaque propriétaire de véhicule.
+            <p className="text-sm leading-relaxed text-slate-300">
+              Les commissions sont calculées à <strong>5%</strong> du prix de chaque réservation complétée. Le loueur reçoit 95% de son revenu. Vous pouvez suivre les paiements effectués et les commissions impayées pour chaque propriétaire de véhicule.
             </p>
           </div>
         </div>

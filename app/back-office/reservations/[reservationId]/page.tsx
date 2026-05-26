@@ -114,15 +114,15 @@ export default function ReservationDetailsPage() {
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
       case "confirmed":
-        return "bg-green-100 text-green-800";
+        return "bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-400/20";
       case "pending":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-amber-500/15 text-amber-200 ring-1 ring-amber-400/20";
       case "completed":
-        return "bg-blue-100 text-blue-800";
+        return "bg-sky-500/15 text-sky-200 ring-1 ring-sky-400/20";
       case "cancelled":
-        return "bg-red-100 text-red-800";
+        return "bg-red-500/15 text-red-200 ring-1 ring-red-400/20";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-white/10 text-slate-200 ring-1 ring-white/10";
     }
   };
 
@@ -151,8 +151,8 @@ export default function ReservationDetailsPage() {
           <ArrowLeftIcon className="h-5 w-5" />
           Retour aux réservations
         </Link>
-        <div className="bg-white p-8 rounded-3xl border border-border text-center">
-          <p className="text-muted">Chargement de la réservation...</p>
+        <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-8 text-center backdrop-blur-xl">
+          <p className="text-slate-300">Chargement de la réservation...</p>
         </div>
       </div>
     );
@@ -168,8 +168,8 @@ export default function ReservationDetailsPage() {
           <ArrowLeftIcon className="h-5 w-5" />
           Retour aux réservations
         </Link>
-        <div className="bg-red-50 border border-red-200 p-6 rounded-3xl">
-          <p className="text-red-700">{error}</p>
+        <div className="rounded-[1.75rem] border border-red-400/20 bg-red-500/10 p-6 backdrop-blur-xl">
+          <p className="text-red-100">{error}</p>
         </div>
       </div>
     );
@@ -190,10 +190,10 @@ export default function ReservationDetailsPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-ink mb-2">
+        <h1 className="mb-2 text-3xl font-bold text-white">
           {reservation.carBrand} {reservation.carModel}
         </h1>
-        <p className="text-muted">Réservation ID: {reservation.id}</p>
+        <p className="text-slate-300">Réservation ID: {reservation.id}</p>
       </div>
 
       {/* Content */}
@@ -201,20 +201,20 @@ export default function ReservationDetailsPage() {
         {/* Main Info */}
         <div className="lg:col-span-2 space-y-6">
           {/* Reservation Details Card */}
-          <div className="bg-white rounded-3xl p-6 border border-border">
-            <h2 className="text-xl font-bold text-ink mb-6">
+          <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+            <h2 className="mb-6 text-xl font-bold text-white">
               Détails de la réservation
             </h2>
 
             <div className="space-y-4">
               {/* Dates */}
-              <div className="flex items-start gap-4 pb-4 border-b border-border">
+              <div className="flex items-start gap-4 pb-4 border-b border-white/10">
                 <CalendarDaysIcon className="h-6 w-6 text-accent flex-shrink-0 mt-1" />
                 <div>
-                  <p className="text-sm text-muted font-semibold mb-1">
+                  <p className="mb-1 text-sm font-semibold text-slate-300">
                     Période
                   </p>
-                  <p className="text-ink font-medium">
+                  <p className="font-medium text-white">
                     {formatDate(reservation.startDate)} →{" "}
                     {formatDate(reservation.endDate)}
                   </p>
@@ -222,13 +222,13 @@ export default function ReservationDetailsPage() {
               </div>
 
               {/* Price */}
-              <div className="flex items-start gap-4 pb-4 border-b border-border">
+              <div className="flex items-start gap-4 pb-4 border-b border-white/10">
                 <CurrencyEuroIcon className="h-6 w-6 text-accent flex-shrink-0 mt-1" />
                 <div>
-                  <p className="text-sm text-muted font-semibold mb-1">
+                  <p className="mb-1 text-sm font-semibold text-slate-300">
                     Prix total
                   </p>
-                  <p className="text-2xl font-bold text-accent">
+                  <p className="text-2xl font-bold text-white">
                     €{reservation.totalPrice}
                   </p>
                 </div>
@@ -236,9 +236,9 @@ export default function ReservationDetailsPage() {
 
               {/* Notes */}
               {reservation.notes && (
-                <div className="pb-4 border-b border-border">
-                  <p className="text-sm text-muted font-semibold mb-2">Notes</p>
-                  <p className="text-ink bg-blue-50 p-3 rounded-2xl">
+                <div className="pb-4 border-b border-white/10">
+                  <p className="mb-2 text-sm font-semibold text-slate-300">Notes</p>
+                  <p className="rounded-2xl border border-white/10 bg-white/5 p-3 text-white">
                     {reservation.notes}
                   </p>
                 </div>
@@ -247,23 +247,23 @@ export default function ReservationDetailsPage() {
           </div>
 
           {/* Renter Info Card */}
-          <div className="bg-white rounded-3xl p-6 border border-border">
-            <h2 className="text-xl font-bold text-ink mb-6">
+          <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+            <h2 className="mb-6 text-xl font-bold text-white">
               Informations du locataire
             </h2>
 
             <div className="space-y-3">
-              <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-2xl border border-blue-200">
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3">
                 <UserIcon className="h-5 w-5 text-accent flex-shrink-0" />
                 <div>
-                  <p className="text-xs text-muted">Nom</p>
-                  <p className="font-semibold text-ink">
+                  <p className="text-xs text-slate-300">Nom</p>
+                  <p className="font-semibold text-white">
                     {reservation.renterName}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-2xl border border-blue-200">
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3">
                 <EnvelopeIcon className="h-5 w-5 text-accent flex-shrink-0" />
                 <a
                   href={`mailto:${reservation.renterEmail}`}
@@ -274,7 +274,7 @@ export default function ReservationDetailsPage() {
               </div>
 
               {reservation.renterPhone && (
-                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-2xl border border-blue-200">
+                <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3">
                   <PhoneIcon className="h-5 w-5 text-accent flex-shrink-0" />
                   <a
                     href={`tel:${reservation.renterPhone}`}
@@ -288,28 +288,28 @@ export default function ReservationDetailsPage() {
           </div>
 
           {/* Host Info Card */}
-          <div className="bg-white rounded-3xl p-6 border border-border">
-            <h2 className="text-xl font-bold text-ink mb-6">
+          <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+            <h2 className="mb-6 text-xl font-bold text-white">
               Informations du propriétaire
             </h2>
 
             <div className="space-y-3">
-              <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-2xl border border-purple-200">
-                <MapPinIcon className="h-5 w-5 text-purple-600 flex-shrink-0" />
+              <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3">
+                <MapPinIcon className="h-5 w-5 text-sky-300 flex-shrink-0" />
                 <div>
-                  <p className="text-xs text-muted">Agence/Particulier</p>
-                  <p className="font-semibold text-ink">
+                  <p className="text-xs text-slate-300">Agence/Particulier</p>
+                  <p className="font-semibold text-white">
                     {reservation.hostName}
                   </p>
                 </div>
               </div>
 
               {reservation.hostEmail && (
-                <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-2xl border border-purple-200">
-                  <EnvelopeIcon className="h-5 w-5 text-purple-600 flex-shrink-0" />
+                <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3">
+                  <EnvelopeIcon className="h-5 w-5 text-sky-300 flex-shrink-0" />
                   <a
                     href={`mailto:${reservation.hostEmail}`}
-                    className="text-purple-600 hover:underline"
+                    className="text-sky-300 hover:underline"
                   >
                     {reservation.hostEmail}
                   </a>
@@ -322,8 +322,8 @@ export default function ReservationDetailsPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Status Card */}
-          <div className="bg-white rounded-3xl p-6 border border-border">
-            <h2 className="text-xl font-bold text-ink mb-4">Statut</h2>
+          <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+            <h2 className="mb-4 text-xl font-bold text-white">Statut</h2>
             <div className="mb-4">
               <span
                 className={`inline-flex px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(
@@ -338,14 +338,14 @@ export default function ReservationDetailsPage() {
               <button
                 onClick={() => handleStatusChange("pending")}
                 disabled={actionLoading}
-                className="w-full px-4 py-2 rounded-xl bg-yellow-50 text-yellow-600 hover:bg-yellow-100 transition disabled:opacity-50 font-medium text-sm"
+                className="w-full rounded-xl border border-amber-400/20 bg-amber-500/10 px-4 py-2 text-sm font-medium text-amber-200 transition hover:bg-amber-500/15 disabled:opacity-50"
               >
                 Mettre en attente
               </button>
               <button
                 onClick={() => handleStatusChange("confirmed")}
                 disabled={actionLoading}
-                className="w-full px-4 py-2 rounded-xl bg-green-50 text-green-600 hover:bg-green-100 transition disabled:opacity-50 font-medium text-sm flex items-center justify-center gap-2"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-200 transition hover:bg-emerald-500/15 disabled:opacity-50"
               >
                 <CheckCircleIcon className="h-4 w-4" />
                 Confirmer
@@ -353,14 +353,14 @@ export default function ReservationDetailsPage() {
               <button
                 onClick={() => handleStatusChange("completed")}
                 disabled={actionLoading}
-                className="w-full px-4 py-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition disabled:opacity-50 font-medium text-sm"
+                className="w-full rounded-xl border border-sky-400/20 bg-sky-500/10 px-4 py-2 text-sm font-medium text-sky-200 transition hover:bg-sky-500/15 disabled:opacity-50"
               >
                 Marquer comme complétée
               </button>
               <button
                 onClick={() => handleStatusChange("cancelled")}
                 disabled={actionLoading}
-                className="w-full px-4 py-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition disabled:opacity-50 font-medium text-sm"
+                className="w-full rounded-xl border border-red-400/20 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-200 transition hover:bg-red-500/15 disabled:opacity-50"
               >
                 Annuler
               </button>
@@ -368,12 +368,12 @@ export default function ReservationDetailsPage() {
           </div>
 
           {/* Info Card */}
-          <div className="bg-blue-50 rounded-3xl p-6 border border-blue-200">
+          <div className="rounded-[1.75rem] border border-sky-400/15 bg-sky-500/10 p-6 backdrop-blur-xl">
             <div className="flex items-start gap-3 mb-3">
-              <ExclamationTriangleIcon className="h-6 w-6 text-blue-600 flex-shrink-0" />
-              <h3 className="font-semibold text-blue-900">Information</h3>
+              <ExclamationTriangleIcon className="h-6 w-6 flex-shrink-0 text-sky-300" />
+              <h3 className="font-semibold text-white">Information</h3>
             </div>
-            <p className="text-sm text-blue-800 leading-relaxed">
+            <p className="text-sm leading-relaxed text-slate-300">
               Vous pouvez gérer le statut de cette réservation. Contactez le
               locataire ou le propriétaire en cas de problème.
             </p>

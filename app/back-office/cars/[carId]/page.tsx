@@ -84,9 +84,7 @@ export default function CarDetailsPage() {
     try {
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
-      await updateDoc(doc(db, "cars", car.id), {
-        isApproved: true,
-      });
+      await updateDoc(doc(db, "cars", car.id), { isApproved: true });
       setCar({ ...car, isApproved: true });
     } catch (err) {
       console.error("Error approving car:", err);
@@ -102,9 +100,7 @@ export default function CarDetailsPage() {
     try {
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
-      await updateDoc(doc(db, "cars", car.id), {
-        isApproved: false,
-      });
+      await updateDoc(doc(db, "cars", car.id), { isApproved: false });
       setCar({ ...car, isApproved: false });
     } catch (err) {
       console.error("Error rejecting car:", err);
@@ -114,18 +110,28 @@ export default function CarDetailsPage() {
     }
   };
 
+  const formatPrice = (value?: number) => {
+    if (typeof value !== "number") return "N/A";
+    return `${value.toLocaleString("fr-FR")} FCFA`;
+  };
+
+  const statusLabel = car?.isApproved ? "Approuvé" : "En attente";
+  const statusClass = car?.isApproved
+    ? "bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-400/20"
+    : "bg-amber-500/15 text-amber-200 ring-1 ring-amber-400/20";
+
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 text-white">
         <Link
           href="/back-office/cars"
-          className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition"
+          className="inline-flex items-center gap-2 text-sky-300 transition hover:text-sky-200"
         >
           <ArrowLeftIcon className="h-5 w-5" />
           Retour aux véhicules
         </Link>
-        <div className="bg-white p-8 rounded-3xl border border-border text-center">
-          <p className="text-muted">Chargement du véhicule...</p>
+        <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <p className="text-slate-300">Chargement du véhicule...</p>
         </div>
       </div>
     );
@@ -133,16 +139,16 @@ export default function CarDetailsPage() {
 
   if (error) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 text-white">
         <Link
           href="/back-office/cars"
-          className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition"
+          className="inline-flex items-center gap-2 text-sky-300 transition hover:text-sky-200"
         >
           <ArrowLeftIcon className="h-5 w-5" />
           Retour aux véhicules
         </Link>
-        <div className="bg-red-50 border border-red-200 p-6 rounded-3xl">
-          <p className="text-red-700">{error}</p>
+        <div className="rounded-[1.75rem] border border-red-400/20 bg-red-500/10 p-6 backdrop-blur-xl">
+          <p className="text-red-100">{error}</p>
         </div>
       </div>
     );
@@ -151,169 +157,161 @@ export default function CarDetailsPage() {
   if (!car) return null;
 
   return (
-    <div className="space-y-6">
-      {/* Back Link */}
+    <div className="space-y-6 text-white">
       <Link
         href="/back-office/cars"
-        className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition"
+        className="inline-flex items-center gap-2 text-sky-300 transition hover:text-sky-200"
       >
         <ArrowLeftIcon className="h-5 w-5" />
         Retour aux véhicules
       </Link>
 
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-ink mb-2">
-          {car.brand} {car.model}
-        </h1>
-        <p className="text-muted">
-          Détails et gestion du véhicule ID: {car.id}
-        </p>
-      </div>
+      <section className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.05] to-white/[0.03] p-7 shadow-[0_24px_80px_rgba(0,0,0,0.26)] backdrop-blur-xl">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.14),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.12),transparent_30%)]" />
+        <div className="relative flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.32em] text-slate-300">
+              Véhicule
+            </p>
+            <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              {car.brand} {car.model}
+            </h1>
+            <p className="mt-2 text-sm text-slate-300 sm:text-base">
+              Détails et gestion du véhicule ID: {car.id}
+            </p>
+          </div>
 
-      {/* Content */}
+          <div className="flex flex-wrap gap-3">
+            <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${statusClass}`}>
+              {statusLabel}
+            </span>
+            {typeof car.pricePerDay === "number" && (
+              <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-sky-200">
+                {formatPrice(car.pricePerDay)} / jour
+              </span>
+            )}
+          </div>
+        </div>
+      </section>
+
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Main Info */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Basic Info Card */}
-          <div className="bg-white rounded-3xl p-6 border border-border">
-            <h2 className="text-xl font-bold text-ink mb-4">
+        <div className="space-y-6 lg:col-span-2">
+          <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+            <h2 className="mb-5 text-xl font-semibold text-white">
               Informations générales
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <p className="text-sm font-semibold text-muted mb-1">Marque</p>
-                <p className="text-ink">{car.brand}</p>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-muted mb-1">Modèle</p>
-                <p className="text-ink">{car.model}</p>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-muted mb-1">Année</p>
-                <p className="text-ink">{car.year || "N/A"}</p>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-muted mb-1">
-                  Plaque d'immatriculation
-                </p>
-                <p className="text-ink">{car.licensePlate || "N/A"}</p>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-muted mb-1">
-                  Kilométrage
-                </p>
-                <p className="text-ink">{car.mileage || "N/A"} km</p>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-muted mb-1">
-                  Localisation
-                </p>
-                <p className="text-ink">{car.location || "N/A"}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Specs Card */}
-          <div className="bg-white rounded-3xl p-6 border border-border">
-            <h2 className="text-xl font-bold text-ink mb-4">Spécifications</h2>
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div className="flex items-center gap-3">
-                <UserIcon className="h-5 w-5 text-accent" />
-                <div>
-                  <p className="text-xs text-muted">Passagers</p>
-                  <p className="font-medium text-ink">{car.seats || "-"}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <BoltIcon className="h-5 w-5 text-accent" />
-                <div>
-                  <p className="text-xs text-muted">Transmission</p>
-                  <p className="font-medium text-ink">
-                    {car.transmission || "-"}
+              {[
+                ["Marque", car.brand],
+                ["Modèle", car.model],
+                ["Année", car.year || "N/A"],
+                ["Plaque d'immatriculation", car.licensePlate || "N/A"],
+                ["Kilométrage", car.mileage ? `${car.mileage} km` : "N/A"],
+                ["Localisation", car.location || "N/A"],
+              ].map(([label, value]) => (
+                <div
+                  key={label}
+                  className="rounded-2xl border border-white/10 bg-slate-950/35 p-4"
+                >
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
+                    {label}
                   </p>
+                  <p className="mt-2 text-sm font-medium text-white">{value}</p>
                 </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <TruckIcon className="h-5 w-5 text-accent" />
-                <div>
-                  <p className="text-xs text-muted">Carburant</p>
-                  <p className="font-medium text-ink">{car.fuelType || "-"}</p>
-                </div>
-              </div>
+              ))}
             </div>
-          </div>
+          </section>
 
-          {/* Description */}
-          {car.description && (
-            <div className="bg-white rounded-3xl p-6 border border-border">
-              <h2 className="text-xl font-bold text-ink mb-4">Description</h2>
-              <p className="text-muted leading-relaxed">{car.description}</p>
+          <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+            <h2 className="mb-5 text-xl font-semibold text-white">Spécifications</h2>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                { icon: UserIcon, label: "Passagers", value: car.seats || "-" },
+                { icon: BoltIcon, label: "Transmission", value: car.transmission || "-" },
+                { icon: TruckIcon, label: "Carburant", value: car.fuelType || "-" },
+              ].map(({ icon: Icon, label, value }) => (
+                <div
+                  key={label}
+                  className="rounded-2xl border border-white/10 bg-slate-950/35 p-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className="h-5 w-5 text-sky-300" />
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
+                        {label}
+                      </p>
+                      <p className="mt-2 text-sm font-medium text-white">{value}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
+          </section>
+
+          {car.description && (
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+              <h2 className="mb-5 text-xl font-semibold text-white">Description</h2>
+              <p className="whitespace-pre-line leading-relaxed text-slate-300">
+                {car.description}
+              </p>
+            </section>
           )}
 
-          {/* Options */}
           {car.options && car.options.length > 0 && (
-            <div className="bg-white rounded-3xl p-6 border border-border">
-              <h2 className="text-xl font-bold text-ink mb-4">Options</h2>
-              <div className="space-y-2">
-                {car.options.map((option, idx) => (
-                  <div key={idx} className="flex items-center gap-2">
-                    <CheckCircleIcon className="h-5 w-5 text-green-600" />
-                    <span className="text-ink">{option}</span>
+            <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+              <h2 className="mb-5 text-xl font-semibold text-white">Options</h2>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {car.options.map((option, index) => (
+                  <div
+                    key={`${option}-${index}`}
+                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/35 px-4 py-3"
+                  >
+                    <CheckCircleIcon className="h-5 w-5 text-emerald-300" />
+                    <span className="text-sm text-slate-200">{option}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
           )}
         </div>
 
-        {/* Sidebar */}
         <div className="space-y-6">
-          {/* Rating Card */}
-          <div className="bg-white rounded-3xl p-6 border border-border">
-            <h2 className="text-xl font-bold text-ink mb-4">Évaluation</h2>
-            <div className="flex items-center gap-2 mb-2">
-              <SparklesIcon className="h-5 w-5 text-yellow-500" />
-              <span className="text-3xl font-bold text-ink">
+          <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+            <h2 className="mb-5 text-xl font-semibold text-white">Évaluation</h2>
+            <div className="flex items-end gap-3">
+              <SparklesIcon className="mb-1 h-6 w-6 text-amber-300" />
+              <span className="text-4xl font-semibold tracking-tight text-white">
                 {car.rating?.toFixed(1) || "N/A"}
               </span>
             </div>
-            <p className="text-sm text-muted">{car.reviews || 0} avis</p>
-          </div>
+            <p className="mt-3 text-sm text-slate-300">{car.reviews || 0} avis</p>
+          </section>
 
-          {/* Price Card */}
           {car.pricePerDay && (
-            <div className="bg-blue-50 rounded-3xl p-6 border border-blue-200">
-              <h2 className="text-xl font-bold text-ink mb-4">Prix</h2>
-              <p className="text-4xl font-bold text-accent mb-1">
-                €{car.pricePerDay}
+            <section className="rounded-[1.75rem] border border-sky-400/15 bg-gradient-to-br from-sky-500/15 via-sky-400/10 to-emerald-500/10 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+              <h2 className="mb-5 text-xl font-semibold text-white">Prix</h2>
+              <p className="text-4xl font-semibold tracking-tight text-white">
+                {formatPrice(car.pricePerDay)}
               </p>
-              <p className="text-sm text-muted">par jour</p>
-            </div>
+              <p className="mt-2 text-sm text-slate-300">par jour</p>
+            </section>
           )}
 
-          {/* Status Card */}
-          <div className="bg-white rounded-3xl p-6 border border-border">
-            <h2 className="text-xl font-bold text-ink mb-4">Statut</h2>
+          <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+            <h2 className="mb-5 text-xl font-semibold text-white">Statut</h2>
             <div className="mb-4">
-              <span
-                className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
-                  car.isApproved
-                    ? "bg-green-100 text-green-800"
-                    : "bg-yellow-100 text-yellow-800"
-                }`}
-              >
-                {car.isApproved ? "Approuvé" : "En attente"}
+              <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${statusClass}`}>
+                {statusLabel}
               </span>
             </div>
-            <div className="space-y-2">
+
+            <div className="space-y-3">
               {!car.isApproved ? (
                 <>
                   <button
                     onClick={handleApprove}
                     disabled={actionLoading}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-green-50 text-green-600 hover:bg-green-100 transition disabled:opacity-50 font-medium"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-400/20 bg-emerald-500/15 px-4 py-3 font-medium text-emerald-200 transition hover:bg-emerald-500/20 disabled:opacity-50"
                   >
                     <CheckCircleIcon className="h-5 w-5" />
                     Approuver
@@ -321,26 +319,27 @@ export default function CarDetailsPage() {
                   <button
                     onClick={handleReject}
                     disabled={actionLoading}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition disabled:opacity-50 font-medium"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 font-medium text-red-200 transition hover:bg-red-500/15 disabled:opacity-50"
                   >
                     <XCircleIcon className="h-5 w-5" />
                     Rejeter
                   </button>
                 </>
               ) : (
-                <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-green-50 text-green-600">
+                <div className="flex items-center justify-center gap-2 rounded-2xl border border-emerald-400/20 bg-emerald-500/15 px-4 py-3 text-emerald-200">
                   <CheckCircleIcon className="h-5 w-5" />
                   Approuvé
                 </div>
               )}
             </div>
-          </div>
+          </section>
 
-          {/* Owner Info */}
-          <div className="bg-white rounded-3xl p-6 border border-border">
-            <h2 className="text-xl font-bold text-ink mb-4">Propriétaire</h2>
-            <p className="text-sm text-muted break-all">{car.ownerId}</p>
-          </div>
+          <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+            <h2 className="mb-5 text-xl font-semibold text-white">Propriétaire</h2>
+            <p className="break-all text-sm leading-relaxed text-slate-300">
+              {car.ownerId}
+            </p>
+          </section>
         </div>
       </div>
     </div>

@@ -23,6 +23,8 @@ const firebaseConfig = {
   appId: "1:677998459360:web:c7082792792b829b4a5385",
 };
 
+type Tone = "sky" | "emerald" | "violet" | "amber";
+
 export default function AnalyticsPage() {
   const [analytics, setAnalytics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -48,17 +50,25 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-6 text-white">
         <div>
-          <h1 className="text-3xl font-bold text-ink mb-2">Rentabilité</h1>
-          <p className="text-muted">Analyse financière et commissions</p>
+          <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.32em] text-slate-300">
+            Finance
+          </p>
+          <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            Rentabilité
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
+            Analyse financière en temps réel des transactions (en Francs CFA)
+          </p>
         </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[1, 2, 3, 4].map((i) => (
+          {[1, 2, 3, 4].map((index) => (
             <div
-              key={i}
-              className="bg-white p-6 rounded-3xl border border-border animate-pulse h-32"
-            ></div>
+              key={index}
+              className="h-36 animate-pulse rounded-[1.75rem] border border-white/10 bg-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl"
+            />
           ))}
         </div>
       </div>
@@ -67,14 +77,19 @@ export default function AnalyticsPage() {
 
   if (error) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-3 mb-2">
-          <ChartPieIcon className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-bold text-ink">Rentabilité</h1>
+      <div className="space-y-6 text-white">
+        <div className="flex items-center gap-3">
+          <ChartPieIcon className="h-8 w-8 text-sky-300" />
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Rentabilité
+            </h1>
+            <p className="text-sm text-slate-300">Analyse financière et commissions</p>
+          </div>
         </div>
-        <div className="bg-red-50 border border-red-200 p-6 rounded-3xl flex items-center gap-3">
-          <ExclamationTriangleIcon className="h-6 w-6 text-red-600" />
-          <p className="text-red-700">{error}</p>
+        <div className="flex items-center gap-3 rounded-[1.75rem] border border-red-400/20 bg-red-500/10 p-6 backdrop-blur-xl">
+          <ExclamationTriangleIcon className="h-6 w-6 text-red-300" />
+          <p className="text-red-100">{error}</p>
         </div>
       </div>
     );
@@ -82,221 +97,243 @@ export default function AnalyticsPage() {
 
   if (!analytics) return null;
 
+  const completionRate =
+    analytics.totalTransactions > 0
+      ? (analytics.completedTransactions / analytics.totalTransactions) * 100
+      : 0;
+
+  const monthlyRevenue = analytics.monthlyRevenue ?? [];
+  const maxMonthlyTotal = Math.max(
+    1,
+    ...monthlyRevenue.map((item: any) => item.commission + item.hostEarnings),
+  );
+
+  const kpis: Array<{
+    label: string;
+    value: string;
+    hint: string;
+    icon: typeof CurrencyEuroIcon;
+    tone: Tone;
+  }> = [
+    {
+      label: "Revenu total",
+      value: `${analytics.totalRevenue.toLocaleString("fr-FR")} FCFA`,
+      hint: `${analytics.totalTransactions} transactions`,
+      icon: CurrencyEuroIcon,
+      tone: "sky",
+    },
+    {
+      label: "Commission Locars",
+      value: `${analytics.totalLocarsCommission.toLocaleString("fr-FR")} FCFA`,
+      hint: "Profit de Locars",
+      icon: ArrowTrendingUpIcon,
+      tone: "emerald",
+    },
+    {
+      label: "Valeur moyenne",
+      value: `${analytics.averageOrderValue.toFixed(0)} FCFA`,
+      hint: "Par transaction",
+      icon: ShoppingCartIcon,
+      tone: "violet",
+    },
+    {
+      label: "Complétées",
+      value: `${analytics.completedTransactions}`,
+      hint: `${completionRate.toFixed(1)}% du total`,
+      icon: CheckCircleIcon,
+      tone: "amber",
+    },
+  ];
+
+  const toneStyles: Record<Tone, { card: string; icon: string; accent: string }> = {
+    sky: {
+      card: "from-sky-500/18 via-sky-400/12 to-white/[0.04]",
+      icon: "text-sky-200 bg-sky-500/15 ring-sky-400/20",
+      accent: "text-sky-200",
+    },
+    emerald: {
+      card: "from-emerald-500/18 via-emerald-400/12 to-white/[0.04]",
+      icon: "text-emerald-200 bg-emerald-500/15 ring-emerald-400/20",
+      accent: "text-emerald-200",
+    },
+    violet: {
+      card: "from-violet-500/18 via-violet-400/12 to-white/[0.04]",
+      icon: "text-violet-200 bg-violet-500/15 ring-violet-400/20",
+      accent: "text-violet-200",
+    },
+    amber: {
+      card: "from-amber-500/18 via-amber-400/12 to-white/[0.04]",
+      icon: "text-amber-200 bg-amber-500/15 ring-amber-400/20",
+      accent: "text-amber-200",
+    },
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
+    <div className="space-y-6 text-white">
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <ChartPieIcon className="h-8 w-8 text-accent" />
-          <h1 className="text-3xl font-bold text-ink">Rentabilité</h1>
-        </div>
-        <p className="text-muted">
+        <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.32em] text-slate-300">
+          Finance
+        </p>
+        <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          Rentabilité
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
           Analyse financière en temps réel des transactions (en Francs CFA)
         </p>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Total Revenue */}
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-6 border border-blue-200">
-          <div className="flex items-center justify-between mb-3">
-            <CurrencyEuroIcon className="h-8 w-8 text-blue-600" />
-            <ChartBarIcon className="h-5 w-5 text-green-600" />
-          </div>
-          <p className="text-xs text-blue-600 uppercase tracking-wide mb-1">
-            Revenu Total
-          </p>
-          <p className="text-3xl font-bold text-ink">
-            {analytics.totalRevenue.toLocaleString("fr-FR")}{" "}
-            <span className="text-lg">FCFA</span>
-          </p>
-          <p className="text-xs text-blue-600 mt-2">
-            {analytics.totalTransactions} transactions
-          </p>
-        </div>
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {kpis.map((kpi) => {
+          const Icon = kpi.icon;
+          const styles = toneStyles[kpi.tone];
 
-        {/* Commission (Locars) */}
-        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-3xl p-6 border border-green-200">
-          <div className="flex items-center justify-between mb-3">
-            <ArrowTrendingUpIcon className="h-8 w-8 text-green-600" />
-            <ChartPieIcon className="h-5 w-5 text-green-600" />
-          </div>
-          <p className="text-xs text-green-600 uppercase tracking-wide mb-1">
-            Commission Locars
-          </p>
-          <p className="text-3xl font-bold text-ink">
-            {analytics.totalLocarsCommission.toLocaleString("fr-FR")}{" "}
-            <span className="text-lg">FCFA</span>
-          </p>
-          <p className="text-xs text-green-600 mt-2">Profit de Locars</p>
-        </div>
-
-        {/* Average Order Value */}
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl p-6 border border-purple-200">
-          <div className="flex items-center justify-between mb-3">
-            <ShoppingCartIcon className="h-8 w-8 text-purple-600" />
-            <ChartBarIcon className="h-5 w-5 text-purple-600" />
-          </div>
-          <p className="text-xs text-purple-600 uppercase tracking-wide mb-1">
-            Valeur Moyenne
-          </p>
-          <p className="text-3xl font-bold text-ink">
-            {analytics.averageOrderValue.toFixed(0)}{" "}
-            <span className="text-lg">FCFA</span>
-          </p>
-          <p className="text-xs text-purple-600 mt-2">Par transaction</p>
-        </div>
-
-        {/* Completed Transactions */}
-        <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl p-6 border border-orange-200">
-          <div className="flex items-center justify-between mb-3">
-            <CheckCircleIcon className="h-8 w-8 text-orange-600" />
-            <ChartBarIcon className="h-5 w-5 text-orange-600" />
-          </div>
-          <p className="text-xs text-orange-600 uppercase tracking-wide mb-1">
-            Complétées
-          </p>
-          <p className="text-3xl font-bold text-ink">
-            {analytics.completedTransactions}
-          </p>
-          <p className="text-xs text-orange-600 mt-2">
-            {analytics.totalTransactions > 0
-              ? (
-                  (analytics.completedTransactions /
-                    analytics.totalTransactions) *
-                  100
-                ).toFixed(1)
-              : 0}
-            % du total
-          </p>
-        </div>
+          return (
+            <article
+              key={kpi.label}
+              className={`rounded-[1.75rem] border border-white/10 bg-gradient-to-br ${styles.card} p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl`}
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <div className={`rounded-2xl p-3 ring-1 ${styles.icon}`}>
+                  <Icon className="h-6 w-6" />
+                </div>
+                <ChartBarIcon className={`h-5 w-5 ${styles.accent}`} />
+              </div>
+              <p className="text-xs uppercase tracking-[0.24em] text-slate-300">
+                {kpi.label}
+              </p>
+              <p className="mt-3 text-3xl font-semibold tracking-tight text-white">
+                {kpi.value}
+              </p>
+              <p className="mt-2 text-sm text-slate-300">{kpi.hint}</p>
+            </article>
+          );
+        })}
       </div>
 
-      {/* Secondary Stats */}
-      <div className="grid gap-4 sm:grid-cols-2">
-        {/* Pending */}
-        <div className="bg-white rounded-3xl p-6 border border-border">
-          <div className="flex items-center gap-3 mb-3">
-            <ExclamationTriangleIcon className="h-6 w-6 text-yellow-600" />
-            <h3 className="font-semibold text-ink">En attente</h3>
+      <div className="grid gap-4 lg:grid-cols-2">
+        <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <div className="mb-4 flex items-center gap-3">
+            <ExclamationTriangleIcon className="h-6 w-6 text-amber-300" />
+            <h2 className="text-lg font-semibold text-white">En attente</h2>
           </div>
-          <p className="text-3xl font-bold text-yellow-600 mb-2">
+          <p className="text-4xl font-semibold tracking-tight text-white">
             {analytics.pendingTransactions}
           </p>
-          <p className="text-sm text-muted">
+          <p className="mt-2 text-sm text-slate-300">
             Transactions en cours de traitement
           </p>
-        </div>
+        </section>
 
-        {/* Host Earnings */}
-        <div className="bg-white rounded-3xl p-6 border border-border">
-          <div className="flex items-center gap-3 mb-3">
-            <ChartPieIcon className="h-6 w-6 text-green-600" />
-            <h3 className="font-semibold text-ink">Gains des Loueurs</h3>
+        <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <div className="mb-4 flex items-center gap-3">
+            <ChartPieIcon className="h-6 w-6 text-emerald-300" />
+            <h2 className="text-lg font-semibold text-white">Gains des Loueurs</h2>
           </div>
-          <p className="text-3xl font-bold text-green-600 mb-2">
-            {analytics.totalHostEarnings.toLocaleString("fr-FR")}{" "}
-            <span className="text-lg">FCFA</span>
+          <p className="text-4xl font-semibold tracking-tight text-white">
+            {analytics.totalHostEarnings.toLocaleString("fr-FR")} FCFA
           </p>
-          <p className="text-sm text-muted">Revenu distribué aux loueurs</p>
-        </div>
+          <p className="mt-2 text-sm text-slate-300">
+            Revenu distribué aux loueurs
+          </p>
+        </section>
       </div>
 
-      {/* Monthly Revenue Chart */}
-      {analytics.monthlyRevenue.length > 0 && (
-        <div className="bg-white rounded-3xl p-6 border border-border">
-          <h2 className="text-xl font-bold text-ink mb-6">
-            Revenu Mensuel (en FCFA)
-          </h2>
+      {monthlyRevenue.length > 0 && (
+        <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <div className="mb-6 flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold text-white">Revenu Mensuel</h2>
+              <p className="mt-1 text-sm text-slate-300">
+                Commission Locars et gains des loueurs par mois
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-slate-950/35 px-4 py-3 text-right">
+              <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
+                Total global
+              </p>
+              <p className="mt-1 text-sm font-medium text-white">
+                {analytics.totalRevenue.toLocaleString("fr-FR")} FCFA
+              </p>
+            </div>
+          </div>
 
           <div className="space-y-6">
-            {analytics.monthlyRevenue.map((item: any, idx: number) => {
-              const maxRevenue = Math.max(
-                ...analytics.monthlyRevenue.map(
-                  (m: any) => m.commission + m.hostEarnings,
-                ),
-              );
-              const percentageTotal =
-                ((item.commission + item.hostEarnings) / maxRevenue) * 100;
-              const percentageCommission =
-                maxRevenue > 0
-                  ? (item.commission / (item.commission + item.hostEarnings)) *
-                    100
-                  : 0;
+            {monthlyRevenue.map((item: any) => {
+              const total = item.commission + item.hostEarnings;
+              const commissionWidth = total > 0 ? (item.commission / total) * 100 : 0;
+              const totalWidth = (total / maxMonthlyTotal) * 100;
 
               return (
-                <div key={idx}>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-medium text-ink">
-                      {item.month}
-                    </span>
+                <div
+                  key={item.month}
+                  className="rounded-2xl border border-white/10 bg-slate-950/35 p-4"
+                >
+                  <div className="mb-3 flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-medium text-white">{item.month}</p>
+                      <p className="text-xs text-slate-400">Transaction mensuelle</p>
+                    </div>
                     <div className="text-right">
-                      <p className="text-xs text-muted mb-1">Total</p>
-                      <span className="text-sm font-bold text-accent">
-                        {(item.commission + item.hostEarnings).toLocaleString(
-                          "fr-FR",
-                        )}{" "}
-                        FCFA
-                      </span>
+                      <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
+                        Total
+                      </p>
+                      <p className="mt-1 text-sm font-semibold text-sky-200">
+                        {total.toLocaleString("fr-FR")} FCFA
+                      </p>
                     </div>
                   </div>
 
-                  {/* Combined bar */}
-                  <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden flex">
+                  <div className="h-3 overflow-hidden rounded-full bg-white/10">
                     <div
-                      className="bg-accent h-full transition-all"
-                      style={{ width: `${percentageCommission}%` }}
-                      title={`Commission: ${item.commission.toLocaleString("fr-FR")} FCFA`}
-                    ></div>
+                      className="h-full bg-sky-400 transition-all"
+                      style={{ width: `${commissionWidth}%` }}
+                    />
                     <div
-                      className="bg-green-500 h-full transition-all"
-                      style={{ width: `${100 - percentageCommission}%` }}
-                      title={`Host Earnings: ${item.hostEarnings.toLocaleString("fr-FR")} FCFA`}
-                    ></div>
+                      className="h-full bg-emerald-400 transition-all"
+                      style={{ width: `${100 - commissionWidth}%` }}
+                    />
                   </div>
 
-                  {/* Legend */}
-                  <div className="flex gap-4 mt-2 text-xs">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-accent rounded-full"></div>
-                      <span className="text-muted">
-                        Commission: {item.commission.toLocaleString("fr-FR")}{" "}
-                        FCFA
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-muted">
-                        Loueurs: {item.hostEarnings.toLocaleString("fr-FR")}{" "}
-                        FCFA
-                      </span>
-                    </div>
+                  <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/5">
+                    <div
+                      className="h-full rounded-full bg-white/20"
+                      style={{ width: `${totalWidth}%` }}
+                    />
+                  </div>
+
+                  <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-300">
+                    <span className="inline-flex items-center gap-2">
+                      <span className="h-2.5 w-2.5 rounded-full bg-sky-400" />
+                      Commission: {item.commission.toLocaleString("fr-FR")} FCFA
+                    </span>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                      Loueurs: {item.hostEarnings.toLocaleString("fr-FR")} FCFA
+                    </span>
                   </div>
                 </div>
               );
             })}
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Summary Info */}
-      <div className="bg-blue-50 rounded-3xl p-6 border border-blue-200">
+      <section className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
         <div className="flex items-start gap-3">
-          <ArrowTrendingUpIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+          <ArrowTrendingUpIcon className="mt-1 h-6 w-6 flex-shrink-0 text-sky-300" />
           <div>
-            <h3 className="font-semibold text-blue-900 mb-2">
+            <h2 className="mb-2 text-lg font-semibold text-white">
               Comment fonctionne la commission ?
-            </h3>
-            <p className="text-sm text-blue-800 leading-relaxed">
-              Les données affichées sont mises à jour en temps réel depuis la
-              collection
-              <strong> host_transactions</strong> de Firestore. Chaque
-              transaction enregistre la commission Locars et les gains des
-              loueurs. Les montants sont affichés en Francs CFA (FCFA).
+            </h2>
+            <p className="text-sm leading-relaxed text-slate-300">
+              Les données affichées sont mises à jour en temps réel depuis la collection
+              <strong> host_transactions</strong> de Firestore. Chaque transaction enregistre
+              la commission Locars et les gains des loueurs. Les montants sont affichés en
+              Francs CFA (FCFA).
             </p>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
