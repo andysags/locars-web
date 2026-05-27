@@ -8,15 +8,17 @@ function hasFirebaseAdminConfig() {
   );
 }
 
-function getOrInitAdminApp(): admin.app.App {
+/**
+ * Try to initialize the admin app if config exists.
+ * If config is missing, do not throw — return null so callers can fallback.
+ */
+function getOrInitAdminApp(): admin.app.App | null {
   if (admin.apps.length) {
     return admin.app();
   }
 
   if (!hasFirebaseAdminConfig()) {
-    throw new Error(
-      "Missing Firebase Admin environment variables. Set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL and FIREBASE_PRIVATE_KEY.",
-    );
+    return null;
   }
 
   return admin.initializeApp({
@@ -30,10 +32,16 @@ function getOrInitAdminApp(): admin.app.App {
 
 export function getAdminDb() {
   const app = getOrInitAdminApp();
+  if (!app) return null;
   return app.firestore();
 }
 
 export function getAdminAuth() {
   const app = getOrInitAdminApp();
+  if (!app) return null;
   return app.auth();
+}
+
+export function isAdminConfigured() {
+  return hasFirebaseAdminConfig();
 }
