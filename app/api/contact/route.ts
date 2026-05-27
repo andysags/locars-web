@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getAdminDb, isAdminConfigured } from '@/lib/firebase-admin';
 import fs from 'fs';
 import path from 'path';
 
@@ -11,22 +10,26 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // If admin is configured, write to Firestore.
-    if (isAdminConfigured()) {
-      const adminDb = getAdminDb();
-      if (!adminDb) {
-        return NextResponse.json({ error: 'Admin DB not available' }, { status: 500 });
+    // Try to dynamically import admin module and write to Firestore if available.
+    try {
+      const adminMod = await import('@/lib/firebase-admin');
+      const isConfigured = typeof adminMod.isAdminConfigured === 'function' ? adminMod.isAdminConfigured() : false;
+      if (isConfigured) {
+        const adminDb = typeof adminMod.getAdminDb === 'function' ? adminMod.getAdminDb() : null;
+        if (adminDb) {
+          const docRef = await adminDb.collection('contact_messages').add({
+            name,
+            email,
+            message,
+            status: 'PENDING',
+            createdAt: new Date().toISOString(),
+          });
+          return NextResponse.json({ success: true, id: docRef.id }, { status: 201 });
+        }
       }
-
-      const docRef = await adminDb.collection('contact_messages').add({
-        name,
-        email,
-        message,
-        status: 'PENDING',
-        createdAt: new Date().toISOString(),
-      });
-
-      return NextResponse.json({ success: true, id: docRef.id }, { status: 201 });
+    } catch (err: any) {
+      // dynamic import or firestore write failed — fallthrough to backup
+      console.warn('Firebase Admin write failed or not configured:', err?.message || err);
     }
 
     // Fallback: append to a local backup file and return success.
