@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Sora } from "next/font/google";
+import { Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/app/components/SiteChrome";
 
@@ -9,10 +9,10 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-const sora = Sora({
-  variable: "--font-sora",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["400", "600", "700", "900"],
 });
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${poppins.variable} ${sora.variable} min-h-screen antialiased`}
+      className={`${poppins.variable} ${playfair.variable} min-h-screen antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
