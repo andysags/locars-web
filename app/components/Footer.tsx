@@ -83,7 +83,7 @@ export default function Footer({ className = "" }: { className?: string }) {
             <div className="flex flex-col gap-3">
               <a
                 href="#"
-                className="inline-flex h-14 items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 transition hover:bg-white/10"
+                className="group inline-flex h-14 min-w-[210px] items-center gap-3 rounded-xl bg-black px-4 transition-all hover:-translate-y-0.5 hover:opacity-95"
                 aria-label="Télécharger sur App Store"
               >
                 <Image src="/apple.svg" alt="Apple" width={22} height={22} className="h-5 w-5 brightness-0 invert" />
@@ -95,7 +95,7 @@ export default function Footer({ className = "" }: { className?: string }) {
 
               <a
                 href="#"
-                className="inline-flex h-14 items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 transition hover:bg-white/10"
+                className="group inline-flex h-14 min-w-[210px] items-center gap-3 rounded-xl bg-black px-4 transition-all hover:-translate-y-0.5 hover:opacity-95"
                 aria-label="Télécharger sur Google Play"
               >
                 <Image src="/google.svg" alt="Google Play" width={22} height={22} className="h-5 w-5" />

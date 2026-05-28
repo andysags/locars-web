@@ -17,7 +17,8 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Link href="/become-host" className="rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-4 py-2 text-sm font-semibold text-white">Devenir loueur</Link>
+          <Link href="/become-host" className="text-sm text-gray-300 hover:text-white md:hidden">Devenir loueur</Link>
+          <Link href="/download" className="rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-4 py-2 text-sm font-semibold text-white">Télécharger l'app</Link>
         </div>
       </div>
     </header>
