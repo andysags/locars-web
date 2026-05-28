@@ -7,6 +7,9 @@ export async function POST(
 ) {
   try {
     const db = getAdminDb();
+    if (!db) {
+      return NextResponse.json({ error: 'Firebase Admin not configured' }, { status: 500 });
+    }
     const { userId } = await params;
 
     // Validate the user and set is_approved to true

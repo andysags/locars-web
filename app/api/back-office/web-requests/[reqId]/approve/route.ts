@@ -8,6 +8,9 @@ export async function POST(
   try {
     const db = getAdminDb();
     const auth = getAdminAuth();
+    if (!db || !auth) {
+      return NextResponse.json({ error: 'Firebase Admin not configured' }, { status: 500 });
+    }
     const { reqId } = await params;
     const data = await req.json();
 

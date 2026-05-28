@@ -10,6 +10,9 @@ export async function POST(req: Request) {
     }
 
     const adminDb = getAdminDb();
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Firebase Admin not configured' }, { status: 500 });
+    }
     const docRef = await adminDb.collection('delete_requests').add({
       name,
       email,
