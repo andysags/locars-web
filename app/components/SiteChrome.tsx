@@ -18,7 +18,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col">
+    <div className="flex min-h-screen flex-col bg-slate-950 font-sans text-white">
       <Header />
       <main className="flex-grow">{children}</main>
       <Footer />

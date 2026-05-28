@@ -13,24 +13,54 @@ export default function AboutPage() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           <section className="rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/20 backdrop-blur-sm lg:col-span-2">
-            <h2 className="text-2xl font-bold mb-4 text-white">Notre vision</h2>
+            <div className="space-y-6">
             <p className="text-slate-300 leading-relaxed mb-4">
-              La location de véhicules a trop souvent été pensée comme une expérience lourde, opaque et standardisée. LOCARS s’appuie sur un fonctionnement communautaire pour simplifier l’accès à la mobilité et redonner de la valeur au véhicule déjà en circulation.
+              Locars est une plateforme de réservation et de mise en location de voitures qui connecte les propriétaires de véhicules aux personnes à la recherche d’une solution de mobilité simple, rapide et fiable.
             </p>
-            <p className="text-slate-300 leading-relaxed">
-              Nous construisons une plateforme sobre, sécurisée et lisible, conçue pour inspirer confiance et faciliter l’usage au quotidien, qu’on soit locataire, propriétaire ou professionnel.
-            </p>
-          </section>
 
-          <section className="rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/20 backdrop-blur-sm">
-            <h2 className="text-2xl font-bold mb-4 text-white">Ce qui nous distingue</h2>
-            <ul className="space-y-3 text-slate-300">
-              <li>• Une expérience claire et rapide</li>
-              <li>• Des échanges directs entre membres</li>
-              <li>• Une plateforme pensée pour la confiance</li>
-              <li>• Une approche locale, utile et durable</li>
+            <p className="text-slate-300 leading-relaxed mb-4">
+              Notre plateforme permet aussi bien aux particuliers qu’aux professionnels, notamment les agences de location, de proposer leurs véhicules à la location en toute simplicité. Que ce soit pour un déplacement professionnel, un voyage, un événement ou un besoin ponctuel, Locars facilite la réservation de voitures adaptées à chaque besoin.
+            </p>
+
+            <p className="text-slate-300 leading-relaxed mb-4">
+              Nous mettons à disposition une solution moderne et sécurisée permettant :
+            </p>
+
+            <ul className="list-disc pl-5 text-slate-300 mb-4 space-y-1">
+              <li>aux clients de rechercher et réserver facilement un véhicule ;</li>
+              <li>aux propriétaires de rentabiliser leurs voitures ;</li>
+              <li>aux agences de location de développer leur visibilité et leurs activités.</li>
             </ul>
+
+            <p className="text-slate-300 leading-relaxed mb-4">
+              Chez Locars, nous croyons en une mobilité plus accessible, flexible et collaborative. Notre objectif est de créer une expérience fluide et de confiance pour tous les utilisateurs grâce à une plateforme intuitive, transparente et performante.
+            </p>
+
+            </div>
+            <h3 className="text-xl font-semibold text-white mt-6 mb-2">Notre vision</h3>
+            <p className="text-slate-300 leading-relaxed">
+              Devenir la plateforme de référence pour la réservation et la mise en location de véhicules, en connectant particuliers et professionnels au sein d’un écosystème de mobilité moderne et accessible.
+            </p>
           </section>
+          <div className="space-y-6 lg:pt-2">
+            <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-sm backdrop-blur-sm">
+              <h3 className="text-lg font-semibold text-white mb-3">Notre mission</h3>
+              <p className="text-slate-300 leading-relaxed">
+                Simplifier la location de voitures en offrant une plateforme accessible qui rapproche les conducteurs des propriétaires de véhicules.
+              </p>
+            </section>
+
+            <section className="self-start rounded-[2rem] border border-white/10 bg-white/5 px-6 py-5 shadow-sm backdrop-blur-sm">
+              <h3 className="text-lg font-semibold text-white mb-3">Nos valeurs</h3>
+              <ul className="list-disc space-y-1 pl-5 text-slate-300">
+                <li>Confiance</li>
+                <li>Simplicité</li>
+                <li>Sécurité</li>
+                <li>Innovation</li>
+                <li>Satisfaction client</li>
+              </ul>
+            </section>
+          </div>
         </div>
       </main>
     </div>

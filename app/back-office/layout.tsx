@@ -19,7 +19,7 @@ export default function AdminLayout({
 }) {
   return (
     <div
-      className="flex min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white"
+      className="flex min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 font-sans text-white"
       style={{
         ["--locars-text-primary" as any]: "#f8fafc",
         ["--locars-text-secondary" as any]: "#cbd5e1",

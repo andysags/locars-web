@@ -5,23 +5,12 @@ import { MapPinIcon, PhoneIcon } from "@heroicons/react/24/outline";
 export default function Footer({ className = "" }: { className?: string }) {
   return (
     <footer
-      className={`relative z-10 bg-slate-900 text-white py-16 sm:py-20 ${className}`}
+      className={`relative z-10 bg-slate-900 font-sans text-white py-16 sm:py-20 ${className}`}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mb-12">
           {/* Company Info */}
           <div className="lg:col-span-1 lg:pt-2">
-            <div className="mb-6">
-              <Image
-                src="/locars-logo.png"
-                alt="Locars"
-                width={220}
-                height={104}
-                priority
-                sizes="320px"
-                className="h-28 w-auto max-w-none object-contain mix-blend-screen"
-              />
-            </div>
             <p className="max-w-xl text-sm leading-relaxed text-slate-400">
               Location claire, simple et sécurisée pour locataires et propriétaires.
             </p>
@@ -29,9 +18,7 @@ export default function Footer({ className = "" }: { className?: string }) {
               <div className="flex items-start gap-3">
                 <MapPinIcon className="h-5 w-5 text-blue-300 mt-0.5 flex-shrink-0" />
                 <p className="text-sm text-slate-300">
-                  Ilot 1000 E, Djidjè - Cotonou,
-                  <br />
-                  République du Bénin
+                  Cotonou, Bénin
                 </p>
               </div>
               <div className="flex items-center gap-3">
@@ -82,11 +69,47 @@ export default function Footer({ className = "" }: { className?: string }) {
               </div>
             </div>
           </div>
+
+          <div className="space-y-6 lg:pt-2">
+            <div>
+              <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">
+                Application
+              </h4>
+              <p className="max-w-sm text-sm leading-relaxed text-slate-300">
+                Réservez plus vite depuis votre téléphone et gardez vos trajets à portée de main.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <a
+                href="#"
+                className="inline-flex h-14 items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 transition hover:bg-white/10"
+                aria-label="Télécharger sur App Store"
+              >
+                <Image src="/apple.svg" alt="Apple" width={22} height={22} className="h-5 w-5 brightness-0 invert" />
+                <span className="flex flex-col leading-none text-white">
+                  <span className="text-[11px] uppercase tracking-wide text-white/70">Télécharger sur</span>
+                  <span className="text-sm font-semibold">App Store</span>
+                </span>
+              </a>
+
+              <a
+                href="#"
+                className="inline-flex h-14 items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 transition hover:bg-white/10"
+                aria-label="Télécharger sur Google Play"
+              >
+                <Image src="/google.svg" alt="Google Play" width={22} height={22} className="h-5 w-5" />
+                <span className="flex flex-col leading-none text-white">
+                  <span className="text-[11px] uppercase tracking-wide text-white/70">Télécharger sur</span>
+                  <span className="text-sm font-semibold">Google Play</span>
+                </span>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 LOCARS - Tous droits réservés. INNOVTECH SAS</p>
-          <p>Une mobilité plus claire.</p>
+          <p>© 2026 LOCARS, Tous droits réservés</p>
         </div>
       </div>
     </footer>

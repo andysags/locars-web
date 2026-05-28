@@ -74,7 +74,7 @@ export default function HomePage() {
                   className="group inline-flex h-14 min-w-[210px] items-center gap-3 rounded-xl bg-black px-4 transition-all hover:-translate-y-0.5 hover:opacity-95"
                   aria-label="Télécharger sur App Store"
                 >
-                  <Image src="/apple.svg" alt="Apple" width={24} height={24} className="h-6 w-6 text-white" />
+                  <img src="/apple.svg" alt="Apple" width={24} height={24} className="h-6 w-6 brightness-0 invert" />
                   <span className="flex flex-col leading-none text-white">
                     <span className="text-[11px] uppercase tracking-wide text-white/80">Télécharger sur</span>
                     <span className="text-base font-semibold">App Store</span>
@@ -116,7 +116,7 @@ export default function HomePage() {
         </section>
 
         {/* Value Props Section */}
-        <section id="why-us" className="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5">
+        <section id="why-us" className="scroll-mt-28 py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent">
               Pourquoi nous choisir ?
@@ -186,7 +186,7 @@ export default function HomePage() {
         </section>
 
         {/* How It Works */}
-        <section id="how-it-works" className="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5">
+        <section id="how-it-works" className="scroll-mt-28 py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent">
               Louez en 3 étapes simples
