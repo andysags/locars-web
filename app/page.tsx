@@ -194,7 +194,7 @@ export default function HomePage() {
             <p className="text-gray-400 text-lg font-light">Un parcours de réservation clair, de la recherche à la confirmation.</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:max-w-5xl lg:mx-auto justify-center">
             {/* Renters */}
             <div className="space-y-8">
               <h3 className="flex items-center gap-3 text-2xl font-bold">
