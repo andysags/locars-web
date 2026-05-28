@@ -70,7 +70,7 @@ export default function HomePage() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
                 <a
-                  href="#"
+                  href="https://apps.apple.com/bj/app/locars/id6763099054"
                   className="group inline-flex h-14 min-w-[210px] items-center gap-3 rounded-xl bg-black px-4 transition-all hover:-translate-y-0.5 hover:opacity-95"
                   aria-label="Télécharger sur App Store"
                 >
@@ -82,7 +82,7 @@ export default function HomePage() {
                 </a>
 
                 <a
-                  href="#"
+                  href="https://play.google.com/store/apps/details?id=com.innovtechlabs.locars&pcampaignid=web_share"
                   className="group inline-flex h-14 min-w-[210px] items-center gap-3 rounded-xl bg-black px-4 transition-all hover:-translate-y-0.5 hover:opacity-95"
                   aria-label="Télécharger sur Google Play"
                 >
