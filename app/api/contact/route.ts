@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 
 export async function POST(req: Request) {
@@ -34,7 +35,7 @@ export async function POST(req: Request) {
 
     // Fallback: append to a local backup file and return success.
     try {
-      const backupDir = path.resolve(process.cwd(), 'tmp');
+      const backupDir = path.join(os.tmpdir(), 'locars');
       if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
       const file = path.join(backupDir, 'contact_messages_backup.jsonl');
       const payload = {
