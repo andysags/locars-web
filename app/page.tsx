@@ -106,7 +106,7 @@ export default function HomePage() {
                 <img
                   alt="Premium electric vehicle"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  src="/voiture.jpg"
+                  src="/vendeur-au-centre-concession-automobile-aidant-conjoints-noirs-choisir-nouveau-vehicule-familial-expliquant-caracteristiques-automobile-jeune-couple-afro-americain-tout-se-tenant-dans-salle-exposition-automobile_568137-639.avif"
                 />
 
 

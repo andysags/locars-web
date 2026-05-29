@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 function escapeHtml(value: string) {
   return value
@@ -18,32 +18,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const smtpHost = process.env.SMTP_HOST;
-    const smtpPort = Number(process.env.SMTP_PORT || 587);
-    const smtpUser = process.env.SMTP_USER;
-    const smtpPass = process.env.SMTP_PASS;
-    const contactRecipient = process.env.CONTACT_RECIPIENT_EMAIL;
-    const contactSender = process.env.CONTACT_SENDER_EMAIL || smtpUser;
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const contactRecipient = process.env.CONTACT_RECIPIENT_EMAIL || 'contact@locars.app';
+    const contactSender = process.env.CONTACT_SENDER_EMAIL || 'Locars <onboarding@resend.dev>';
 
-    if (!smtpHost || !smtpUser || !smtpPass || !contactRecipient || !contactSender) {
+    if (!resendApiKey) {
       return NextResponse.json(
         {
           error:
-            'Email configuration is missing. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, CONTACT_RECIPIENT_EMAIL and CONTACT_SENDER_EMAIL.',
+            'Email configuration is missing. Set RESEND_API_KEY and, if needed, CONTACT_RECIPIENT_EMAIL / CONTACT_SENDER_EMAIL.',
         },
         { status: 500 },
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: smtpPort === 465,
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-    });
+    const resend = new Resend(resendApiKey);
 
     const subject = `Nouveau message contact - ${name}`;
     const text = [
@@ -64,14 +53,18 @@ export async function POST(req: Request) {
       </div>
     `;
 
-    await transporter.sendMail({
-      from: `Locars <${contactSender}>`,
+    const { error } = await resend.emails.send({
+      from: contactSender,
       to: contactRecipient,
       replyTo: email,
       subject,
       text,
       html,
     });
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error: any) {
