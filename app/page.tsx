@@ -4,19 +4,20 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
+  ShieldCheckIcon,
+  CheckBadgeIcon,
+  MagnifyingGlassIcon,
+  LifebuoyIcon,
+  HomeIcon,
+  TruckIcon,
   SparklesIcon,
   ArrowDownTrayIcon,
   ArrowRightIcon,
   StarIcon,
   CurrencyDollarIcon,
-  CheckCircleIcon,
   ClockIcon,
-  ShieldCheckIcon,
   ChartBarIcon,
-  KeyIcon,
   ChevronDownIcon,
-  HomeIcon,
-  TruckIcon,
 } from '@heroicons/react/24/outline';
 
 export default function HomePage() {
@@ -64,8 +65,7 @@ export default function HomePage() {
 
               {/* Description */}
               <p className="text-lg text-gray-400 leading-relaxed max-w-xl font-light tracking-wide">
-                Locars est une plateforme intermédiaire qui met en relation clients et loueurs pour une réservation simple et transparente.
-              </p>
+                Locars est une plateforme de réservation et de mise en location de voitures qui connecte les propriétaires de véhicules aux personnes à la recherche d’une solution de mobilité simple, rapide et fiable.              </p>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
@@ -106,7 +106,7 @@ export default function HomePage() {
                 <img
                   alt="Premium electric vehicle"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  src="/vendeur-au-centre-concession-automobile-aidant-conjoints-noirs-choisir-nouveau-vehicule-familial-expliquant-caracteristiques-automobile-jeune-couple-afro-americain-tout-se-tenant-dans-salle-exposition-automobile_568137-639.avif"
+                  src="/voiture.jpg"
                 />
 
 
@@ -119,10 +119,10 @@ export default function HomePage() {
         <section id="why-us" className="scroll-mt-28 py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent">
-              Pourquoi nous choisir ?
+              Pourquoi Locars ?
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto font-light">
-              Nous facilitons la mise en relation entre clients et loueurs, avec un cadre clair pour réserver en toute confiance.
+              Nous facilitons la mise en relation entre clients et loueurs, avec un cadre clair pour réserver en toute confiance
             </p>
           </div>
 
@@ -133,15 +133,15 @@ export default function HomePage() {
               <div className="relative h-full bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:border-blue-500/30 transition-all duration-300">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                    <TruckIcon className="w-6 h-6 text-white" />
+                    <ShieldCheckIcon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold">Nos engagements</h3>
                 </div>
 
                 <ul className="space-y-6">
                   {[
-                    { Icon: CheckCircleIcon, title: 'Mise en relation fiable', desc: 'Locars facilite la rencontre entre clients et loueurs vérifiés sur la plateforme.' },
-                    { Icon: CurrencyDollarIcon, title: 'Tarifs définis par les loueurs', desc: 'Les prix sont fixés par chaque loueur selon son véhicule et ses conditions.' },
+                    { Icon: ShieldCheckIcon, title: 'Mise en relation fiable', desc: 'Locars facilite la rencontre entre clients et loueurs vérifiés sur la plateforme' },
+                    { Icon: CheckBadgeIcon, title: 'Tarifs définis par les loueurs', desc: 'Les prix sont fixés par chaque loueur selon son véhicule et ses conditions' },
                   ].map((item, idx) => (
                     <div key={idx} className="flex gap-4 group/item">
                       <item.Icon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-1" />
@@ -161,15 +161,15 @@ export default function HomePage() {
               <div className="relative h-full bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:border-amber-500/30 transition-all duration-300">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
-                    <HomeIcon className="w-6 h-6 text-white" />
+                    <LifebuoyIcon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold">Service continu</h3>
                 </div>
 
                 <ul className="space-y-6">
                   {[
-                    { Icon: ClockIcon, title: 'Réservation simple et flexible', desc: 'Choisissez votre période et soumettez votre demande directement au loueur.' },
-                    { Icon: ShieldCheckIcon, title: 'Support plateforme', desc: 'Notre équipe vous accompagne sur l\'usage de la plateforme et le suivi des demandes.' },
+                    { Icon: ClockIcon, title: 'Réservation simple et flexible', desc: 'Choisissez votre période et soumettez votre demande directement au loueur' },
+                    { Icon: ShieldCheckIcon, title: 'Support plateforme', desc: 'Notre équipe vous accompagne sur l\'usage de la plateforme et le suivi des demandes' },
                   ].map((item, idx) => (
                     <div key={idx} className="flex gap-4">
                       <item.Icon className="w-5 h-5 text-amber-400 flex-shrink-0 mt-1" />
@@ -191,21 +191,21 @@ export default function HomePage() {
             <h2 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent">
               Louez en 3 étapes simples
             </h2>
-            <p className="text-gray-400 text-lg font-light">Un parcours de réservation clair, de la recherche à la confirmation.</p>
+            <p className="text-gray-400 text-lg font-light">Un parcours de réservation clair, de la recherche à la confirmation</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:max-w-5xl lg:mx-auto justify-center">
             {/* Renters */}
             <div className="space-y-8">
               <h3 className="flex items-center gap-3 text-2xl font-bold">
-                <TruckIcon className="w-8 h-8 text-blue-400" />
+                <MagnifyingGlassIcon className="w-8 h-8 text-blue-400" />
                 Pour les clients
               </h3>
               <div className="space-y-8">
                 {[
                   { num: 1, title: 'Choisir une localisation', desc: 'Choisissez votre localisation et trouvez la meilleure voiture parmi les véhicules disponibles' },
                   { num: 2, title: 'Date de réservation', desc: 'Sélectionnez votre date et votre heure de récupération pour réserver instantanément' },
-                  { num: 3, title: 'Réserver votre voiture', desc: 'Confirmez votre réservation puis convenez avec le loueur des modalités de récupération.' },
+                  { num: 3, title: 'Réserver votre voiture', desc: 'Confirmez votre réservation puis convenez avec le loueur des modalités de récupération' },
                 ].map((step, idx) => (
                   <div key={idx} className="relative flex gap-6 group">
                     <div className="flex flex-col items-center">

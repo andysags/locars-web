@@ -167,7 +167,7 @@ export default function FaqPage() {
             Foire Aux Questions
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-slate-400">
-            Retrouvez les réponses aux questions les plus fréquentes sur l'utilisation de LOCARS.
+            Retrouvez les réponses aux questions les plus fréquentes sur l'utilisation de LOCARS
           </p>
         </div>
 

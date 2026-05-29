@@ -92,7 +92,7 @@
   --color-accent-light: var(--locars-primary-light);
   --color-accent-hover: var(--locars-accent-hover);
   --color-surface: var(--locars-white);
-  --font-sans: var(--font-poppins);
+  --font-sans: var(--font-instrument-sans);
 }
 
 body {

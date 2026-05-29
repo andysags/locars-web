@@ -11,8 +11,8 @@ export default function Footer({ className = "" }: { className?: string }) {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 mb-12">
           {/* Company Info */}
           <div className="lg:col-span-1 lg:pt-2">
-            <p className="max-w-xl text-sm leading-relaxed text-slate-400">
-              Location claire, simple et sécurisée pour vos trajets du quotidien.
+            <p className="max-w-xl text-sm leading-relaxed text-slate-400 mb-6">
+              Location claire, simple et sécurisée pour vos trajets du quotidien
             </p>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
@@ -32,7 +32,7 @@ export default function Footer({ className = "" }: { className?: string }) {
             </div>
           </div>
 
-          <div className="space-y-6 lg:pt-2">
+          <div className="space-y-6 lg:pt-2 lg:order-2">
             <div>
               <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">Support</h4>
               <ul className="space-y-3 text-sm text-slate-300">
@@ -41,18 +41,6 @@ export default function Footer({ className = "" }: { className?: string }) {
                 <li><Link href="/delete-account" className="transition hover:text-white">Suppression de compte</Link></li>
               </ul>
             </div>
-
-            <div>
-              <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">Légal</h4>
-              <ul className="space-y-3 text-sm text-slate-300">
-                <li><Link href="/privacy" className="transition hover:text-white">Politique de confidentialité</Link></li>
-                <li><Link href="/cgu" className="transition hover:text-white">CGU</Link></li>
-                <li><Link href="/about" className="transition hover:text-white">À propos</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="space-y-6 lg:pt-2">
             <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">Suivez-nous</h4>
             <div className="flex gap-4">
               <Link href="https://www.facebook.com/share/14euiP1vUi5/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10">
@@ -69,14 +57,21 @@ export default function Footer({ className = "" }: { className?: string }) {
             </div>
           </div>
 
-          <div className="space-y-6 lg:pt-2">
+          <div className="space-y-6 lg:pt-2 lg:order-3">
+            <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">Légal</h4>
+            <ul className="space-y-3 text-sm text-slate-300">
+              <li><Link href="/privacy" className="transition hover:text-white">Politique de confidentialité</Link></li>
+              <li><Link href="/cgu" className="transition hover:text-white">CGU</Link></li>
+              <li><Link href="/about" className="transition hover:text-white">À propos</Link></li>
+            </ul>
+          </div>
+
+          <div className="space-y-6 lg:pt-2 lg:order-4">
             <div>
               <h4 className="mb-4 text-xs uppercase tracking-[0.3em] text-slate-400">
                 Application
               </h4>
-              <p className="max-w-sm text-sm leading-relaxed text-slate-300">
-                Réservez plus vite depuis votre téléphone et gardez vos trajets à portée de main.
-              </p>
+              
             </div>
 
             <div className="flex flex-col gap-3">
@@ -108,7 +103,7 @@ export default function Footer({ className = "" }: { className?: string }) {
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 LOCARS, Tous droits réservés</p>
+          <p className="w-full text-center">© 2026 LOCARS, Tous droits réservés</p>
         </div>
       </div>
     </footer>

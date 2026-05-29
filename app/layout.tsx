@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Poppins, Playfair_Display } from "next/font/google";
+import { Instrument_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/app/components/SiteChrome";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const playfair = Playfair_Display({
@@ -16,9 +16,12 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Locars | Location de vehicules",
+  title: "Votre voiture en 3 clics",
   description:
     "Louez ou mettez en location des vehicules rapidement avec Locars.",
+  icons: {
+    icon: "/locars-logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -29,7 +32,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${poppins.variable} ${playfair.variable} min-h-screen antialiased`}
+      className={`${instrumentSans.variable} ${playfair.variable} min-h-screen antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">

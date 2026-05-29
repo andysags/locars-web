@@ -35,12 +35,12 @@ export default function ContactPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
       <main className="mx-auto w-full max-w-6xl px-6 md:px-12 py-16 md:py-24">
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] items-stretch">
-          <section className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-8 sm:p-10 shadow-2xl shadow-black/20 backdrop-blur-sm">
+          <section className="relative rounded-[2rem] border border-white/10 bg-white/5 p-8 sm:p-10 shadow-2xl shadow-black/20 backdrop-blur-sm overflow-visible">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.18),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(244,114,182,0.12),transparent_35%)]" />
             <div className="relative">
               <p className="mb-3 text-xs uppercase tracking-[0.35em] text-blue-300/70">Support</p>
-              <h1 className="text-3xl sm:text-5xl font-black mb-5 bg-gradient-to-b from-white to-slate-300 bg-clip-text text-transparent">
-                Contactez-nous
+              <h1 className="mb-5 text-[clamp(1rem,4vw,2.2rem)] font-black leading-[1.04] tracking-[-0.03em] bg-gradient-to-b from-white to-slate-300 bg-clip-text text-transparent whitespace-normal break-words">
+                {"Contactez\u2011nous"}
               </h1>
               <p className="max-w-md text-slate-300 text-lg leading-relaxed mb-10">
                 Une question, un blocage, une demande de partenariat ou un retour produit ?

@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
+import nodemailer from 'nodemailer';
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 export async function POST(req: Request) {
   try {
@@ -11,47 +18,62 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Try to dynamically import admin module and write to Firestore if available.
-    try {
-      const adminMod = await import('@/lib/firebase-admin');
-      const isConfigured = typeof adminMod.isAdminConfigured === 'function' ? adminMod.isAdminConfigured() : false;
-      if (isConfigured) {
-        const adminDb = typeof adminMod.getAdminDb === 'function' ? adminMod.getAdminDb() : null;
-        if (adminDb) {
-          const docRef = await adminDb.collection('contact_messages').add({
-            name,
-            email,
-            message,
-            status: 'PENDING',
-            createdAt: new Date().toISOString(),
-          });
-          return NextResponse.json({ success: true, id: docRef.id }, { status: 201 });
-        }
-      }
-    } catch (err: any) {
-      // dynamic import or firestore write failed — fallthrough to backup
-      console.warn('Firebase Admin write failed or not configured:', err?.message || err);
+    const smtpHost = process.env.SMTP_HOST;
+    const smtpPort = Number(process.env.SMTP_PORT || 587);
+    const smtpUser = process.env.SMTP_USER;
+    const smtpPass = process.env.SMTP_PASS;
+    const contactRecipient = process.env.CONTACT_RECIPIENT_EMAIL;
+    const contactSender = process.env.CONTACT_SENDER_EMAIL || smtpUser;
+
+    if (!smtpHost || !smtpUser || !smtpPass || !contactRecipient || !contactSender) {
+      return NextResponse.json(
+        {
+          error:
+            'Email configuration is missing. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, CONTACT_RECIPIENT_EMAIL and CONTACT_SENDER_EMAIL.',
+        },
+        { status: 500 },
+      );
     }
 
-    // Fallback: append to a local backup file and return success.
-    try {
-      const backupDir = path.join(os.tmpdir(), 'locars');
-      if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
-      const file = path.join(backupDir, 'contact_messages_backup.jsonl');
-      const payload = {
-        name,
-        email,
-        message,
-        status: 'PENDING_BACKUP',
-        createdAt: new Date().toISOString(),
-        source: 'fallback',
-      };
-      fs.appendFileSync(file, JSON.stringify(payload) + "\n");
-      console.warn('Firebase Admin not configured — saved contact message to', file);
-      return NextResponse.json({ success: true, backup: true }, { status: 201 });
-    } catch (err: any) {
-      return NextResponse.json({ error: err.message || 'Failed backup' }, { status: 500 });
-    }
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpPort === 465,
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
+
+    const subject = `Nouveau message contact - ${name}`;
+    const text = [
+      `Nom: ${name}`,
+      `Email: ${email}`,
+      '',
+      'Message:',
+      message,
+    ].join('\n');
+
+    const html = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #0f172a;">
+        <h2>Nouveau message depuis le formulaire de contact</h2>
+        <p><strong>Nom :</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email :</strong> ${escapeHtml(email)}</p>
+        <p><strong>Message :</strong></p>
+        <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
+      </div>
+    `;
+
+    await transporter.sendMail({
+      from: `Locars <${contactSender}>`,
+      to: contactRecipient,
+      replyTo: email,
+      subject,
+      text,
+      html,
+    });
+
+    return NextResponse.json({ success: true }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

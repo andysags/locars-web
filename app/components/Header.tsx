@@ -13,7 +13,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-0 md:px-12 h-20 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center ml-0">
-            <Image src="/locars-logo.png" alt="Locars" width={280} height={74} className="h-14 w-auto object-contain mix-blend-screen" />
+            <Image src="/locars-logo.png" alt="Locars" width={180} height={48} className="h-10 w-auto object-contain" />
           </Link>
         </div>
 
